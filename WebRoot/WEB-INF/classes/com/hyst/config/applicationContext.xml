@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd 
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd 
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 读取属性文件 -->
+   	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+   		<property name="location" value="classpath:com/hyst/config/db.properties"/>
+   	</bean>
+    <!-- 配置datasource -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="${driver}"/>
+    	<property name="url" value="${url}"/>
+    	<property name="username" value="${username}"/>
+    	<property name="password" value="${password}"/>
+    </bean>
+    <!-- 配置工厂 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+    	<property name="configLocation" value="classpath:com/hyst/config/mybatis.cfg.xml"/>
+    	<property name="mapperLocations" value="classpath:com/hyst/config/mapper/*.xml" />
+ 		<!-- 配置mybatis拦截器插件 -->
+ 		<property name="plugins">
+ 			<array>
+      		<!-- <bean class="com.dy.config.PageInterceptor"/> -->
+      		<bean class="com.hyst.interceptor.MybatisInterceptor"/>
+      		</array>
+  		</property>
+  		<!-- 设置mybatis别名 -->
+    	<property name="typeAliasesPackage" value="com.hyst.vo"/>
+    </bean>
+    <!-- 配置声明式事务 -->
+    <!-- 事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+    	<tx:attributes>
+    		<tx:method name="save" propagation="REQUIRED"/>
+    		<tx:method name="get" read-only="true"/>
+    		<tx:method name="*" propagation="REQUIRED"/>
+    	</tx:attributes>
+    </tx:advice>
+    <aop:config>
+    	<aop:pointcut expression="execution(* com.hyst.service.impl.*.*.*(..))" id="pointcut"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+    </aop:config>
+    
+    <!-- 自动扫描业务包 -->  
+    <context:component-scan base-package="com.hyst"/>
+    	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- basePackage 扫描器开始扫描的基础包名，支持嵌套扫描；一般是到DAO包下 -->
+		<property name="basePackage" value="com.hyst.dao"/>
+		<!-- markerInterface 基于接口的过滤器，实现了该接口的dao才会被扫描器扫描,与basePackage是且的关系。 -->
+	</bean>
+    
+    <!-- ====================定时任务==================== -->
+    <!-- 配置执行任务的bean -->
+    <bean id="DongJob" class="com.hyst.task.TaskDemo"/>
+    <!-- 配置执行的方法 -->
+    <bean id="MyJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject">  
+          <ref bean="DongJob"/>  
+        </property> 
+       	<property name="targetMethod">  <!-- 要执行的方法名称 -->  
+          <value>taskMethod</value>  
+       	</property>  
+   	</bean> 
+    <!-- 配置调度触发器 执行周期 -->
+   	<bean id="DongJobFactoryBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+      	<!--  关联的执行方法 -->
+        <property name="jobDetail" ref="MyJob"></property> 
+       	<!-- 执行周期  -->
+       	<property name="cronExpression" value=" 0 20 * * * ?"></property>  
+    </bean> 
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 autowire="no"-->
+    <bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                <ref bean="DongJobFactoryBean"/>  
+            </list>  
+        </property>  
+    </bean>   
+</beans>

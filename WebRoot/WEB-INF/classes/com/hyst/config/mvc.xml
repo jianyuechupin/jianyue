@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+     
+	<!-- 配置渲染器 ，用时解开注释-->
+<!-- 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	    结果视图的前缀/配置后JSP文件路径=value+JSP文件名.jsp
+	    <property name="prefix" value="/WEB-INF/view/"/>
+	    结果视图的后缀
+	    <property name="suffix" value=".jsp"/>
+	</bean> -->
+	<!-- 配置json -->
+	<bean id="stringConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringConverter" />
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- 扫描该包下的controller注解 -->
+	<context:component-scan base-package="com.hyst.controller"/>
+	<!-- ======================配置拦截器登录拦截器================================= -->
+	<!-- 拦截器的配置 -->
+ 	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			/** 包括路径及其子路径    -拦截所有controller
+			<mvc:mapping path="/**"/>
+			对应的拦截器
+			<bean class="com.hyst.interceptor.LoginInterceptor">
+				允许通过项
+				<property name="allowedPass">
+					<list>
+						<value>user/login.do</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>  -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</beans>

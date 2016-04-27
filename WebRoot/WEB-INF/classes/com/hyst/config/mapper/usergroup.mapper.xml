@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.UserGroupDao" >
+
+ 	 <resultMap type="UserGroup" id="userGroup" >
+		<id column="id" property="id"/>
+		<result column="userGroupName" property="userGroupName"/>
+		<result column="description" property="description"/>
+		<result column="creatTime" property="creatTime"/>
+		<result column="updateTime" property="updateTime"/>
+	</resultMap>
+
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.UserGroup">
+		delete from userGroup  where id=#{id} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.UserGroup">
+		insert into userGroup (userGroupName,description,creatTime,updateTime) values (#{userGroupName},#{description},#{creatTime},#{updateTime})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.UserGroup">
+		update userGroup 
+		<set>
+		<if test="userGroupName != null">
+			userGroupName=#{userGroupName},
+		</if>
+		<if test="description != null">
+			description=#{description},
+		</if>
+		<if test="creatTime != null">
+			creatTime=#{creatTime},
+		</if>
+		<if test="updateTime != null">
+			updateTime=#{updateTime},
+		</if>
+		</set>
+ 		 where id=#{id} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.UserGroup">
+		select * from userGroup  where id=#{id} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.UserGroup">
+		select * from userGroup 
+		<where>
+			<if test=" userGroupName != null ">
+			  and userGroupName=#{userGroupName}
+			</if>
+			<if test=" description != null ">
+			  and description=#{description}
+			</if>
+			<if test=" creatTime != null ">
+			  and creatTime=#{creatTime}
+			</if>
+			<if test=" updateTime != null ">
+			  and updateTime=#{updateTime}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询所有 -->
+	<select id="list" parameterType="java.util.Map" resultType="com.hyst.vo.UserGroup">
+		select * from userGroup <!-- where isDelete=0 -->
+	</select>
+ 
+</mapper>

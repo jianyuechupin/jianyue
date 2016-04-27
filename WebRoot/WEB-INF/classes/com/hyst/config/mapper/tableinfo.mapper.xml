@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.TableInfoDao" >
+
+ 	 <resultMap type="com.hyst.vo.TableInfo" id="tableInfo" >
+		<id column="t.id" property="id"/>
+		<result column="t.tableName" property="tableName"/>
+		<result column="t.tableNameChs" property="tableNameChs"/>
+		<result column="t.isDelete" property="isDelete"/>
+		<result column="t.sort" property="sort"/>
+		<result column="t.parentId" property="parentId"/>
+		<result column="t.doMain" property="doMain"/>
+		<collection property="list"
+			 resultMap="com.hyst.dao.safe.TableInfoDao.tableInfo2"/>
+		
+	</resultMap>
+	
+
+	
+	<!-- 查询所有 -->
+	<select id="list"  parameterType="java.util.Map" resultType="tableInfo">
+		select t.id,t.tableName,list.* from tableInfo 
+	</select>
+	<!-- 根据父ID查询所有 -->
+	<select id="listByParentId"  parameterType="java.util.Map" resultType="tableInfo">
+		select * from tableInfo where isDelete=0 and parentId=#{parentId } order by sort desc
+	</select>
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.TableInfo">
+		delete from tableInfo   where id=#{id} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.TableInfo">
+		insert into tableInfo  (tableName,tableNameChs,isDelete,sort,parentId,doMain) values (#{tableName},#{tableNameChs},#{isDelete},#{sort},#{parentId},#{doMain})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.TableInfo">
+		update tableInfo  
+		<set>
+		<if test="tableName != null">
+			tableName=#{tableName},
+		</if>
+		<if test="tableNameChs != null">
+			tableNameChs=#{tableNameChs},
+		</if>
+		<if test="isDelete != 0">
+			isDelete=#{isDelete},
+		</if>
+		<if test="sort != 0">
+			sort=#{sort},
+		</if>
+		<if test="parentId != 0">
+			parentId=#{parentId},
+		</if>
+		<if test="doMain != null">
+			doMain=#{doMain},
+		</if>
+		</set>
+ 		 where id=#{id} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.TableInfo">
+		select * from tableInfo   where id=#{id} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.TableInfo">
+		select * from tableInfo  
+		<where>
+			<if test=" tableName != null ">
+			  and tableName=#{tableName}
+			</if>
+			<if test=" tableNameChs != null ">
+			  and tableNameChs=#{tableNameChs}
+			</if>
+			<if test=" isDelete != 0 ">
+			  and isDelete=#{isDelete}
+			</if>
+			<if test=" sort != 0 ">
+			  and sort=#{sort}
+			</if>
+			<if test=" parentId != 0 ">
+			  and parentId=#{parentId}
+			</if>
+			<if test=" doMain != null ">
+			  and doMain=#{doMain}
+			</if>
+		</where> 
+	</select>
+
+ 
+</mapper>
