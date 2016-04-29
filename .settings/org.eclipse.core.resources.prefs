@@ -1,7 +1,9 @@
 eclipse.preferences.version=1
+encoding//src/com/hyst/config/db.properties=UTF-8
 encoding//src/com/hyst/service/impl/user/UserServiceImpl.java=UTF-8
 encoding//src/com/hyst/util/DateTool.java=UTF-8
 encoding//src/com/hyst/util/GetTableInfo.java=UTF-8
 encoding//src/com/hyst/vo/Action.java=utf-8
 encoding//src/com/hyst/vo/OperTypes.java=utf-8
+encoding//src/log4j.properties=UTF-8
 encoding/<project>=UTF-8

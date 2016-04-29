@@ -9,62 +9,69 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hyst.dao.user.UserDao;
 import com.hyst.service.user.UserService;
-import com.hyst.vo.user.User;
+import com.hyst.vo.user.UserInfo;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
-	@Autowired 
+public class UserServiceImpl implements UserService {
+	@Autowired
 	HttpSession session;
+
 	public void setSession(HttpSession session) {
 		this.session = session;
 	}
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
+
 	@Override
-	public List<User> list(int id,int id2) {
-		Map<String, Integer> map=new HashMap<String, Integer>();
-		id=id < 0 ? 0:id;
-		id2=id2 >id?id2:Integer.MAX_VALUE;
-		
-		System.out.println("id="+id+",id2"+id2);
+	public List<UserInfo> list(int id, int id2) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		id = id < 0 ? 0 : id;
+		id2 = id2 > id ? id2 : Integer.MAX_VALUE;
+
+		System.out.println("id=" + id + ",id2" + id2);
 		map.put("id", id);
 		map.put("id2", id2);
-		List<User> list=userDao.list(map);
+		List<UserInfo> list = userDao.list(map);
 		return list;
 	}
+
 	@Override
-	public User getOne(int id){
-		return   userDao.getOne(id);
+	public UserInfo getOne(int id) {
+		return userDao.getOne(id);
 	}
+
 	@Override
-	public String add(User user) {
+	public String add(UserInfo user) {
 		System.err.println("add user");
-		int i=userDao.insert(user);
-		if (i>0) {
+		int i = userDao.insert(user);
+		if (i > 0) {
 			return "sucess";
-		}else {
-			return"false";
+		} else {
+			return "false";
 		}
 	}
+
 	@Override
-	public User selectByTerms(User u){
-		return userDao.select2(u);
+	public List<UserInfo> selectByTerms(UserInfo u) {
+		return userDao.loginAuthentication(u);
 	}
+
 	/**
 	 * 登录判断
 	 */
 	@Override
-	public String login(User u,HttpSession session,HttpServletRequest req) {
-		User user=userDao.select2(u);
-		session.setMaxInactiveInterval(7);
-		if (user!=null) {
+	public String login(UserInfo u, HttpSession session, HttpServletRequest req) {
+		List<UserInfo> user = userDao.loginAuthentication(u);
+		session.setMaxInactiveInterval(60);
+		if (user != null && user.size() == 1) {
 			System.out.println("登录状态:成功！");
 			session.setAttribute("user", user);
-			return "forward:/index.jsp";
+			return "redirect:/index.jsp";
 		}
 		System.out.println("登录状态:失败！");
 		req.setAttribute("msg", "账号或密码错误");

@@ -1,7 +1,7 @@
 package com.hyst.vo.user;
 
 
-public class User {
+public class UserInfo {
 	private int id=-1;
 	private String name;
 	private String pwd;

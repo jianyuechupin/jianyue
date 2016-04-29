@@ -9,7 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.hyst.service.user.UserService;
-import com.hyst.vo.user.User;
+import com.hyst.vo.user.UserInfo;
 
 @Controller
 @RequestMapping("/user")
@@ -23,7 +23,7 @@ public class UserController {
 	 * 用户登录
 	 */
 	@RequestMapping("login")
-	public String login(User u,HttpSession session,HttpServletRequest  req){
+	public String login(UserInfo u,HttpSession session,HttpServletRequest  req){
 		return userService.login(u,session,req);
 	}
 	/**
@@ -41,13 +41,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("insert")
-	public String insert(User user){
+	public String insert(UserInfo user){
 		userService.add(user);
 		return "list.do";
 	}
 	@RequestMapping("ajax")
 	@ResponseBody
-	public List<User> ajax(String name){
+	public List<UserInfo> ajax(String name){
 		System.out.println(name+".........");
 		return userService.list(1, -2);
 	}

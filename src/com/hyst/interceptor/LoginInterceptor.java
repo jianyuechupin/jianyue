@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hyst.vo.user.User;
+import com.hyst.vo.user.UserInfo;
 
 /**
  * @author DongYi
@@ -43,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse rsp,
 			Object handler) throws Exception {
-		User user=(User) req.getSession().getAttribute("user");
+		UserInfo user=(UserInfo) req.getSession().getAttribute("user");
 		String url=req.getRequestURL().toString();
 		System.out.println("请求资源为：\t"+url);
 		if (user!=null) {//如果已登录
