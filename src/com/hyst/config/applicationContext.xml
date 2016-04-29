@@ -5,6 +5,7 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:aop="http://www.springframework.org/schema/aop"
     xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,7 +14,10 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd 
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx/spring-tx.xsd    
+        http://mybatis.org/schema/mybatis-spring
+		http://mybatis.org/schema/mybatis-sprint.xsd
+        ">
     <!-- 读取属性文件 -->
    	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
    		<property name="location" value="classpath:com/hyst/config/db.properties"/>
@@ -58,12 +62,13 @@
     </aop:config>
     
     <!-- 自动扫描业务包 -->  
-    <context:component-scan base-package="com.hyst"/>
-    	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+   <context:component-scan base-package="com.hyst"/>
+   <!-- <mybatis:scan base-package="com.sohu.tv.dao"/>  -->
+  	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
 		<!-- basePackage 扫描器开始扫描的基础包名，支持嵌套扫描；一般是到DAO包下 -->
-		<property name="basePackage" value="com.hyst.dao"/>
-		<!-- markerInterface 基于接口的过滤器，实现了该接口的dao才会被扫描器扫描,与basePackage是且的关系。 -->
-	</bean>
+		 <property name="basePackage" value="com.hyst.dao"/>
+		 <property name="sqlSessionFactoryBeanName" value = "sqlSessionFactory"/>
+	</bean> 
     
     <!-- ====================定时任务==================== -->
     <!-- 配置执行任务的bean -->
