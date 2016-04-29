@@ -66,7 +66,14 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public String login(UserInfo u, HttpSession session, HttpServletRequest req) {
-		List<UserInfo> user = userDao.loginAuthentication(u);
+		List<?> user = null;
+		if (u.getName() != "safeadmin" && u.getName() != "sysadmin"
+				&& u.getName() != "logadmin") {
+			user = userDao.loginAuthentication(u);
+		} else {
+			
+		}
+
 		session.setMaxInactiveInterval(60);
 		if (user != null && user.size() == 1) {
 			System.out.println("登录状态:成功！");
@@ -74,7 +81,7 @@ public class UserServiceImpl implements UserService {
 			return "redirect:/index.jsp";
 		}
 		System.out.println("登录状态:失败！");
-		req.setAttribute("msg", "账号或密码错误");
+		req.setAttribute("msg", "账号或密码错误!");
 		return "forward:/login.jsp";
 	}
 
