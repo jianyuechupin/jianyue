@@ -18,8 +18,8 @@
 	</resultMap> -->
 
 	
-	<select id="loginAuthentication" parameterType="com.hyst.vo.user.User"  resultType="com.hyst.vo.user.User">
-		select * from [user] where account=#{name} and password=#{pwd} and isDelete=0
+	<select id="loginAuthentication" parameterType="com.hyst.vo.user.UserInfo"  resultType="com.hyst.vo.user.UserInfo">
+		select * from UserInfo where account=#{name} and password=#{pwd} and isDelete=0
 	</select>
 
 
