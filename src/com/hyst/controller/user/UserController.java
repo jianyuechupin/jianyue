@@ -26,6 +26,11 @@ public class UserController {
 	public String login(UserInfo u,HttpSession session,HttpServletRequest  req){
 		return userService.login(u,session,req);
 	}
+	@RequestMapping("logout")
+	public String logout() {
+		return userService.logout();
+	}
+	
 	/**
 	 * 查询用户列表
 	 * @param id

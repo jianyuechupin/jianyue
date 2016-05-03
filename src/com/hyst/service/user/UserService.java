@@ -14,6 +14,13 @@ public interface UserService {
 	 */
 	public String login(UserInfo u,HttpSession session,HttpServletRequest  req);
 	/**
+	 * user logout
+	 * @return redirect action
+	 * @author --- rpj ---	
+	 * @time 2016年5月3日
+	 */
+	public String logout();
+	/**
 	 * 查询所有用户
 	 * @param id2 
 	 * @param id 

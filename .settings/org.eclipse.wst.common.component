@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="hyst3">
+    <wb-module deploy-name="hyst">
         <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="hyst3"/>
-        <property name="java-output-path" value="/hyst3/WebRoot/WEB-INF/classes"/>
+        <property name="java-output-path" value="/hyst/WebRoot/WEB-INF/classes"/>
+        <property name="context-root" value="hyst"/>
     </wb-module>
 </project-modules>
