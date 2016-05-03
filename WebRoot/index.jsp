@@ -1,15 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    
+    <title>保密平台首页</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,8 +15,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	/hyst/WebRoot/JS/jquery.js-->
-	<script type="text/javascript" src="JS/jquery.js"></script>
-	<script type="text/javascript">
+	
+	<!-- <script type="text/javascript">
 	
 	setInterval("timer()",1000);//1000为1秒钟
 		var t=0; var c=0; 
@@ -63,10 +60,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 		
-	</script>
+	</script> -->
+  	<%@include file="/include/base.jsp"%>
   </head>
   
   <body>
+  	<!-- 引入导航头 -->
+  	<%@include file="/include/top.jsp"%>
+  	<!-- 引入左侧导航 -->
+  	<%@include file="/include/left.jsp" %>
+  
     This is my JSP page. <br>
       	
   	<div align="center">
@@ -89,5 +92,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<td> <button id="ge">Ajax请求GET</button></td>
    		<td id="name">123</td>
     </tr></table>
+    <!-- scripts -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    
   </body>
 </html>

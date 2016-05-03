@@ -1,7 +1,5 @@
 package com.hyst.util;
 
-import org.junit.Test;
-
 /**
  * String常用类
  * 
@@ -29,10 +27,6 @@ public class StringTool {
 					.length() - 1)),symbol);
 		else
 			return str;
-	}
-	@Test
-	public void test(){
-		 System.out.println(trimSymbol("123*", '*'));
 	}
 
 	private StringTool() {
