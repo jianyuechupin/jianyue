@@ -18,10 +18,13 @@
 	</resultMap> -->
 
 	
-	<select id="loginAuthentication" parameterType="com.hyst.vo.user.UserInfo"  resultType="com.hyst.vo.user.UserInfo">
-		select * from UserInfo where account=#{name} and password=#{pwd} and isDelete=0
+	<select id="userloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.UserInfo">
+		select * from userInfo where account=#{account} and password=#{password} and isDelete=0
 	</select>
-
+	
+	<select id="adminloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.AdminTbl">
+		select * from adminTbl where adminid=#{account} and pass=#{password}
+	</select>
 
 
 	

@@ -46,9 +46,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h2 class="form-signin-heading">保密综合管理平台</h2>
 				<br />
 				<label for="inputEmail" class="sr-only">用户名</label>
-				<input type="text" id="inputName" name="name" class="form-control required" maxlength="10" minlength="2" placeholder="域账号"  autofocus>
+				<input type="text" id="inputName" name="account" class="form-control required" maxlength="10" minlength="2" placeholder="域账号"  autofocus>
 				<label for="inputPassword" class="sr-only">密码</label>
-				<input type="password" id="inputPassword" name="pwd" class="form-control" placeholder="密码" required>
+				<input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
 				<div class="checkbox">
 					<label>
 			            <input type="checkbox" value="remember-me"> 记住我
@@ -109,19 +109,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//
 		    $("#formsubmit").validate({
 		    	rules:{
-		    		"name":{
+		    		"account":{
 		    			required:true
 		    		},
-		    		"pwd":{
+		    		"password":{
 		    			required:true,
 		    			isPassword:false
 		    		}
 		    	},
 		    	messages:{
-		    		"name":{
+		    		"account":{
 		    			required:"请填写域账号"
 		    		},
-		    		"pwd":{
+		    		"password":{
 		    			required:"密码不能为空",
 		    			isPassword:"密码由字母与数字组合并包含特殊字符（除字母、数字、空格外的字符）并且8位以上！"
 		    		}

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.hyst.dao.user.UserDao;
 import com.hyst.service.user.UserService;
+import com.hyst.vo.user.AdminTbl;
+import com.hyst.vo.user.User;
 import com.hyst.vo.user.UserInfo;
 
 @Service("userService")
@@ -61,34 +63,56 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserInfo> selectByTerms(UserInfo u) {
-		return userDao.loginAuthentication(u);
+		Map<String, Object> mapUser = new HashMap<>();
+		mapUser.put("account", u.getAccount());
+		mapUser.put("password", u.getPassword());
+		return userDao.userloginAuthentication(mapUser);
 	}
 
 	/**
-	 * 登录判断
+	 * 普通用户登录判断
 	 */
 	@Override
 	public String login(UserInfo u, HttpSession session, HttpServletRequest req) {
 		List<?> user = null;
-		if (u.getName() != "safeadmin" && u.getName() != "sysadmin"
-				&& u.getName() != "logadmin") {
-			user = userDao.loginAuthentication(u);
+		Map<String, Object> mapUser = new HashMap<>();
+		mapUser.put("account", u.getAccount());
+		mapUser.put("password", u.getPassword());
+		if (isAdmin(u.getAccount())) {
+			user = userDao.userloginAuthentication(mapUser);
 		} else {
-			
+			user = userDao.adminloginAuthentication(mapUser);
 		}
 
-		session.setMaxInactiveInterval(60);
+		session.setMaxInactiveInterval(300);
 		if (user != null && user.size() == 1) {
 			System.out.println("登录状态:成功！");
-			session.setAttribute("user", user);
-//			System.out.println(session.getAttribute("user"));
+			
+			User uinfo=null;
+			
+			if (user.get(0) instanceof UserInfo) {
+				UserInfo userinfo=(UserInfo) user.get(0);
+				uinfo=new User(userinfo.getAccount(),userinfo.getUserName(), userinfo.getDeptId(), "0");
+			}else {
+				AdminTbl admininfo=(AdminTbl) user.get(0);
+				uinfo=new User(admininfo.getAdminId(),admininfo.getAdminName(), null, String.valueOf(admininfo.getRoleType()));
+			}
+			
+			session.setAttribute("user", uinfo);
+
+			System.out.println(session.getAttribute("user"));
 			return "redirect:/index.jsp";
 		}
 		System.out.println("登录状态:失败！");
 		req.setAttribute("msg", "账号或密码错误!");
 		return "forward:/login.jsp";
 	}
-	
+
+	private boolean isAdmin(String account) {
+		return !"safeadmin".equals(account) && !"sysadmin".equals(account)
+				&& !"logadmin".equals(account);
+	}
+
 	@Override
 	public String logout() {
 		System.out.println(session.getAttribute("user"));
