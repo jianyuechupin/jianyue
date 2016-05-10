@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.UserGroupListTblDao" >
+
+ 	 <resultMap type="UserGroupListTbl" id="userGroupListTbl" >
+		<id column="id" property="id"/>
+		<result column="userId" property="userId"/>
+		<result column="userGroupId" property="userGroupId"/>
+	</resultMap>
+	<!-- 批量增加用户到用户组 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+    	INSERT INTO userGroupPowerDetail (userId,userGroupId)
+    	VALUES 
+    	<foreach collection="list" item="item" index="index" separator="," >
+        	(#{item.userId},#{item.userGroupId})
+    	</foreach>
+	</insert>	
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.UserGroupListTbl">
+		delete from userGroupListTbl  where id=#{id} 
+	</delete>
+	<!-- 根据用户组ID删除所有ID组下的信息 -->
+	<delete id="deleteByUserGroupId" >
+		delete from userGroupListTbl  where userGroupId=#{userGroupId} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.UserGroupListTbl">
+		insert into userGroupListTbl (userId,userGroupId) values (#{userId},#{userGroupId})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.UserGroupListTbl">
+		update userGroupListTbl 
+		<set>
+		<if test="userId != 0">
+			userId=#{userId},
+		</if>
+		<if test="userGroupId != 0">
+			userGroupId=#{userGroupId},
+		</if>
+		</set>
+ 		 where id=#{id} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.UserGroupListTbl">
+		select * from userGroupListTbl  where id=#{id} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.UserGroupListTbl">
+		select * from userGroupListTbl 
+		<where>
+			<if test=" userId != 0 ">
+			  and userId=#{userId}
+			</if>
+			<if test=" userGroupId != 0 ">
+			  and userGroupId=#{userGroupId}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询所有 -->
+	<select id="list" resultType="com.hyst.vo.UserGroupListTbl">
+		select * from userGroupListTbl  
+	</select>
+ 
+</mapper>
