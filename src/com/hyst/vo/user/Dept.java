@@ -5,7 +5,7 @@ import java.util.List;
 public class Dept {
 	private int id;
 	private String deptname;
-	private List<User> users;
+	private List<UserInfo> users;
 
 	public int getId() {
 		return id;
@@ -24,10 +24,10 @@ public class Dept {
 	public void setDeptname(String deptname) {
 		this.deptname = deptname;
 	}
-	public List<User> getUsers() {
+	public List<UserInfo> getUsers() {
 		return users;
 	}
-	public void setUsers(List<User> users) {
+	public void setUsers(List<UserInfo> users) {
 		this.users = users;
 	}
 	

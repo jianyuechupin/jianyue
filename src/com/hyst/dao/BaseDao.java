@@ -21,7 +21,7 @@ public interface BaseDao<E> {
 	 * @param e 
 	 * @return 信息记录
 	 */
-	public E getOne(E e);
+	public E getOne(Object e);
 	/**
 	 * 数据库单条插入
 	 * @param e 插入的的对象
