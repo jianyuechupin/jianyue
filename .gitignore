@@ -1,3 +1,4 @@
-/com
-/junitTest
 *.class
+*.classpath
+*.project
+/junitTest
