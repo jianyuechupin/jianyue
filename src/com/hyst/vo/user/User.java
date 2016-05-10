@@ -5,5 +5,5 @@ package com.hyst.vo.user;
  * 类说明
  */
 public class User {
-
+	private int age;
 }

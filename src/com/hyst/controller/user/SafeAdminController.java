@@ -53,7 +53,7 @@ public class SafeAdminController {
 	@ResponseBody
 	public String getTree(){
 		String s="<li><a id='userlist' href=\"javascript:;\" onclick='go(this)'>用户权限管理</a></li><li>"+
-				"<a id='userGroupAjax' href=\"javascript:;\" >权限批授权管理</a></li>"+
+				"<a href=\"powerGroup.do\" >权限批授权管理</a></li>"+
 				"<li><a id='userGroupAjax' href=\"javascript:;\">用户组管理</a></li>";
 		return s;
 	}
@@ -82,6 +82,24 @@ public class SafeAdminController {
 		return "/WEB-INF/view/safe/userGroupAdd.jsp";
 	}
 	//***************************权限组操作***********************************//
+	/**
+	 *跳转到权限组列表页面
+	 * @return
+	 */
+	@RequestMapping("powerGroup")
+	public String powerGroup(){
+		return "/WEB-INF/view/safe/powergrouplist.jsp";
+	}
+	/**
+	 * 获取权限组列表
+	 * @return
+	 */
+	@RequestMapping("getPowerGroups")
+	@ResponseBody
+	public List<PowerGroupTbl> getPowerGroupTbls(){
+		
+		return safeAdminService.getPowerGroupTbls();
+	}
 	/**
 	 * 跳转到权限组新增页面
 	 * @return 

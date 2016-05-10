@@ -66,7 +66,7 @@
 			$(this).next().slideUp("slow");
 		}
 	});
-	
+	/**表格数据更改*/
 	function go(obj){
 	var $table=$("#table");
 	//var da=null;

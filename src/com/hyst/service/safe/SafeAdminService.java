@@ -83,4 +83,9 @@ public interface SafeAdminService {
 	 * @return 权限组细则集合
 	 */
 	public List<DefinePowerDetilTbl> getDefinePowerDetilTblsByPowerId(String powerGroupId);
+	/**
+	 * 获取权限组列表
+	 * @return 权限组列表
+	 */
+	public List<PowerGroupTbl> getPowerGroupTbls();
 }

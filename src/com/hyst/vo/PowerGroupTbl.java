@@ -5,9 +5,13 @@ package com.hyst.vo;
  * 类说明 权限组类
  */
 public class PowerGroupTbl {
+	/**权限组ID《唯一标示符》*/
 	private String id;
+	/**权限组名称*/
 	private String powerGroup;
+	/**权限组描述*/
 	private String remark;
+	/**删除标记*/
 	private int isDelete;
 	public String getId() {
 		return id;

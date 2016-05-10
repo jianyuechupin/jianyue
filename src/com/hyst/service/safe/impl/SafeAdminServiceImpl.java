@@ -1,5 +1,6 @@
 package com.hyst.service.safe.impl;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,6 +194,13 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		return definePowerDetilTblDao.getByPowerGroupId(powerGroupId);
 		
 	}
+	//获取权限组列表
+	public List<PowerGroupTbl> getPowerGroupTbls() {
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		map.put("pagesize", 10);
+		return powerGroupTblDao.list(map);
+	}
+
 	//***********************非业务方法******************************************//
 	public void setUserGroupDao(UserGroupDao userGroupDao) {
 		this.userGroupDao = userGroupDao;
@@ -223,6 +231,7 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 			DefinePowerDetilTblDao definePowerDetilTblDao) {
 		this.definePowerDetilTblDao = definePowerDetilTblDao;
 	}
+
 
 
 

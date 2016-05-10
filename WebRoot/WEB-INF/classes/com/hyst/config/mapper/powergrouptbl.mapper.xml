@@ -59,9 +59,9 @@
 			</if>
 		</where> 
 	</select>
-	<!-- 查询所有 -->
+	<!-- 查询所有权限组 -->
 	<select id="list" resultType="com.hyst.vo.PowerGroupTbl">
-		select * from powerGroupTbl  
+		select * from powerGroupTbl  where isDelete=0
 	</select>
  
 </mapper>
