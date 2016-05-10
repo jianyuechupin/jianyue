@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyst.dao.user.UserDao">
+
+	<!-- <resultMap type="com.hyst.vo.TableInfo" id="tableInfo">
+		<id column="t.id" property="id" />
+		<result column="t.tableName" property="tableName" />
+		<result column="t.tableNameChs" property="tableNameChs" />
+		<result column="t.isDelete" property="isDelete" />
+		<result column="t.sort" property="sort" />
+		<result column="t.parentId" property="parentId" />
+		<result column="t.doMain" property="doMain" />
+		<collection property="list"
+			resultMap="com.hyst.dao.safe.TableInfoDao.tableInfo2" />
+
+	</resultMap> -->
+
+	
+	<select id="userloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.UserInfo">
+		select * from userInfo where account=#{account} and password=#{password} and isDelete=0
+	</select>
+	
+	<select id="adminloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.AdminTbl">
+		select * from adminTbl where adminid=#{account} and pass=#{password}
+	</select>
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>
