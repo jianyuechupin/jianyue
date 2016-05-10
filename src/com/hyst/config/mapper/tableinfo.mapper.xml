@@ -25,7 +25,7 @@
 	</select>
 	<!-- 根据父ID查询所有 -->
 	<select id="listByParentId"  parameterType="java.util.Map" resultType="tableInfo">
-		select * from tableInfo where isDelete=0 and parentId=#{parentId } order by sort desc
+		select * from tableInfo where isDelete=0 and parentId=#{parentId} order by sort desc
 	</select>
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.TableInfo">

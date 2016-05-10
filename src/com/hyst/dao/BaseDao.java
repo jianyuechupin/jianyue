@@ -17,14 +17,14 @@ public interface BaseDao<E> {
 	 */
 	public List<E> list(Map<String, ?> m);
 	/**
-	 * 查询单条信息
-	 * @param id 唯一标示
+	 * 查询单条信息 修改参数为E，因为有些情况主键非INT类型
+	 * @param e 
 	 * @return 信息记录
 	 */
-	public E getOne(int id);
+	public E getOne(E e);
 	/**
 	 * 数据库单条插入
-	 * @param obj 插入的的对象
+	 * @param e 插入的的对象
 	 * @return 受影响记录数
 	 */
 	public int insert(E e);

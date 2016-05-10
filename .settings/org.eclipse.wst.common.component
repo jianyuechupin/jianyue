@@ -2,6 +2,7 @@
     <wb-module deploy-name="hyst">
         <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/junitTest"/>
         <property name="java-output-path" value="/hyst/WebRoot/WEB-INF/classes"/>
         <property name="context-root" value="hyst"/>
     </wb-module>

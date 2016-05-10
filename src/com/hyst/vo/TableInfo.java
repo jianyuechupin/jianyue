@@ -23,10 +23,18 @@ public class TableInfo implements Comparable<TableInfo>{
 	private List<TableInfo> tableInfoList;
 	/** 属性描述：子菜单列表 */
 	private OperTypes operTypes;
+	/** 属性描述：操作功能列表 */	
+	private List<TableOperView> tableOperViews;
 	
 	private List<TableOper> tableOpers;
 	
 	
+	public List<TableOperView> getTableOperViews() {
+		return tableOperViews;
+	}
+	public void setTableOperViews(List<TableOperView> tableOperViews) {
+		this.tableOperViews = tableOperViews;
+	}
 	@Override
 	public String toString() {
 		return "TableInfo [id=" + id + ", tableName=" + tableName

@@ -142,7 +142,11 @@ public class MybatisInterceptor implements Interceptor {
 		String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
 //		替換后SQL：	select * from user WHERE name=?
 		sqls[1]="SQL:"+sql;
-		sqls[2]="PARAMES:"+boundSql.getParameterObject().toString();
+		if (boundSql.getParameterObject()!=null) {			
+			sqls[2]="PARAMES:"+boundSql.getParameterObject().toString();
+		}else {
+			sqls[2]="PARAMES:<NULL>";
+		}
 		if (parameterMappings.size() > 0 && parameterObject != null) {
 			TypeHandlerRegistry typeHandlerRegistry = configuration
 					.getTypeHandlerRegistry();//TypeHandlerRegistry類型註冊器

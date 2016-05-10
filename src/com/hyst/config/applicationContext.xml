@@ -18,7 +18,7 @@
         http://mybatis.org/schema/mybatis-spring
 		http://mybatis.org/schema/mybatis-sprint.xsd
         ">
-    <!-- 读取属性文件  -->
+    <!-- 读取属性文件 -->
    	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
    		<property name="location" value="classpath:com/hyst/config/db.properties"/>
    	</bean>
