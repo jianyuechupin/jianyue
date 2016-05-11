@@ -7,5 +7,5 @@ package com.hyst.service.impl.user;
 public class test {
 	private String name;
 	ww122
-	12122
+	12
 }
