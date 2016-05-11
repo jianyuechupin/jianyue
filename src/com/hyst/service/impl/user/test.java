@@ -14,8 +14,10 @@ public class test {
 		this.abc = abc;
 	}
 	private String name;
-	private int age;
-	public String getAbc() {
-		return abc;
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 }
