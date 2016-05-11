@@ -101,6 +101,16 @@ public class SafeAdminController {
 		return safeAdminService.getPowerGroupTbls();
 	}
 	/**
+	 * 删除权限组
+	 * @param powerGroupTbl 权限组对象，主要接受权限组ID
+	 * @return 跳转页面
+	 */
+	@RequestMapping("deletepowergroup")
+	public String deletePowerGroup(PowerGroupTbl powerGroupTbl){
+		safeAdminService.deletePowerGroup(powerGroupTbl);
+		return "/powerGroup.do";
+	}
+	/**
 	 * 跳转到权限组新增页面
 	 * @return 
 	 */

@@ -200,6 +200,17 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		map.put("pagesize", 10);
 		return powerGroupTblDao.list(map);
 	}
+	//删除权限组
+	public String deletePowerGroup(PowerGroupTbl powerGroupTbl) {
+		if (powerGroupTbl==null||powerGroupTbl.getId()==null) {
+			return "删除失败";
+		}
+		int num= powerGroupTblDao.delete(powerGroupTbl);
+		if (num>0) {
+			return "删除成功";
+		}
+		return "删除失败";
+	}
 
 	//***********************非业务方法******************************************//
 	public void setUserGroupDao(UserGroupDao userGroupDao) {
@@ -231,7 +242,6 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 			DefinePowerDetilTblDao definePowerDetilTblDao) {
 		this.definePowerDetilTblDao = definePowerDetilTblDao;
 	}
-
 
 
 

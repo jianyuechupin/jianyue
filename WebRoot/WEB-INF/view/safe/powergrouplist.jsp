@@ -21,26 +21,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	$.post("getPowerGroups.do",function(data){
 				$("#table").bootstrapTable('load', data);
 			}); 
-			
-			
-		 });
-		/* BootstrapTable.DEFAULTS = {
-			 onDblClickRow: function (item, $element) {
-			 	alert(123);
-			}
-		} */
-	/* 	$scope.bsTableControl={
-			options:{
-				rowStyle:function(row,index){
-					return{
-						classes:'none'
-					};
-				},
-				onClickRow:function(row,tr){
-					alert(row);
+			/**修改按钮被点击*/
+			$("#update").click(function(){
+				var selects=$("#table").bootstrapTable('getSelections');
+				if(selects.length==0){
+					alert("请选择要修改的权限组");
+					return;
+				}else if(selects.length > 1){
+					alert("请正确选择要修改的权限组，每次只能选择一个");
+					return;
 				}
-			}
-		} */
+				var id=$("#table").bootstrapTable('getSelections')[0].id;
+				window.location='addpowergroup.do?id='+id;
+			});
+			/**删除按钮被点击*/
+			$("#delete").click(function(){
+				var selects=$("#table").bootstrapTable('getSelections');
+				if(selects.length==0){
+					alert("请选择要删除的权限组");
+					return;
+				}else if(selects.length > 1){
+					alert("请正确选择要删除的权限组，且每次只能选择一个");
+					return;
+				}
+				var id=$("#table").bootstrapTable('getSelections')[0].id;
+				window.location='deletepowergroup.do?id='+id;				
+			});
+		 });
+	
 	</script>
 
   </head>
@@ -53,15 +61,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 右侧区域 -->
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
+			<!-- 增删改查按钮DIV -->
+			<div>
+				<table align="right" width="30%">
+					<tr>
+					<td><a href="addpowergroup.do?id=">新增</a></td>
+					<td><button id="update">修改</button></td>
+					<td><button id="delete">删除</button></td>
+					</tr>
+				</table>
+			</div>
 		<!-- 权限组列表 -->
 			<div id="tableDiv" class="container">
 				<table id="table" data-toggle="table"
 					data-show-columns="true" data-search="false"
 					data-show-refresh="true" data-show-toggle="true"
-					data-pagination="true" > 
+					data-pagination="true"  data-click-to-select="true" data-single-select="true"> 
 					<thead>
 						<tr id="head">
-							<th data-field="state" data-radio="true"></th>
+							<th data-field="state" data-checkbox="true"></th>
 							<th data-field="id" data-formatter="idFormatter">#</th>
 							<th data-field="powerGroup">权限组名称</th>
 							<th data-field="remark">备注</th>

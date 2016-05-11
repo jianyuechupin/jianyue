@@ -39,5 +39,5 @@ public interface BaseDao<E> {
 	 * @param id
 	 * @return 受影响记录数
 	 */
-	public int delete(Integer  id);
+	public int delete(Object  id);
 }

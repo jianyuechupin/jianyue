@@ -88,4 +88,10 @@ public interface SafeAdminService {
 	 * @return 权限组列表
 	 */
 	public List<PowerGroupTbl> getPowerGroupTbls();
+	/**
+	 * 根据权限组的ID删除权限组
+	 * @param powerGroupTbl 权限组对象，根据它的ID进行删除标示
+	 * @return 操作状态 成功或者失败
+	 */
+	public String deletePowerGroup(PowerGroupTbl powerGroupTbl);
 }

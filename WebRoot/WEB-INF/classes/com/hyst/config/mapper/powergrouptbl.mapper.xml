@@ -19,9 +19,9 @@
 	<select id="getOne" parameterType="PowerGroupTbl" resultType="com.hyst.vo.PowerGroupTbl">
 		select * from powerGroupTbl  where id=#{id} and isDelete=0
 	</select>
-	<!-- 根据ID删除 -->
+	<!-- 根据ID删除|标示删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.PowerGroupTbl">
-		delete from powerGroupTbl  where id=#{id} 
+		update  powerGroupTbl set isDelete = 1 where id=#{id} 
 	</delete>
 	<!-- 单个增加 -->
 	<insert id="insert" parameterType="com.hyst.vo.PowerGroupTbl">
