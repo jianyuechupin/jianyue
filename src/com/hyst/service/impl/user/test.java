@@ -5,5 +5,6 @@ package com.hyst.service.impl.user;
  * 类说明
  */
 public class test {
-	private int name;
+	private String name;
+	ww 
 }

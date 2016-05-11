@@ -21,9 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	$.post("getPowerGroups.do",function(data){
 				$("#table").bootstrapTable('load', data);
 			}); 
-			$("#table > tr").onclick(function(){
-				alert(this.powerGroup);
-			});
+			
+			
 		 });
 		/* BootstrapTable.DEFAULTS = {
 			 onDblClickRow: function (item, $element) {
