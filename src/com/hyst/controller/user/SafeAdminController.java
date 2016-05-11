@@ -104,7 +104,7 @@ public class SafeAdminController {
 	 * 跳转到权限组新增页面
 	 * @return 
 	 */
-	@RequestMapping("powergroup")
+	@RequestMapping("addpowergroup")
 	public String powerGroup(String id,ModelMap map){
 		if (id==null||id.length()==0) {
 			id=+System.currentTimeMillis()+"";
