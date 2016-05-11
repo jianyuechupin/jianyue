@@ -7,6 +7,12 @@ package com.hyst.service.impl.user;
 public class test {
 	
 	private String abc;
+	/**
+	 * @param abc the abc to set
+	 */
+	public void setAbc(String abc) {
+		this.abc = abc;
+	}
 	private String name;
 	private int age;
 }
