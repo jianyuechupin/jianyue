@@ -19,5 +19,9 @@ public class test {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	private int age;
+	public String getAbc() {
+		System.out.println(1);
+		return abc;
 	}
 }
