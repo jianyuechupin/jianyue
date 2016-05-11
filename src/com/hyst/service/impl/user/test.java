@@ -9,4 +9,7 @@ public class test {
 	private String abc;
 	private String name;
 	private int age;
+	public String getAbc() {
+		return abc;
+	}
 }
