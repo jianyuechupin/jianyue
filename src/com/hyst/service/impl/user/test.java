@@ -10,6 +10,7 @@ public class test {
 	private String name;
 	private int age;
 	public String getAbc() {
+		System.out.println(1);
 		return abc;
 	}
 }
