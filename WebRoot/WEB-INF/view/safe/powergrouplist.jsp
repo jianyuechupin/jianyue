@@ -15,14 +15,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
  	 <%@include file="../include/base.jsp" %> 
+ 	 <script src="js/bootstrap-table-contextmenu.min.js"></script>
 	<script type="text/javascript">
 		 $(function(){
+		 	/**绑定双击事件*/
+		 	$('#table').bootstrapTable({
+				onDblClickRow:function(row, $element){
+					window.location='addpowergroup.do?id='+row.id;
+				}
+	        });
 		 	/**取得权限组列表*/
-		 	$.post("getPowerGroups.do",function(data){
+ 		 	$.post("getPowerGroups.do",function(data){
 				$("#table").bootstrapTable('load', data);
-			}); 
+			});  
 			/**修改按钮被点击*/
-			$("#update").click(function(){
+ 			$("#update").click(function(){
 				var selects=$("#table").bootstrapTable('getSelections');
 				if(selects.length==0){
 					alert("请选择要修改的权限组");
@@ -33,9 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 				var id=$("#table").bootstrapTable('getSelections')[0].id;
 				window.location='addpowergroup.do?id='+id;
-			});
+			}); 
 			/**删除按钮被点击*/
-			$("#delete").click(function(){
+ 			$("#delete").click(function(){
 				var selects=$("#table").bootstrapTable('getSelections');
 				if(selects.length==0){
 					alert("请选择要删除的权限组");
@@ -46,10 +53,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 				var id=$("#table").bootstrapTable('getSelections')[0].id;
 				window.location='deletepowergroup.do?id='+id;				
-			});
+			}); 
 		 });
-	
 	</script>
+
 
   </head>
   
@@ -73,10 +80,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		<!-- 权限组列表 -->
 			<div id="tableDiv" class="container">
-				<table id="table" data-toggle="table"
-					data-show-columns="true" data-search="false"
+				<table id="table" data-show-columns="false" data-search="true"
 					data-show-refresh="true" data-show-toggle="true"
-					data-pagination="true"  data-click-to-select="true" data-single-select="true"> 
+				 	data-click-to-select="true" data-pagination="false" 
+				 	data-single-select="true"> 
 					<thead>
 						<tr id="head">
 							<th data-field="state" data-checkbox="true"></th>
@@ -87,8 +94,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</thead>
 				</table>
 			</div>
-			<!-- 列表完成 -->	
+		<!-- 列表完成 -->	
 		</div>
 	</div>
+	
+	
   </body>
 </html>

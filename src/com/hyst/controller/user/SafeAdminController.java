@@ -111,7 +111,7 @@ public class SafeAdminController {
 		return "/powerGroup.do";
 	}
 	/**
-	 * 跳转到权限组新增页面
+	 * 跳转到权限组新增页面《修改与新增权限组调用》
 	 * @return 
 	 */
 	@RequestMapping("addpowergroup")
