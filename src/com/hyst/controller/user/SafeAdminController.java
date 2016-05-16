@@ -94,7 +94,18 @@ public class SafeAdminController {
 		
 		return safeAdminService.getDefinePowerDetilTblsByPowerId(userGroupId);
 	}
-		
+	/**
+	 * 添加用户组细则<改进上一个方法>
+	 * @param powerDetalils
+	 * @return
+	 */
+	@RequestMapping("addUserGroupDetails")
+	@ResponseBody
+	public String addDetailss(PowerDetails powerDetalils){
+		System.out.println("请求进来来-------------------------------------------------");
+		System.out.println(powerDetalils);
+		return null;
+	}
 	//***************************下面这个方法没用了
 //	/**
 //	 * 创建权限菜单页
@@ -305,16 +316,5 @@ public class SafeAdminController {
 		//System.out.println(ids);
 		return "sucess";
 	}
-	/**
-	 * 添加用户组细则<改进上一个方法>
-	 * @param powerDetalils
-	 * @return
-	 */
-	@RequestMapping("addUserGroupDetails")
-	@ResponseBody
-	public String addDetailss(PowerDetails powerDetalils){
-		System.out.println("请求进来来-------------------------------------------------");
-		System.out.println(powerDetalils);
-		return null;
-	}
+
 }
