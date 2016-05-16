@@ -1,0 +1,113 @@
+			/*设置标题菜单字体*/
+			
+			.sidebar_nav label h3 {
+				font: 14px/18px "Microsoft Yahei", Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif;
+				color: #51555C;
+			}
+			/*设置顶部边框*/
+			
+			.sidebar_nav {
+				display: block;
+				border-top: 1px dotted #3391DB;
+			}
+			/*设置LI的字体填充还有底边线*/
+			
+			.sidebar_nav ul li {
+				display: block;
+				display: inline;
+				padding: 2px;
+				/* //padding-right: 10%; */
+				/* padding-left: 5px; */
+				/* padding-bottom: 3px; */
+				/*border-bottom: 1px dotted #FFC375;*/
+				/*font-size: .8em;*/
+			}
+			
+			.sidebar_nav ul ul ul li {
+				margin-left: 1px;
+			}
+			/*	外边距*/
+			
+			.sidebar_nav {
+				margin-bottom: 2px;
+			}
+			
+			.sidebar_nav ul {}
+			/*//填充行间宽度 4PX*/
+			
+			.sidebar_nav label {
+				font: 14px/18px "Microsoft Yahei", Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif;
+				width:75%; 
+				color: #51555C;
+				padding: 0 0 0 15px;
+				/* color: #666; */
+				font-weight: bold;
+			}
+			/*鼠标移动上去变色*/
+			
+			.sidebar_nav label:hover {
+
+				background: #D3F0F2;
+				cursor: pointer;
+			}
+			
+			.sidebar_nav li:hover {
+				/* cursor: pointer; */
+				background: #DCF2F5;
+			}
+			.sidebar_nav input:hover {
+				background: #FFECD3;
+				cursor: pointer;
+			}
+/* 			.fontstyle {
+				font: 14px/18px "Microsoft Yahei", Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif;
+				color: #51555C;
+				color: #666;
+				font-weight: bold;
+			}	 */		
+/*	body {
+		height: 100%;
+		font: 14px/18px "Microsoft Yahei", Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif;
+		color: #51555C;
+	}
+	*/
+
+/*	.chk_1 {
+    	display: none;
+	}*/
+ 
+/*******STYLE 1 + label*******/
+/*	.chk_1 +label {
+		background-color: #FFF;
+		border: 1px solid #C1CACA;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+		padding: 9px; /选择框的大小*/
+		/*border-radius: 5px;
+		display: inline-block;
+		position: relative;
+		margin-right: 1px;
+	}*/
+/*	.chk_1 + label:active {
+		box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+	}
+	
+	.chk_1:checked + label {
+		background-color: #ECF2F7;
+		border: 1px solid #92A1AC;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+		color: #243441;
+	}*/
+/*	
+	.chk_1:checked + label:after {
+		content: '\2714';
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		color: #758794;
+		width: 100%;
+		text-align: center;
+		font-size: 1.4em;
+		padding: 1px 0 0 0;
+		vertical-align: text-top;
+	}
+*/

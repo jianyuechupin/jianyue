@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.UserPowerDetailTblDao" >
+
+ 	 <resultMap type="UserPowerDetailTbl" id="userPowerDetailTbl" >
+		<id column="id" property="id"/>
+		<result column="userId" property="userId"/>
+		<result column="tableOperId" property="tableOperId"/>
+		<result column="deptList" property="deptList"/>
+	</resultMap>
+	<!-- 批量插入用户权限细则记录 用于用户授权、修改权限-->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into userPowerDetailTbl (userId,tableOperId,deptList)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+        	(#{item.userId},#{item.tableOperId},#{item.deptList})
+    	</foreach>	 
+	</insert>
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.UserPowerDetailTbl">
+		delete from userPowerDetailTbl  where id=#{id} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.UserPowerDetailTbl">
+		insert into userPowerDetailTbl (userId,tableOperId,deptList) values (#{userId},#{tableOperId},#{deptList})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.UserPowerDetailTbl">
+		update userPowerDetailTbl 
+		<set>
+		<if test="userId != 0">
+			userId=#{userId},
+		</if>
+		<if test="tableOperId != 0">
+			tableOperId=#{tableOperId},
+		</if>
+		<if test="deptList != null">
+			deptList=#{deptList},
+		</if>
+		</set>
+ 		 where id=#{id} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.UserPowerDetailTbl">
+		select * from userPowerDetailTbl  where id=#{id} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.UserPowerDetailTbl">
+		select * from userPowerDetailTbl 
+		<where>
+			<if test=" userId != 0 ">
+			  and userId=#{userId}
+			</if>
+			<if test=" tableOperId != 0 ">
+			  and tableOperId=#{tableOperId}
+			</if>
+			<if test=" deptList != null ">
+			  and deptList=#{deptList}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询所有 -->
+	<select id="list" resultType="com.hyst.vo.UserPowerDetailTbl">
+		select * from userPowerDetailTbl  
+	</select>
+ 
+</mapper>
