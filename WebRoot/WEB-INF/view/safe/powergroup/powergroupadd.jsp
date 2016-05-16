@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
- 	 <%@include file="../include/base.jsp" %> 
+ 	 <%@include file="../../include/base.jsp" %> 
  	<script src="js/pickList.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="css/pickList.css" />
 
@@ -23,19 +23,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<!-- 引入导航头 -->
-  	<%@include file="../include/top.jsp" %>
+  	<%@include file="../../include/top.jsp" %>
   	<!-- 引入左侧导航 -->
-  	<%@include file="../include/left.jsp" %>
+  	<%@include file="../../include/left.jsp" %>
 	<!-- 右侧区域 -->
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
 			<div>
-				<h4>${id }</h4>
-				<input type="hidden" value="${id }" id="powergroupid">
+				<%-- <h4>${powerGrou.id }</h4> --%>
+				<input type="hidden" value="${powerGrou.id }" id="powergroupid">
 			 	<h5 class="col-sm-2">权限组名称：</h5>
-				<input id="powergroupname" class="form-control required col-sm-4" style="width: 30%;" id="placeholderinput" placeholder="权限组名称" type="text"/>
+				<input id="powergroupname" class="form-control required col-sm-4" style="width: 30%;"  value="${powerGrou.powerGroup }" placeholder="权限组名称" type="text"/>
 				<h5 class="col-sm-2">权限组描述：</h5>
-				<input id="powergroupremark" class="form-control required" style="width: 30%;"  placeholder="权限组描述" type="text"/>
+				<input id="powergroupremark" class="form-control required" style="width: 30%;" value="${powerGrou.remark }" placeholder="权限组描述" type="text"/>
 			</div> 
 			<div class="container col-sm-12">
 			<!--循环出一级菜单-->
@@ -56,6 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript">
 		$(function() {
+			
 			//创建页面内容
 			getManus();
 			//展示第一个Tab页
@@ -85,13 +86,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			var id=obj.attr("href").toString().replace("#","");
 			/**获取部门列表*/
-			$.post("getOrgs.do",function(data){
+			$.post("safe/getOrgs.do",function(data){
 				val=data; 
 			}); 
 			/**$("input:checkbox[value='1']").attr('checked','true');  */
 			/*取得子菜单以及操作功能*/
 			var pid=id.replace("tal","");
-			$.post("sonMenu.do",{"pid":pid} ,function(data){
+			$.post("safe/sonMenu.do",{"pid":pid} ,function(data){
 				var htm="<div class=\"tab-pane fade\" id=\""+id+"\">";
 				
 				for(var i=0;i<data.length;i++){
@@ -167,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }
 			 }); 
 			 /*****************************提交数据阶段***********************************************************/
-	       	$.post("addpower.do",ids,function(data){
+	       	$.post("safe/addpower.do",ids,function(data){
 	       		alert(data);
 	        });
 		} 
@@ -183,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return false;
 			}
 			//alert("名字不为空");
-			$.post("checkPowerGroupName.do",{"powerGroup":name,"id":$("#powergroupid").val()},function(data){
+			$.post("safe/checkPowerGroupName.do",{"powerGroup":name,"id":$("#powergroupid").val()},function(data){
 				//返回检查结果，true可用，false不可用；
 				return data;
 			});
@@ -191,7 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		/**************************根据权限组ID将对应已选择的按钮选中***********************/
 		function doChecked(){
 			var groupId=$("#powergroupid").val(); 
-			$.post("getChecked.do",{powerGroupId:groupId},function (data){
+			$.post("safe/getChecked.do",{powerGroupId:groupId},function (data){
 				//获取已选数据，将对应的选择框选中
 				checkedIt(data);
 			});

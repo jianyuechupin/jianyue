@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.UserPowerManageViewDao" >
+
+ 	 <resultMap type="UserPowerManageView" id="userPowerManageView" >
+		<id column="uid" property="uid"/>
+		<result column="userName" property="userName"/>
+		<result column="orgId" property="orgId"/>
+		<result column="orgName" property="orgName"/>
+		<result column="account" property="account"/>
+		<result column="loginType" property="loginType"/>
+	</resultMap>
+
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.UserPowerManageView">
+		delete from userPowerManageView  where uid=#{uid} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.UserPowerManageView">
+		insert into userPowerManageView (userName,orgId,orgName,account,loginType) values (#{userName},#{orgId},#{orgName},#{account},#{loginType})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.UserPowerManageView">
+		update userPowerManageView 
+		<set>
+		<if test="userName != null">
+			userName=#{userName},
+		</if>
+		<if test="orgId != 0">
+			orgId=#{orgId},
+		</if>
+		<if test="orgName != null">
+			orgName=#{orgName},
+		</if>
+		<if test="account != null">
+			account=#{account},
+		</if>
+		<if test="loginType != 0">
+			loginType=#{loginType},
+		</if>
+		</set>
+ 		 where uid=#{uid} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.UserPowerManageView">
+		select * from userPowerManageView  where uid=#{uid} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.UserPowerManageView">
+		select * from userPowerManageView 
+		<where>
+			<if test=" userName != null ">
+			  and userName=#{userName}
+			</if>
+			<if test=" orgId != 0 ">
+			  and orgId=#{orgId}
+			</if>
+			<if test=" orgName != null ">
+			  and orgName=#{orgName}
+			</if>
+			<if test=" account != null ">
+			  and account=#{account}
+			</if>
+			<if test=" loginType != 0 ">
+			  and loginType=#{loginType}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询所有 -->
+	<select id="list" resultType="com.hyst.vo.UserPowerManageView">
+		select * from userPowerManageView  
+	</select>
+ 
+</mapper>

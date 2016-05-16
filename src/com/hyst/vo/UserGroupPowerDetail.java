@@ -3,7 +3,9 @@ package com.hyst.vo;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * 用户组权限细则
+ */
 public class UserGroupPowerDetail{
 	/**属性描述： */
 	private int id;

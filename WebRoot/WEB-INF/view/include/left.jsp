@@ -21,7 +21,12 @@
 				  <span >安全管理</span> <i class="caret"></i>
 			 </a>
 			<ul class="submenu">
-				<li>123</li>
+				<li><a href="safe/userPowerManager.do">用户权限管理</a></li>
+				<li><a href="safe/powerGroup.do">权限批授权管理</a></li>
+				<li><a href="safe/userGroupManage.do">用户组管理</a></li>
+				<li><a href="user-list.html">用户查询</a></li>
+				<li><a href="user-list.html">部门保密管理员设置</a></li>
+				<li><a href="user-list.html">保密门户角色设置</a></li>
 			</ul> 
 		</li>
 	</ul>
@@ -34,10 +39,10 @@
 
 	$(function() {
 	//把所有的二级菜单隐藏
-		$("ul .submenu").css("display", "none");
+		//$("ul .submenu").css("display", "none");
 	});
 	//a标签被点击
- 	$("#sidebar-nav .dropdown-toggle").click(function() {
+ 	/* $("#sidebar-nav .dropdown-toggle").click(function() {
  		
  		var lis="";
  		$.post("ajax.do",{"id":this.id},function (data){
@@ -55,7 +60,7 @@
 			//样式的阴影
 			$(this).css("box-shadow", "");
 
-	});
+	}); */
 
 	$(".nav .dropdown-toggle").click(function() {
 		$('.dropdown-menu').slideUp("slow");
@@ -67,7 +72,7 @@
 		}
 	});
 	
-	function go(obj){
+/* 	function go(obj){
 	var $table=$("#table");
 	//var da=null;
 	
@@ -75,7 +80,7 @@
 			$table.bootstrapTable('load', date);
 		}); 
 		
-	}
+	} */
 	
 	//获取用户组函数
 	function getGroup(){

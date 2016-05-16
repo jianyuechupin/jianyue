@@ -1,7 +1,7 @@
 package com.hyst.vo;
 public class UserGroup{
 	/**属性描述： */
-	private int id;
+	private String id;
 	/**属性描述： */
 	private String userGroupName;
 	/**属性描述： */
@@ -18,7 +18,7 @@ public class UserGroup{
 				+ ", description=" + description + ", creatTime=" + creatTime
 				+ ", updateTime=" + updateTime + "]";
 	}
-	public int getId(){
+	public String getId(){
 		return this.id;
 	}
 	public String getUserGroupName(){
@@ -33,7 +33,7 @@ public class UserGroup{
 	public java.sql.Timestamp  getUpdateTime(){
 		return this.updateTime;
 	}
-	public void setId(int id){
+	public void setId(String id){
 		this.id = id;
 	}
 	public void setUserGroupName(String userGroupName){

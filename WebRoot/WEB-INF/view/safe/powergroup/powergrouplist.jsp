@@ -14,18 +14,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
- 	 <%@include file="../include/base.jsp" %> 
+ 	 <%@include file="../../include/base.jsp" %> 
  	 <script src="js/bootstrap-table-contextmenu.min.js"></script>
 	<script type="text/javascript">
 		 $(function(){
 		 	/**绑定双击事件*/
 		 	$('#table').bootstrapTable({
 				onDblClickRow:function(row, $element){
-					window.location='addpowergroup.do?id='+row.id;
+					window.location='safe/addpowergroup.do?id='+row.id;
 				}
 	        });
 		 	/**取得权限组列表*/
- 		 	$.post("getPowerGroups.do",function(data){
+ 		 	$.post("safe/getPowerGroups.do",function(data){
 				$("#table").bootstrapTable('load', data);
 			});  
 			/**修改按钮被点击*/
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					return;
 				}
 				var id=$("#table").bootstrapTable('getSelections')[0].id;
-				window.location='addpowergroup.do?id='+id;
+				window.location='safe/addpowergroup.do?id='+id;
 			}); 
 			/**删除按钮被点击*/
  			$("#delete").click(function(){
@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					return;
 				}
 				var id=$("#table").bootstrapTable('getSelections')[0].id;
-				window.location='deletepowergroup.do?id='+id;				
+				window.location='safe/deletepowergroup.do?id='+id;				
 			}); 
 		 });
 	</script>
@@ -62,9 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<!-- 引入导航头 -->
-  	<%@include file="../include/top.jsp" %>
+  	<%@include file="../../include/top.jsp" %>
   	<!-- 引入左侧导航 -->
-  	<%@include file="../include/left.jsp" %>
+  	<%@include file="../../include/left.jsp" %>
 	<!-- 右侧区域 -->
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div>
 				<table align="right" width="30%">
 					<tr>
-					<td><a href="addpowergroup.do?id=">新增</a></td>
+					<td><a href="safe/addpowergroup.do?id=">新增</a></td>
 					<td><button id="update">修改</button></td>
 					<td><button id="delete">删除</button></td>
 					</tr>
@@ -83,11 +83,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table id="table" data-show-columns="false" data-search="true"
 					data-show-refresh="true" data-show-toggle="true"
 				 	data-click-to-select="true" data-pagination="false" 
-				 	data-single-select="true"> 
+				 	data-single-select="true" data-striped="true"> 
 					<thead>
 						<tr id="head">
 							<th data-field="state" data-checkbox="true"></th>
-							<th data-field="id" data-formatter="idFormatter">#</th>
+							<th data-field="id" data-visible="false" data-formatter="idFormatter">#</th>
 							<th data-field="powerGroup">权限组名称</th>
 							<th data-field="remark">备注</th>
 						</tr>

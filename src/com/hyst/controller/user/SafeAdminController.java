@@ -1,8 +1,9 @@
 package com.hyst.controller.user;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
+import org.apache.logging.log4j.core.helpers.SystemClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,8 +19,12 @@ import com.hyst.vo.PowerGroupTbl;
 import com.hyst.vo.SafeList;
 import com.hyst.vo.TableInfo;
 import com.hyst.vo.UserGroup;
-import com.hyst.vo.UserGroupListTbl;
 import com.hyst.vo.UserGroupPowerDetail;
+import com.hyst.vo.UserGroupView;
+import com.hyst.vo.UserPowerDetailTbl;
+import com.hyst.vo.UserPowerDetailTbls;
+import com.hyst.vo.UserPowerManageView;
+import com.hyst.vo.user.UserInfo;
 
 /**
  * @author DongYi
@@ -27,6 +32,7 @@ import com.hyst.vo.UserGroupPowerDetail;
  * 类说明
  */
 @Controller
+@RequestMapping("safe")
 public class SafeAdminController {
 	@Autowired
 	private SafeAdminService safeAdminService;
@@ -34,53 +40,73 @@ public class SafeAdminController {
 	public void setSafeAdminService(SafeAdminService safeAdminService) {
 		this.safeAdminService = safeAdminService;
 	}
-	/**
-	 * 进入安全管理页面，页面完善后删除
-	 * @return
-	 */
-	@RequestMapping("main")
-	public String main(){
-		//tableInfoService.creatMenu();
-		return "/WEB-INF/view/safe/index.jsp";
-	}
-	
-	
-	/**
-	 * 异步取得二级子菜单请求
-	 * @return
-	 */
-	@RequestMapping("ajax")
-	@ResponseBody
-	public String getTree(){
-		String s="<li><a id='userlist' href=\"javascript:;\" onclick='go(this)'>用户权限管理</a></li><li>"+
-				"<a href=\"powerGroup.do\" >权限批授权管理</a></li>"+
-				"<li><a id='userGroupAjax' href=\"javascript:;\">用户组管理</a></li>";
-		return s;
-	}
- 
 
+	
+ //********************用户组管理****************************************************
+	/**
+	 * 跳转到用户组页面《负责页面跳转  用户组》
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("userGroupManage")
+	public String userGroupList(ModelMap map){
+		map.addAttribute("list", safeAdminService.getUserGroups(0, 0));
+		return "/WEB-INF/view/safe/usergroup/usergrouplist.jsp";
+	}
 	/**
 	 * 获取用户组列表
 	 * @return
 	 */
 	@RequestMapping("userGroupAjax")
 	@ResponseBody
-	public List<UserGroup> getUserGroups(){
+	public List<UserGroupView> getUserGroups(){
 		
 		return safeAdminService.getUserGroups(0, 0);
 	}
-	
+	//跳转到修改、新增用户组界面
 	/**
-	 * 创建权限菜单页
-	 * 得到顶级菜单树列表
+	 * 跳转到用户组详情页面，用于用户组新增和修改《负责跳转页面到   用户组细则》
+	 * @param userGroupView
+	 * @param map
 	 * @return
 	 */
-	@RequestMapping("creatMenu")
-	//@ResponseBody
-	public String creat(ModelMap map){
-		map.addAttribute("list", safeAdminService.creatTbaleInfo(0));
-		return "/WEB-INF/view/safe/userGroupAdd.jsp";
+	@RequestMapping("creatUserGroup")
+	public String creatUserGroup(UserGroupView userGroupView,ModelMap map){
+		if (userGroupView!=null&&userGroupView.getId()!=null) {
+			userGroupView=safeAdminService.getUserGroupViewById(userGroupView);
+		}else {
+			userGroupView.setId(System.currentTimeMillis()+"");
+		}
+		System.out.println(userGroupView);
+		map.addAttribute("usergroup", userGroupView);
+		//添加1级菜单
+		map.addAttribute("tableList", safeAdminService.creatTbaleInfo(0));
+		return  "/WEB-INF/view/safe/usergroup/userGroupAdd.jsp";
 	}
+	/**
+	 * 获取指定ID的权限组下权限细则的选中状态《异》
+	 * @param powerGroupId 权限组ID
+	 * @return 权限组细则集合
+	 */
+	@RequestMapping("getUserPowerChecked")
+	@ResponseBody
+	public List<DefinePowerDetilTbl> getUserPowerChecked(String userGroupId){
+		
+		return safeAdminService.getDefinePowerDetilTblsByPowerId(userGroupId);
+	}
+		
+	//***************************下面这个方法没用了
+//	/**
+//	 * 创建权限菜单页
+//	 * 得到顶级菜单树列表
+//	 * @return
+//	 */
+//	@RequestMapping("creatMenu")
+//	//@ResponseBody
+//	public String creat(ModelMap map){
+//		map.addAttribute("list", safeAdminService.creatTbaleInfo(0));
+//		return "/WEB-INF/view/safe/userGroupAdd.jsp";
+//	}
 	//***************************权限组操作***********************************//
 	/**
 	 *跳转到权限组列表页面
@@ -88,7 +114,7 @@ public class SafeAdminController {
 	 */
 	@RequestMapping("powerGroup")
 	public String powerGroup(){
-		return "/WEB-INF/view/safe/powergrouplist.jsp";
+		return "/WEB-INF/view/safe/powergroup/powergrouplist.jsp";
 	}
 	/**
 	 * 获取权限组列表
@@ -108,7 +134,7 @@ public class SafeAdminController {
 	@RequestMapping("deletepowergroup")
 	public String deletePowerGroup(PowerGroupTbl powerGroupTbl){
 		safeAdminService.deletePowerGroup(powerGroupTbl);
-		return "/powerGroup.do";
+		return "/safe/powerGroup.do";
 	}
 	/**
 	 * 跳转到权限组新增页面《修改与新增权限组调用》
@@ -119,9 +145,9 @@ public class SafeAdminController {
 		if (id==null||id.length()==0) {
 			id=+System.currentTimeMillis()+"";
 		}
-		map.addAttribute("id",id);
+		map.addAttribute("powerGrou",safeAdminService.getPowerGroupById(id));
 		map.addAttribute("list", safeAdminService.creatTbaleInfo(0));
-		return "/WEB-INF/view/safe/powergroupadd.jsp";
+		return "/WEB-INF/view/safe/powergroup/powergroupadd.jsp";
 	}
 	/**
 	 * 判断权限组名称是否可用 《异步》
@@ -142,8 +168,7 @@ public class SafeAdminController {
 	@RequestMapping("addpower")
 	@ResponseBody
 	public String powerGroupDetails(PowerGroupDetails details){
-		System.err.println("请求进入提交权限组细则controller");
-		System.out.println(details);
+		
 	
 		String result=safeAdminService.savePowerGroupDetails(details);
 		System.out.println("插入结果为-----------"+ result);
@@ -159,7 +184,66 @@ public class SafeAdminController {
 	public List<DefinePowerDetilTbl> getChecked(String powerGroupId){
 		return safeAdminService.getDefinePowerDetilTblsByPowerId(powerGroupId);
 	}
-	//***************************************************************************//
+	
+	//***************************个人权限管理*************************************//
+	/**
+	 * 跳转到用户权限管理页面
+	 * @return
+	 */
+	@RequestMapping("userPowerManager")
+	public String userPowerManager(){
+		
+		return "/WEB-INF/view/safe/userPower/userpowermanage.jsp";
+	}
+	/**
+	 * 异步取得用户权限管理的用户视图数据
+	 * @return
+	 */
+	@RequestMapping("userPowerManageViews")
+	@ResponseBody
+	public List<UserPowerManageView> getUserPowerManageViews(){
+		return safeAdminService.getUserPowerManageViews();
+	}
+	/**
+	 * 跳转到用户权限细则页面《用于修改用户个性权限或变更用户组》
+	 * @return
+	 */
+	@RequestMapping("userPowerDetails")
+	public String getUserPowersDetails(int uid,ModelMap map){
+		//添加用户视图
+		map.addAttribute("userview",safeAdminService.getUser(uid));
+		//添加用户组列表
+		map.addAttribute("powerGroups", safeAdminService.getPowerGroupTbls());
+		//添加1级菜单
+		map.addAttribute("tableList", safeAdminService.creatTbaleInfo(0));
+		//添加用户信息视图 。添加权限组。添加个性化权限
+		
+		//添加部门
+		map.addAttribute("deptList", getOrgs());
+		return "/WEB-INF/view/safe/userPower/userpoweradd.jsp";
+	}
+	/**
+	 * 获取指定用户的权限细则
+	 * @param userInfo 用户对象
+	 * @return 
+	 */
+	@RequestMapping("getUserPowerDetails")
+	@ResponseBody
+	public List<UserPowerDetailTbl> getUserPowerDetails(UserInfo userInfo){
+		return null;
+	}
+	/***
+	 * 保存用户权限细则《分页保存-->即每个一级菜单下的权限单独保存》
+	 * @param userPowerDetailTbls
+	 * @return 保存状态，成功、失败
+	 */
+	@RequestMapping("saveUserPowers")
+	@ResponseBody
+	public String saveUserPowers(UserPowerDetailTbls userPowerDetailTbls){
+		safeAdminService.batchSaveUserPowers(userPowerDetailTbls);
+		return null;
+	}
+	//*******************************公共内容******************************************//
 	/**
 	 * 根据父ID，异步获取二级菜单列表《异》
 	 * @param pid 父id

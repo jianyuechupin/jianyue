@@ -18,6 +18,9 @@ import com.hyst.dao.safe.TableOperViewDao;
 import com.hyst.dao.safe.UserGroupDao;
 import com.hyst.dao.safe.UserGroupListTblDao;
 import com.hyst.dao.safe.UserGroupPowerDetailDao;
+import com.hyst.dao.safe.UserGroupViewDao;
+import com.hyst.dao.safe.UserPowerDetailTblDao;
+import com.hyst.dao.safe.UserPowerManageViewDao;
 import com.hyst.service.safe.SafeAdminService;
 import com.hyst.service.safe.TableInfoUtil;
 import com.hyst.vo.DefinePowerDetilTbl;
@@ -30,6 +33,9 @@ import com.hyst.vo.TableOperView;
 import com.hyst.vo.UserGroup;
 import com.hyst.vo.UserGroupListTbl;
 import com.hyst.vo.UserGroupPowerDetail;
+import com.hyst.vo.UserGroupView;
+import com.hyst.vo.UserPowerDetailTbls;
+import com.hyst.vo.UserPowerManageView;
 
 /**
  * 安全管理Service
@@ -64,15 +70,33 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	private PowerGroupTblDao powerGroupTblDao;
 	@Autowired
 	private DefinePowerDetilTblDao definePowerDetilTblDao;
+	@Autowired
+	private UserPowerManageViewDao userPowerManageViewDao;
+	@Autowired
+	private UserPowerDetailTblDao userPowerDetailTblDao;
+	@Autowired
+	private UserGroupViewDao userGroupViewDao;
+//****************************用户组管理******************************************
+	//取得指定用户组ID下用户组细则
+	public List<UserGroupPowerDetail> getPowerDetilTblsByGroupId(
+			String userGroupId) {
+		//return userGroupPowerDetailDao.selectByGroupId(userGroupId);
+		return null;
+	}
 
-	//取得用户组
-	public List<UserGroup> getUserGroups(int pageNo, int pageSize) {
+
+	
+	//取得用户组视图
+	public List<UserGroupView> getUserGroups(int pageNo, int pageSize) {
 		pageNo=pageNo<1?1:pageNo;
 		pageSize=pageSize<1?1:pageSize;
 		Map<String, Object> map=new HashMap<String, Object>();
-		return userGroupDao.list(map);
+		return userGroupViewDao.list(map);
 	}
-
+	//根据用户组ID查询用户组视图
+	public UserGroupView getUserGroupViewById(UserGroupView userGroupView){
+		return userGroupViewDao.getOne(userGroupView);
+	}
 	//创建授权页信息
 	public List<TableInfo> creatTbaleInfo(int pid) {
 		Map<String, Object>map=new HashMap<String, Object>();
@@ -158,6 +182,10 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		}
 		return false;
 	}
+	//根据权限组ID查询权限组
+	public PowerGroupTbl getPowerGroupById(String id){
+		 return powerGroupTblDao.getOne(id);
+	}
 	//---保存权限组细则---
 	public String savePowerGroupDetails(PowerGroupDetails powerGroupDetails) {
 		//取得前台传来的权限组对象，然后判断是否存在若存在，不存则保存入库，存在则更新
@@ -178,12 +206,11 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		}
 		//将权限组细则数据保存入库
 		List<DefinePowerDetilTbl> list=powerGroupDetails.getDetails();
-
-		int num=definePowerDetilTblDao.batchInsert(list);
-		if (num>0) {
-			return "secuess";			
+		if (list!=null&&list.size()>0) {
+			int num=definePowerDetilTblDao.batchInsert(list);
 		}
-		return "fail";
+		return "secuess";			
+		
 	}
 	//根据权限组Id查询权限细则,主要用于前台的选择状态
 	public List<DefinePowerDetilTbl> getDefinePowerDetilTblsByPowerId(
@@ -211,7 +238,31 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		}
 		return "删除失败";
 	}
-
+	//***********************用户权限管理****************************************//
+	/**
+	 * 用户权限组管理，获取用户列表
+	 * @return
+	 */
+	public List<UserPowerManageView> getUserPowerManageViews(){
+		System.out.println(userPowerManageViewDao==null);
+		return userPowerManageViewDao.list(null);
+	}
+	//跟据用户ID查询出用户视图
+	public UserPowerManageView getUser(int uid) {
+		UserPowerManageView userPowerManageView =userPowerManageViewDao.getOne(uid);
+		return userPowerManageView;
+	}
+	//保存用户权限细则《只是当前页信息》
+	public String batchSaveUserPowers(
+			UserPowerDetailTbls userPowerDetailTbls) {
+		//验证传进来的权限细则集合是否为空
+		if (userPowerDetailTbls.getUserPowers()!=null&&userPowerDetailTbls.getUserPowers().size()!=0) {	
+			userPowerDetailTblDao.batchInsert(userPowerDetailTbls.getUserPowers());
+		}else{
+			System.out.println("要保存的权限细则为空");
+		}
+		return null;
+	}
 	//***********************非业务方法******************************************//
 	public void setUserGroupDao(UserGroupDao userGroupDao) {
 		this.userGroupDao = userGroupDao;
@@ -242,8 +293,20 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 			DefinePowerDetilTblDao definePowerDetilTblDao) {
 		this.definePowerDetilTblDao = definePowerDetilTblDao;
 	}
+	
+	public void setUserPowerManageViewDao(
+			UserPowerManageViewDao userPowerManageViewDao) {
+		this.userPowerManageViewDao = userPowerManageViewDao;
+	}
 
 
+	public void setUserPowerDetailTblDao(
+			UserPowerDetailTblDao userPowerDetailTblDao) {
+		this.userPowerDetailTblDao = userPowerDetailTblDao;
+	}
+	public void setUserGroupViewDao(UserGroupViewDao userGroupViewDao) {
+		this.userGroupViewDao = userGroupViewDao;
+	}
 
 
 }

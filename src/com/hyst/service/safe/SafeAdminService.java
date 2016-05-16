@@ -9,6 +9,11 @@ import java.util.List;
 
 
 
+
+
+
+
+
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerGroupDetails;
@@ -17,6 +22,9 @@ import com.hyst.vo.TableInfo;
 import com.hyst.vo.UserGroup;
 import com.hyst.vo.UserGroupListTbl;
 import com.hyst.vo.UserGroupPowerDetail;
+import com.hyst.vo.UserGroupView;
+import com.hyst.vo.UserPowerDetailTbls;
+import com.hyst.vo.UserPowerManageView;
 
 /**
  * @author DongYi
@@ -26,12 +34,12 @@ import com.hyst.vo.UserGroupPowerDetail;
 public interface SafeAdminService {
 
 	/**
-	 * 获取用户组列表
+	 * 获取用户组视图列表
 	 * @param pageNo 当前页数
 	 * @param pageSize 每页大小
 	 * @return 用户组集合
 	 */
-	public List<UserGroup> getUserGroups(int pageNo, int pageSize);
+	public List<UserGroupView> getUserGroups(int pageNo, int pageSize);
 
 	/**
 	 * 根据父ID查询列表
@@ -46,6 +54,19 @@ public interface SafeAdminService {
 	 * @return 操作状态
 	 */
 	public boolean addUserGroupList(int[] userIds,int groupId);
+	/**
+	 * 根据用户组ID查询用户组所有权限细则
+	 * @param userGroupId
+	 * @return
+	 */
+	public List<UserGroupPowerDetail> getPowerDetilTblsByGroupId(String userGroupId);
+	
+	/**
+	 * 根据用户组ID查询用户组视图
+	 * @param userGroupView
+	 * @return
+	 */
+	public UserGroupView getUserGroupViewById(UserGroupView userGroupView);
 	/**
 	 * 添加用户组细则
 	 * @param details 用户组细则集合
@@ -94,4 +115,30 @@ public interface SafeAdminService {
 	 * @return 操作状态 成功或者失败
 	 */
 	public String deletePowerGroup(PowerGroupTbl powerGroupTbl);
+	/**
+	 * 根据权限组ID查询权限组
+	 * @param id 权限组ID
+	 * @return
+	 */
+	public PowerGroupTbl getPowerGroupById(String id);
+	//*************************用户权限管理**********************************//
+	/**
+	 * 用户权限组管理，取得用户列表
+	 * @return
+	 */
+	public List<UserPowerManageView> getUserPowerManageViews();
+
+	/**
+	 * 根据用户ID查询用户视图对象
+	 * @param uid 用户ID
+	 * @return 用户视图
+	 */
+	public UserPowerManageView getUser(int uid);
+	/**
+	 * 保存当前页权限细则，批量插入用户权限细则数据
+	 * 《根据用户ID和一级菜单ID先删除所有该菜单下的旧的数据，然后批量插入新数据》
+	 * @param UserPowerDetailTbls
+	 * @return 操作状态 
+	 */
+	public String batchSaveUserPowers(UserPowerDetailTbls userPowerDetailTbls);
 }

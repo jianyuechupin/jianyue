@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
- 	 <%@include file="../include/base.jsp" %> 
+ 	 <%@include file="../../include/base.jsp" %> 
 	<script type="text/javascript">
 		 /* JS函数位置 */
 		 <%-- alert("<%=basePath%>"); --%>
@@ -24,9 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<!-- 引入导航头 -->
-  	<%@include file="../include/top.jsp" %>
+  	<%@include file="../../include/top.jsp" %>
   	<!-- 引入左侧导航 -->
-  	<%@include file="../include/left.jsp" %>
+  	<%@include file="../../include/left.jsp" %>
 	<!-- 右侧区域 -->
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
