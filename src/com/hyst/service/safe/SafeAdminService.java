@@ -14,8 +14,11 @@ import java.util.List;
 
 
 
+
+
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
+import com.hyst.vo.PowerDetails;
 import com.hyst.vo.PowerGroupDetails;
 import com.hyst.vo.PowerGroupTbl;
 import com.hyst.vo.TableInfo;
@@ -73,7 +76,7 @@ public interface SafeAdminService {
 	 * @param pid 一级菜单的ID
 	 * @return 添加状态
 	 */
-	public boolean addDetails(List<UserGroupPowerDetail> details,Integer parentId);
+	public boolean addDetails(PowerDetails powerDetalils);
 	/**
 	 * 为每个二级菜单设置下面的增删查改等功能按钮
 	 * @param tableInfos 二级菜单列表
@@ -141,4 +144,11 @@ public interface SafeAdminService {
 	 * @return 操作状态 
 	 */
 	public String batchSaveUserPowers(UserPowerDetailTbls userPowerDetailTbls);
+
+	/**
+	 * 根据用户组ID查询权限细则 <用户组>
+	 * @param id 用户组ID
+	 * @return 用户组权限细则列表
+	 */
+	public List<UserGroupPowerDetail> getUserGroupPowerDetails(String userGroupId);
 }

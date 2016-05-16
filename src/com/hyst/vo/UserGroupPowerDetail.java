@@ -10,7 +10,7 @@ public class UserGroupPowerDetail{
 	/**属性描述： */
 	private int id;
 	/**属性描述：用户组表Id */
-	private int userGroupId;
+	private String userGroupId;
 	/**属性描述：菜单权限表Id */
 	private int tableOperID;
 	/**属性描述： */
@@ -39,7 +39,7 @@ public class UserGroupPowerDetail{
 	 * @param tableOperID
 	 * @param deptList
 	 */
-	public UserGroupPowerDetail(int userGroupId, int tableOperID,
+	public UserGroupPowerDetail(String userGroupId, int tableOperID,
 			String deptList) {
 		super();
 		this.userGroupId = userGroupId;
@@ -49,7 +49,7 @@ public class UserGroupPowerDetail{
 	public int getId(){
 		return this.id;
 	}
-	public int getUserGroupId(){
+	public String getUserGroupId(){
 		return this.userGroupId;
 	}
 	public int getTableOperID(){
@@ -61,15 +61,18 @@ public class UserGroupPowerDetail{
 	public void setId(int id){
 		this.id = id;
 	}
-	public void setUserGroupId(int userGroupId){
-		this.userGroupId = userGroupId;
+	public void setUserGroupId(String userGroupId){
+		this.userGroupId = userGroupId.trim();
 	}
 	public void setTableOperID(int tableOperID){
 		this.tableOperID = tableOperID;
 	}
 	public void setDeptList(String deptList){
+		deptList=deptList.trim();
 		this.deptList = deptList;
-		deptList=deptList.substring(0,deptList.length()-1);
+		if(deptList.endsWith("\\|")){
+			deptList=deptList.substring(0,deptList.length()-1);
+		}
 		String[] deptz=deptList.split("\\|");
 		setDeptIds(new HashSet<String>(Arrays.asList(deptz)));
 	}

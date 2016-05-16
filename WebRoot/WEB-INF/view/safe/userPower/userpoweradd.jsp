@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			getManus();
 			//展示第一个Tab页
 			$('#myTab li:eq(0) a').tab('show');	
-	
+			$("").change();
 		});
 		
 		/**取得一级菜单及其子菜单功能*/

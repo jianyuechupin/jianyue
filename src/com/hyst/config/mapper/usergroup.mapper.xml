@@ -18,5 +18,17 @@
 	<select id="list" parameterType="java.util.Map" resultType="com.hyst.vo.UserGroup">
 		select * from userGroup <!-- where isDelete=0 -->
 	</select>
- 
+	<!-- 根据用户组ID查询用户组 -->
+ 	<select id="getOne" parameterType="com.hyst.vo.UserGroup" resultType="com.hyst.vo.UserGroup">
+ 		select id,userGroupName,description,creatTime,updateTime from userGroup where id=#{id}
+ 	</select>
+ 	<update id="update" parameterType="com.hyst.vo.UserGroup">
+ 		update userGroup set userGroupName=#{userGroupName},description=#{description},
+ 		updateTime=#{updateTime} where id=#{id} 
+ 	</update>
+ 	<!-- 添加用户组 -->
+ 	<insert id="insert" parameterType="com.hyst.vo.UserGroup">
+ 		insert into userGroup(id,userGroupName,description,creatTime)
+ 			values #{id},#{userGroupName},#{description},#{creatTime}
+ 	</insert>
 </mapper>

@@ -12,36 +12,36 @@
 	</resultMap>
 	<!-- 批量插入数据 -->
 	<insert id="batchInsert" parameterType="java.util.List">
-    	INSERT INTO userGroupPowerDetail (id,userGroupId,tableOperID,deptList)
+    	INSERT INTO userGroupPowerDetailTbl (userGroupId,tableOperID,deptList)
     	VALUES 
     	<foreach collection="list" item="item" index="index" separator="," >
-        	(#{item.id},#{item.userGroupId},#{item.tableOperID},#{item.deptList})
+        	(#{item.userGroupId},#{item.tableOperID},#{item.deptList})
     	</foreach>
 	</insert>
 	<!-- 批量删除数据 -->
 	<delete id="batchDelete" parameterType="java.util.Map">
-		 DELETE from userGroupPowerDetail where userGroupId=#{userGroupId} and tableOperID IN (
+		 DELETE from userGroupPowerDetailTbl where userGroupId=#{userGroupId} and tableOperID IN (
 			SELECT id from tableOper where tableId IN (
 				SELECT id from tableInfo where parentId= #{parentId})
  		)
 	</delete>
 	
 	<!-- 根据用户组Id查询 -->
-	<select id="selectByGroupId" resultType="com.hyst.vo.UserGroupPowerDetail">
-		select * from userGroupPowerDetail  where userGroupId=#{userGroupId} 
+	<select id="selectByGroupId" parameterType="java.lang.String" resultType="com.hyst.vo.UserGroupPowerDetail">
+		select * from userGroupPowerDetailTbl  where userGroupId=#{userGroupId} 
 	</select>
 	
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.UserGroupPowerDetail">
-		delete from userGroupPowerDetail  where id=#{id} 
+		delete from userGroupPowerDetailTbl  where id=#{id} 
 	</delete>
 	<!-- 单个增加 -->
 	<insert id="insert" parameterType="com.hyst.vo.UserGroupPowerDetail">
-		insert into userGroupPowerDetail (userGroupId,tableOperID,deptList) values (#{userGroupId},#{tableOperID},#{deptList})
+		insert into userGroupPowerDetailTbl (userGroupId,tableOperID,deptList) values (#{userGroupId},#{tableOperID},#{deptList})
 	</insert>
 	<!-- 动态根据ID更新 -->
 	<update id="update" parameterType="com.hyst.vo.UserGroupPowerDetail">
-		update userGroupPowerDetail 
+		update userGroupPowerDetailTbl 
 		<set>
 		<if test="userGroupId != 0">
 			userGroupId=#{userGroupId},
@@ -57,11 +57,11 @@
 	</update>
 	<!-- 查询单个 -->
 	<select id="getOne" resultType="com.hyst.vo.UserGroupPowerDetail">
-		select * from userGroupPowerDetail  where id=#{id} 
+		select * from userGroupPowerDetailTbl  where id=#{id} 
 	</select>
 	<!-- 动态查询 -->
 	<select id="byOrder" resultType="com.hyst.vo.UserGroupPowerDetail">
-		select * from userGroupPowerDetail 
+		select * from userGroupPowerDetailTbl 
 		<where>
 			<if test=" userGroupId != 0 ">
 			  and userGroupId=#{userGroupId}
@@ -76,7 +76,7 @@
 	</select>
 	<!-- 查询所有 -->
 	<select id="list" resultType="com.hyst.vo.UserGroupPowerDetail">
-		select * from userGroupPowerDetail  
+		select * from userGroupPowerDetailTbl  
 	</select>
  
 </mapper>

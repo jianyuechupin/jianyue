@@ -44,7 +44,7 @@ public class SafeAdminController {
 	
  //********************用户组管理****************************************************
 	/**
-	 * 跳转到用户组页面《负责页面跳转  用户组》
+	 * 跳转到用户组页面 <用户组>
 	 * @param map
 	 * @return
 	 */
@@ -54,7 +54,7 @@ public class SafeAdminController {
 		return "/WEB-INF/view/safe/usergroup/usergrouplist.jsp";
 	}
 	/**
-	 * 获取用户组列表
+	 * 获取用户组列表 <用户组>
 	 * @return
 	 */
 	@RequestMapping("userGroupAjax")
@@ -65,7 +65,7 @@ public class SafeAdminController {
 	}
 	//跳转到修改、新增用户组界面
 	/**
-	 * 跳转到用户组详情页面，用于用户组新增和修改《负责跳转页面到   用户组细则》
+	 * <用户组> 跳转到用户组详情页面，用于用户组新增和修改《负责跳转页面到   用户组细则》
 	 * @param userGroupView
 	 * @param map
 	 * @return
@@ -84,7 +84,31 @@ public class SafeAdminController {
 		return  "/WEB-INF/view/safe/usergroup/userGroupAdd.jsp";
 	}
 	/**
-	 * 获取指定ID的权限组下权限细则的选中状态《异》
+	 * 获取指定ID用户组已选的权限细则 <用户组>
+	 * @param id 用户组ID
+	 * @return
+	 */
+	@RequestMapping("getusergroupchecked")
+	@ResponseBody
+	public List<UserGroupPowerDetail> getUserGroupChecked(String id){
+
+		return safeAdminService.getUserGroupPowerDetails(id);
+	}
+	/**
+	 * 删除用户组 <用户组>
+	 * @param userGroup 用于接收用户组ID 
+	 * @param map 
+	 * @return
+	 */
+	@RequestMapping("deleteusergroup")
+	@ResponseBody
+	public String deleteUserGroup(UserGroup userGroup,ModelMap map){
+		return null;
+	}
+	
+//****************<权限组>********************************************************	
+	/**
+	 * 获取指定ID的权限组下权限细则的选中状态《异》<权限组>
 	 * @param powerGroupId 权限组ID
 	 * @return 权限组细则集合
 	 */
@@ -95,16 +119,15 @@ public class SafeAdminController {
 		return safeAdminService.getDefinePowerDetilTblsByPowerId(userGroupId);
 	}
 	/**
-	 * 添加用户组细则<改进上一个方法>
+	 * 添加用户组权限细则  <用户组>
 	 * @param powerDetalils
 	 * @return
 	 */
 	@RequestMapping("addUserGroupDetails")
 	@ResponseBody
 	public String addDetailss(PowerDetails powerDetalils){
-		System.out.println("请求进来来-------------------------------------------------");
-		System.out.println(powerDetalils);
-		return null;
+		safeAdminService.addDetails(powerDetalils);
+		return "sucess";
 	}
 	//***************************下面这个方法没用了
 //	/**
@@ -305,16 +328,16 @@ public class SafeAdminController {
 	 * @param pid 该二级菜单的父菜单的ID
 	 * @return 操作状态 sucess 添加成功 ，false添加失败
 	 */
-	@RequestMapping("addUserGroupDetails2")
-	@ResponseBody
-	public String addDetails(int [] ids,int groupId,int pid){
-		for (int i = 0; i < ids.length; i++) {
-			System.out.println(ids[i]);
-		}
-		List<UserGroupPowerDetail> list=null;
-		safeAdminService.addDetails(list,pid);
-		//System.out.println(ids);
-		return "sucess";
-	}
+//	@RequestMapping("addUserGroupDetails2")
+//	@ResponseBody
+//	public String addDetails(int [] ids,int groupId,int pid){
+//		for (int i = 0; i < ids.length; i++) {
+//			System.out.println(ids[i]);
+//		}
+//		List<UserGroupPowerDetail> list=null;
+//		safeAdminService.addDetails(list,pid);
+//		//System.out.println(ids);
+//		return "sucess";
+//	}
 
 }

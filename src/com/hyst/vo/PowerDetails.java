@@ -13,6 +13,15 @@ public class PowerDetails {
 	private  List<UserGroupPowerDetail> details;
 	/**一级菜单ID*/
 	private int pid;
+	/**权限组*/
+	private UserGroup userGroup;
+	
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
+	}
 	public List<UserGroupPowerDetail> getDetails() {
 		return details;
 	}
@@ -27,8 +36,10 @@ public class PowerDetails {
 	}
 	@Override
 	public String toString() {
-		return "PowerDetails [details=" + details + ", pid=" + pid + "]";
+		return "PowerDetails [details=" + details + ", pid=" + pid
+				+ ", userGroup=" + userGroup + "]";
 	}
+	
 
 	
 }

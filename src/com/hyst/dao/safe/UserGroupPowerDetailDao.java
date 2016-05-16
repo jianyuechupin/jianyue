@@ -11,7 +11,7 @@ import com.hyst.vo.UserGroupPowerDetail;
 /**
  * @author DongYi
  * @version 创建时间：2016年5月3日 上午10:11:12
- * 类说明
+ * 类说明 用户组权限细则Dao <用户组>
  */
 @Repository("userGroupPowerDetailDao")
 public interface UserGroupPowerDetailDao extends BaseDao<UserGroupPowerDetail>{
@@ -26,11 +26,11 @@ public interface UserGroupPowerDetailDao extends BaseDao<UserGroupPowerDetail>{
 	 * @param userGroupId 用户组ID
 	 * @return
 	 */
-	public List<UserGroupPowerDetail> selectByGroupId(int userGroupId);
+	public List<UserGroupPowerDetail> selectByGroupId(String userGroupId);
 	/**
 	 * 删除所有用户组ID为userGroupId且父ID为pid的二级菜单的所有权限细则 
 	 * @param map 包含两个KEY 和value，userGroupId=用户组ID，pid=一级菜单的ID 
 	 * @return 受影响记录数
 	 */
-	public int batchDelete(Map<String , Integer> map);
+	public int batchDelete(Map<String , Object> map);
 }

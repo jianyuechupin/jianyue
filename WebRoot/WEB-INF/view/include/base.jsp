@@ -5,7 +5,7 @@
 	String path2 = request.getContextPath();
 	String basepath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path2 + "/";
 %> 
-
+<meta charset="UTF-8">
 	
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap/bootstrap.css" rel="stylesheet">

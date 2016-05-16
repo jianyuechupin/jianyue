@@ -3,17 +3,17 @@ package com.hyst.vo;
 import java.util.List;
 
 public class TableInfo implements Comparable<TableInfo>{
-	/**属性描述： */
+	/**属性描述： 菜单ID*/
 	private int id;
-	/**属性描述： */
+	/**属性描述：菜单名称 */
 	private String tableName;
 	/**属性描述： */
 	private String tableNameChs;
-	/**属性描述： */
+	/**属性描述：删除标示，0未删除，1删除 */
 	private int isDelete;
 	/**属性描述：菜单序号 */
 	private int sort;
-	/**属性描述： */
+	/**属性描述：父菜单ID，没有为0 */
 	private int parentId;
 	/**属性描述：访问连接 */
 	private String doMain;
@@ -21,8 +21,7 @@ public class TableInfo implements Comparable<TableInfo>{
 	private String hasOrg;
 	/** 属性描述：子菜单列表 */
 	private List<TableInfo> tableInfoList;
-	/** 属性描述：子菜单列表 */
-	private OperTypes operTypes;
+
 	/** 属性描述：操作功能列表 */	
 	private List<TableOperView> tableOperViews;
 	
@@ -41,7 +40,7 @@ public class TableInfo implements Comparable<TableInfo>{
 				+ ", tableNameChs=" + tableNameChs + ", isDelete=" + isDelete
 				+ ", sort=" + sort + ", parentId=" + parentId + ", doMain="
 				+ doMain + ", hasOrg=" + hasOrg + ", tableInfoList="
-				+ tableInfoList + ", operTypes=" + operTypes + ", tableOpers="
+				+ tableInfoList  + ", tableOpers="
 				+ tableOpers + "]";
 	}
 	public String getHasOrg() {
@@ -56,12 +55,7 @@ public class TableInfo implements Comparable<TableInfo>{
 	public void setTableOpers(List<TableOper> tableOpers) {
 		this.tableOpers = tableOpers;
 	}
-	public OperTypes getOperTypes() {
-		return operTypes;
-	}
-	public void setOperTypes(OperTypes operTypes) {
-		this.operTypes = operTypes;
-	}
+
 	public List<TableInfo> getTableInfoList() {
 		return tableInfoList;
 	}
