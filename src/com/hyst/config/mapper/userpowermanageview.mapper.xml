@@ -51,19 +51,19 @@
 	<select id="byOrder" resultType="com.hyst.vo.UserPowerManageView">
 		select * from userPowerManageView 
 		<where>
-			<if test=" userName != null ">
+			<if test=" userName != null and userName !=''">
 			  and userName=#{userName}
 			</if>
-			<if test=" orgId != 0 ">
+			<if test=" orgId != 0">
 			  and orgId=#{orgId}
 			</if>
-			<if test=" orgName != null ">
+			<if test=" orgName != null  and orgName != '' ">
 			  and orgName=#{orgName}
 			</if>
-			<if test=" account != null ">
+			<if test=" account != null and account !=''">
 			  and account=#{account}
 			</if>
-			<if test=" loginType != 0 ">
+			<if test=" loginType != -1 ">
 			  and loginType=#{loginType}
 			</if>
 		</where> 

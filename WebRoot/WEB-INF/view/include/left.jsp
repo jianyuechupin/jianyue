@@ -24,7 +24,7 @@
 				<li><a href="safe/userPowerManager.do">用户权限管理</a></li>
 				<li><a href="safe/powerGroup.do">权限批授权管理</a></li>
 				<li><a href="safe/userGroupManage.do">用户组管理</a></li>
-				<li><a href="user-list.html">用户查询</a></li>
+				<li><a href="safe/userquery.do">用户查询</a></li>
 				<li><a href="user-list.html">部门保密管理员设置</a></li>
 				<li><a href="user-list.html">保密门户角色设置</a></li>
 			</ul> 

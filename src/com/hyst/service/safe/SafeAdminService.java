@@ -151,4 +151,10 @@ public interface SafeAdminService {
 	 * @return 用户组权限细则列表
 	 */
 	public List<UserGroupPowerDetail> getUserGroupPowerDetails(String userGroupId);
+	/**
+	 * 用户查询 <用户查询>
+	 * @param userPowerManageView
+	 * @return 
+	 */
+	public List<UserPowerManageView> selectUsers(UserPowerManageView userPowerManageView);
 }

@@ -85,10 +85,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$('#myTab li:eq(0) a').tab('show');	
 			
 		});
-		
-		
-		
-		
 		/**取得一级菜单及其子菜单功能*/
 		function getManus(){
 			var val="";

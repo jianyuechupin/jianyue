@@ -274,9 +274,50 @@ public class SafeAdminController {
 	@RequestMapping("saveUserPowers")
 	@ResponseBody
 	public String saveUserPowers(UserPowerDetailTbls userPowerDetailTbls){
-		safeAdminService.batchSaveUserPowers(userPowerDetailTbls);
-		return null;
+		return  safeAdminService.batchSaveUserPowers(userPowerDetailTbls);
 	}
+	
+	/**
+	 * 跳转到用户查询页面 <用户查询>
+	 * @return
+	 */
+	@RequestMapping("userquery")
+	public String userQuery(){
+		return "/WEB-INF/view/safe/userPower/userQuery.jsp";
+	}
+	/**
+	 * 用户查询页面提交
+	 * @param userPowerManageView
+	 * @return
+	 */
+	@RequestMapping("query")
+	//@ResponseBody
+	public String submitTable(UserPowerManageView userPowerManageView,ModelMap map){
+		System.out.println(userPowerManageView);
+		//map.addAttribute("order", userPowerManageView);
+		map.addAttribute("userlist", safeAdminService.selectUsers(userPowerManageView));
+		return "/WEB-INF/view/safe/userPower/users.jsp";
+	}
+//	/**
+//	 * 取得用户查询后的查询数据
+//	 * @param userPowerManageView
+//	 * @return
+//	 */
+//	@RequestMapping("getUsers")
+//	@ResponseBody
+//	public List<UserPowerManageView> getUsers(UserPowerManageView userPowerManageView){
+//		return safeAdminService.selectUsers(userPowerManageView);
+//	}
+//	/**
+//	 * 用户查询 <用户查询>
+//	 * @param userGroupView 
+//	 * @return
+//	 */
+//	public String query(UserGroupView userGroupView,ModelMap map){
+//		map.addAttribute("", safeAdminService.selectUsers(userPowerManageView));
+//		return "";
+//	}
+	
 	//*******************************公共内容******************************************//
 	/**
 	 * 根据父ID，异步获取二级菜单列表《异》
@@ -300,13 +341,7 @@ public class SafeAdminController {
 		return safeAdminService.getOrgs();
 	}
 	
-	
-	@RequestMapping("submit")
-	@ResponseBody
-	public String submitTable(SafeList safeList){
-		System.out.println(safeList);
-		return null;
-	}
+
 	
 
 	/**

@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	 <%@include file="../../include/base.jsp" %> 
  	<script src="js/pickList.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="css/pickList.css" />
-
+	<link rel="stylesheet" type="text/css" href="css/powerDetailStyle.css" />
 
   </head>
   
@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
 			<div>
-				<%-- <h4>${powerGrou.id }</h4> --%>
+				
 				<input type="hidden" value="${powerGrou.id }" id="powergroupid">
 			 	<h5 class="col-sm-2">权限组名称：</h5>
 				<input id="powergroupname" class="form-control required col-sm-4" style="width: 30%;"  value="${powerGrou.powerGroup }" placeholder="权限组名称" type="text"/>
@@ -93,32 +93,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			/*取得子菜单以及操作功能*/
 			var pid=id.replace("tal","");
 			$.post("safe/sonMenu.do",{"pid":pid} ,function(data){
-				var htm="<div class=\"tab-pane fade\" id=\""+id+"\">";
-				
+				//var htm="<div class=\"tab-pane fade\" id=\""+id+"\">";
+				var htm="<div class=\"tab-pane fade\" id=\""+id+"\"><ul>";
 				for(var i=0;i<data.length;i++){
 					var hasOrg=data[i].hasOrg;/* 0不需要做部门限制，1需要部门限制 */
-					htm+=data[i].tableName+"<br/>";
+					htm+="<li class=\"sidebar_nav col-sm-12\">";
+					//htm+=data[i].tableName+"<br/>";
 					var $list=data[i].tableOperViews;
 					if(data[i].hasOrg==0){
+						htm+="<input type='checkbox' class='chk_1' name='tabeInfo' id='tree"+data[i].id+"'><label style='width: 26%;' for='tree"+data[i].id+"'>"+
+						data[i].tableName+"</label><ul>";						
 						for(var j=0;j<$list.length;j++){
-							htm+="<input type=\"checkbox\" name='id' id=table"+$list[j].id+" value="+$list[j].id+">"+$list[j].operTypeName;
+							//htm+="<input type=\"checkbox\" name='id' id=table"+$list[j].id+" value="+$list[j].id+">"+$list[j].operTypeName;
+							htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
+							" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
+							"</label></li>";				
 						}
 					}else{
+						htm+="<label style='width: 26%;' id='tree"+data[i].id+"'>"+data[i].tableName+"</label><ul>";
 						for(var j=0;j<$list.length;j++){
-						//htm+="</br>-----------需要做部门级别的选择------------"
-							var c="<div class='panel-heading'><h5 class='panel-title'>"+
-							$list[j].operTypeName+"</h5></div>"
+							var c="<div class='panel-heading'><label class='fontstyle'>"+
+							$list[j].operTypeName+"</label></div>"
 							+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
-							//alert(c);
 							htm+=c;
+						//htm+="</br>-----------需要做部门级别的选择------------"
+							//var c="<div class='panel-heading'><h5 class='panel-title'>"+
+							//$list[j].operTypeName+"</h5></div>"
+							//+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
+							
+							//htm+=c;
 						}
 						//htm+="</div>";
 					}
-					htm+="<br/>";
+					//htm+="<br/>";
+					htm+="</ul>";					
 				}
-				htm+="<button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
+				//htm+="<button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
 				//alert(htm);
-				$("#myTabContent").append(htm);
+				//$("#myTabContent").append(htm);
+				htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
+				$("#myTabContent").append(htm);				
 				zj(val);
 				doChecked();
 			

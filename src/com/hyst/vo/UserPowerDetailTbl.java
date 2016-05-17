@@ -53,7 +53,10 @@ public class UserPowerDetailTbl{
 	}
 	public void setDeptList(String deptList){
 		this.deptList = deptList;
-		String[]depts=deptList.substring(0, deptList.lastIndexOf("\\|")).split("\\|");
+		if(deptList.endsWith("\\|")){
+			deptList=deptList.substring(0, deptList.lastIndexOf("\\|"));
+		}
+		String[]depts=deptList.split("\\|");
 		setDepts(new HashSet<String>(Arrays.asList(depts)));
 	}
 }

@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var $list=data[i].tableOperViews;
 					if(data[i].hasOrg==0){/* 0不需要做部门限制，1需要部门限制 */
 						for(var j=0;j<$list.length;j++){
-							htm+="<li class='col-sm-3'><input type=\"checkbox\" name='id' id=table"+$list[j].id+
+							htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
 							" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
 							"</label></li>";
 						}
@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 					htm+="</ul>";
 				}
-				htm+="<button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></ul></div>";
+				htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
 				//alert(htm);
 				$("#myTabContent").append(htm);
 				
@@ -143,33 +143,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//提交之前检查权限组名称是否正确
 		 	/**用户ID*/
 		 	var uid=$("#uid").val();
-		 	/* +"&userPowers.id="+groupid+"&powerGroup.powerGroup="+$("#powergroupname").val()+"&powerGroup.remark="+$("#powergroupremark").val() */
+			//获得一级菜单的ID
 		 	var ids="pid="+pid;
 		 	//取得已选复选框的个数
-		 	var j=$(obj).prevAll("input:checkbox[name=id]:checked").length;
-		 	//遍历所有复选框
-			$(obj).prevAll("input:checkbox[name=id]:checked").each(function(i){  
+		 	var j=$(obj).parent().find("input:checkbox[name=tableOperID]:checked").length;
+			//遍历复选框选择的值
+			$(obj).parent().find("input:checkbox[name=tableOperID]:checked").each(function(i){  
 	           ids+="&userPowers["+i+"].tableOperId="+$(this).val()+"&userPowers["+i+"].userId="+uid;
-	        	
 	        });
-	        /**上面是获取已选择的多选框的数据，下面获取已选择的部门列表数据  */
-	       	$(obj).parent().find("div [class=row]").each(function(i,ele){
-	       	 	var tableOperId=$(ele).parent().find("input:hidden").val();//功能菜单ID
-	       	 	var deptList="";
-	       	 	var depts=new Array();
-			   	$(ele).children("div [name='sele']").find("#pickListResult option").each(function () {
-			   		deptList+=this.value+"|";
-			   		depts.push(this.id);
-			    });
-			    
-			    if(depts.length>0){
-				    ids+="&userPowers["+j+"].tableOperId="+tableOperId+"&userPowers["+j+"].userId="+uid+
-				    	"&userPowers["+j+"].deptList="+deptList;
-				    j++;	
-			    
-			    }
-			 }); 
-	/*****************************提交数据阶段***********************************************************/
+		 	//遍历select选择的值
+		 	 /**遍历select已经选择的*/
+			 $(obj).parent().find("div [name='sele']").find("select").each(function(){
+				 if($(this).find("option").length>0){
+					 var deptList="";
+					 var tableOperId=$(this).parent().parent().parent().find("input:hidden").val();
+					 $(this).find("option").each(function(){
+					 	deptList+=this.value+"|";
+					 });
+					 ids+="&userPowers["+j+"].tableOperId="+tableOperId+"&userPowers["+j+"].userId="+uid+
+				    	"&userPowers["+j+"].deptList="+deptList.substring(0,deptList.length-1);
+					 j++;
+				 }
+			 });
+		 	//alert(ids);
+		 	//提交数据
 		    $.post("safe/saveUserPowers.do",ids,function(data){
 		       		alert(data);
 		        });

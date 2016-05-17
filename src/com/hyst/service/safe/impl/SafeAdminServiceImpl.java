@@ -276,11 +276,25 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 			UserPowerDetailTbls userPowerDetailTbls) {
 		//验证传进来的权限细则集合是否为空
 		if (userPowerDetailTbls.getUserPowers()!=null&&userPowerDetailTbls.getUserPowers().size()!=0) {	
-			userPowerDetailTblDao.batchInsert(userPowerDetailTbls.getUserPowers());
+			//删除原有的数据
+			
+			//批量保存数据
+			int num=userPowerDetailTblDao.batchInsert(userPowerDetailTbls.getUserPowers());
+			if (num==userPowerDetailTbls.getUserPowers().size()) {
+				return "保存成功";
+			}else {
+				return "保存失败";
+			}
 		}else{
 			System.out.println("要保存的权限细则为空");
 		}
-		return null;
+		return "保存成功";
+	}
+	
+	//查询用户《动态条件》
+	public List<UserPowerManageView> selectUsers(
+			UserPowerManageView userPowerManageView) {
+		return userPowerManageViewDao.byOrder(userPowerManageView);
 	}
 	//***********************非业务方法******************************************//
 	public void setUserGroupDao(UserGroupDao userGroupDao) {
@@ -326,6 +340,7 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	public void setUserGroupViewDao(UserGroupViewDao userGroupViewDao) {
 		this.userGroupViewDao = userGroupViewDao;
 	}
+
 
 
 }
