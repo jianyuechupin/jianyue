@@ -13,6 +13,15 @@ public class UserPowerDetailTbls {
 	private List<UserPowerDetailTbl> userPowers;
 	/**一级菜单的ID*/
 	private int pid;
+	/**用户ID*/
+	private int userId;
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public List<UserPowerDetailTbl> getUserPowers() {
 		return userPowers;
 	}
@@ -28,7 +37,7 @@ public class UserPowerDetailTbls {
 	@Override
 	public String toString() {
 		return "UserPowerDetailTbls [userPowers=" + userPowers + ", pid=" + pid
-				+ "]";
+				+ ", userId=" + userId + "]";
 	}
 	
 	

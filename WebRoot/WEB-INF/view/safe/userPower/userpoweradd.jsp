@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	/**用户ID*/
 		 	var uid=$("#uid").val();
 			//获得一级菜单的ID
-		 	var ids="pid="+pid;
+		 	var ids="pid="+pid+"&userId="+uid;
 		 	//取得已选复选框的个数
 		 	var j=$(obj).parent().find("input:checkbox[name=tableOperID]:checked").length;
 			//遍历复选框选择的值
@@ -184,9 +184,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					checkedIt(data);
 				});
 			}else{
+				var uid=$("#uid").val();
 				//去用户权限表取数据
-				$.post("safe/getUserPowerDetails.do",{},function (data){
+				$.post("safe/getUserPowerDetails.do",{id:uid},function (data){
 					//获得了已选数据
+					checkedIt(data);
 				});
 			}
 		}
@@ -209,7 +211,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		/**把已选的部门添加到选择*/
 		function moveSelect(tableOper,value){
-			var p=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:first").find("#pickData option[value='"+value+"']");
+			var p=$("input:hidden[value='"+tableOper+"']").next("div [class='row']").find("div:first").find("#pickData option[value='"+value+"']");
 			var h=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:last").children("#pickListResult");
 			p.clone().appendTo(h);
 			p.remove();	

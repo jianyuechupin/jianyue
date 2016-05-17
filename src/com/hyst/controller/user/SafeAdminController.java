@@ -264,7 +264,9 @@ public class SafeAdminController {
 	@RequestMapping("getUserPowerDetails")
 	@ResponseBody
 	public List<UserPowerDetailTbl> getUserPowerDetails(UserInfo userInfo){
-		return null;
+		System.out.println(userInfo);
+		List<UserPowerDetailTbl> l=safeAdminService.getUserPowerDetails(userInfo);
+		return l;
 	}
 	/***
 	 * 保存用户权限细则《分页保存-->即每个一级菜单下的权限单独保存》

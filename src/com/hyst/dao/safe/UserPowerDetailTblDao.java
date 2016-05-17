@@ -1,6 +1,7 @@
 package com.hyst.dao.safe;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,16 @@ public interface UserPowerDetailTblDao extends BaseDao<UserPowerDetailTbl>{
 	 * @return 受影响记录数
 	 */
 	public int batchInsert(List<UserPowerDetailTbl> userPowerDetailTbls);
+	/**
+	 * 根据用户ID查询出所有权限细则
+	 * @param userid 用户ID
+	 * @return
+	 */
+	public List<UserPowerDetailTbl> getListByUserId(int userid);
+	/**
+	 * 删除用户ID为 userID且一级菜单为parentId的权限细则集合
+	 * @param map 包含两个键值对 <parentId:一级菜单ID> <userId：用户ID>
+	 * @return
+	 */
+	public int batchDelete(Map<String ,Integer> map);
 }

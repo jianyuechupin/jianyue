@@ -16,6 +16,7 @@ import java.util.List;
 
 
 
+
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerDetails;
@@ -26,8 +27,10 @@ import com.hyst.vo.UserGroup;
 import com.hyst.vo.UserGroupListTbl;
 import com.hyst.vo.UserGroupPowerDetail;
 import com.hyst.vo.UserGroupView;
+import com.hyst.vo.UserPowerDetailTbl;
 import com.hyst.vo.UserPowerDetailTbls;
 import com.hyst.vo.UserPowerManageView;
+import com.hyst.vo.user.UserInfo;
 
 /**
  * @author DongYi
@@ -157,4 +160,11 @@ public interface SafeAdminService {
 	 * @return 
 	 */
 	public List<UserPowerManageView> selectUsers(UserPowerManageView userPowerManageView);
+
+	/**
+	 * 根据用户ID获取用户权限细则 <用户权限管理>
+	 * @param userInfo 
+	 * @return
+	 */
+	public List<UserPowerDetailTbl> getUserPowerDetails(UserInfo userInfo);
 }

@@ -18,6 +18,16 @@
         	(#{item.userId},#{item.tableOperId},#{item.deptList})
     	</foreach>	 
 	</insert>
+	<!-- 根据用户ID和一级菜单ID删除所有权限 -->
+	<delete id="batchDelete" parameterType="java.util.Map">
+		delete from userPowerDetailTbl where userId=#{userId} and tableOperId in
+			(select id from tableOper where tableId in(
+				select id from tableInfo where parentId= #{parentId}))
+	</delete>
+	<!-- 根据用户ID查询数据 -->
+	<select id="getListByUserId" resultType="com.hyst.vo.UserPowerDetailTbl">
+		select * from userPowerDetailTbl  where userId=#{userId} 
+	</select>
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.UserPowerDetailTbl">
 		delete from userPowerDetailTbl  where id=#{id} 

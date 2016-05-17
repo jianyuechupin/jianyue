@@ -14,7 +14,7 @@ public class UserPowerDetailTbl{
 	/**属性描述： */
 	private String deptList;
 	/**部门列表的set集合*/
-	private Set<String> depts;
+	private Set<String> deptSet;
 	@Override
 	public String toString() {
 		return "UserPowerDetailTbl [id=" + id + ", userId=" + userId
@@ -22,12 +22,12 @@ public class UserPowerDetailTbl{
 				+ "]";
 	}
 	
-	public Set<String> getDepts() {
-		return depts;
+	public Set<String> getDeptSet() {
+		return deptSet;
 	}
 
-	public void setDepts(Set<String> depts) {
-		this.depts = depts;
+	public void setDeptSet(Set<String> deptSet) {
+		this.deptSet = deptSet;
 	}
 
 	public int getId(){
@@ -57,6 +57,6 @@ public class UserPowerDetailTbl{
 			deptList=deptList.substring(0, deptList.lastIndexOf("\\|"));
 		}
 		String[]depts=deptList.split("\\|");
-		setDepts(new HashSet<String>(Arrays.asList(depts)));
+		setDeptSet(new HashSet<String>(Arrays.asList(depts)));
 	}
 }

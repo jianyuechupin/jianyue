@@ -37,8 +37,10 @@ import com.hyst.vo.UserGroup;
 import com.hyst.vo.UserGroupListTbl;
 import com.hyst.vo.UserGroupPowerDetail;
 import com.hyst.vo.UserGroupView;
+import com.hyst.vo.UserPowerDetailTbl;
 import com.hyst.vo.UserPowerDetailTbls;
 import com.hyst.vo.UserPowerManageView;
+import com.hyst.vo.user.UserInfo;
 
 /**
  * 安全管理Service
@@ -274,10 +276,16 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	//保存用户权限细则《只是当前页信息》
 	public String batchSaveUserPowers(
 			UserPowerDetailTbls userPowerDetailTbls) {
+		if (userPowerDetailTbls==null) {
+			return "保存失败";
+		}
+		//删除原有的数据
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		map.put("parentId", userPowerDetailTbls.getPid());
+		map.put("userId", userPowerDetailTbls.getUserId());
+		userPowerDetailTblDao.batchDelete(map);
 		//验证传进来的权限细则集合是否为空
 		if (userPowerDetailTbls.getUserPowers()!=null&&userPowerDetailTbls.getUserPowers().size()!=0) {	
-			//删除原有的数据
-			
 			//批量保存数据
 			int num=userPowerDetailTblDao.batchInsert(userPowerDetailTbls.getUserPowers());
 			if (num==userPowerDetailTbls.getUserPowers().size()) {
@@ -290,7 +298,13 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		}
 		return "保存成功";
 	}
-	
+	//根据用户ID 查询该用户的所有权限细则
+	public List<UserPowerDetailTbl> getUserPowerDetails(UserInfo userInfo) {
+		if (userInfo==null) {
+			return null;
+		}
+		return userPowerDetailTblDao.getListByUserId(userInfo.getId());
+	}
 	//查询用户《动态条件》
 	public List<UserPowerManageView> selectUsers(
 			UserPowerManageView userPowerManageView) {
@@ -340,6 +354,7 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	public void setUserGroupViewDao(UserGroupViewDao userGroupViewDao) {
 		this.userGroupViewDao = userGroupViewDao;
 	}
+
 
 
 
