@@ -2,6 +2,7 @@ package com.hyst.vo;
 public class Orgnization implements Comparable<Orgnization>{
 	/**属性描述：ID */
 	private int id;
+	private String orgNumber;
 	/**属性描述： 父部门ID，没有为0*/
 	private int parentId;
 	/**属性描述： 部门名称*/
@@ -16,6 +17,9 @@ public class Orgnization implements Comparable<Orgnization>{
 	
 	public int getId(){
 		return this.id;
+	}
+	public String getOrgNumber() {
+		return orgNumber;
 	}
 	public int getParentId(){
 		return this.parentId;
@@ -34,6 +38,9 @@ public class Orgnization implements Comparable<Orgnization>{
 	}
 	public void setId(int id){
 		this.id = id;
+	}
+	public void setOrgNumber(String orgNumber) {
+		this.orgNumber = orgNumber;
 	}
 	public void setParentId(int parentId){
 		this.parentId = parentId;
