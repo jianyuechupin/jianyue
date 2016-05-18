@@ -10,7 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hyst.service.safe.CreditManagerService;
 import com.hyst.service.safe.SafeAdminService;
+import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerDetails;
@@ -36,7 +38,13 @@ import com.hyst.vo.user.UserInfo;
 public class SafeAdminController {
 	@Autowired
 	private SafeAdminService safeAdminService;
+	@Autowired
+	private CreditManagerService creditManagerService;
 
+	public void setCreditManagerService(
+			CreditManagerService creditManagerService) {
+		this.creditManagerService = creditManagerService;
+	}
 	public void setSafeAdminService(SafeAdminService safeAdminService) {
 		this.safeAdminService = safeAdminService;
 	}
@@ -342,8 +350,16 @@ public class SafeAdminController {
 		
 		return safeAdminService.getOrgs();
 	}
-	
-
+	/**
+	 * 查询出某部门下的所有用户 <根据部门填充人员数据>
+	 * @param userInfo
+	 * @return
+	 */
+	@RequestMapping("getuserbydept")
+	@ResponseBody
+	public List<UserInfo> getUsers(String deptId){
+		return null;
+	}
 	
 
 	/**
@@ -376,5 +392,56 @@ public class SafeAdminController {
 //		//System.out.println(ids);
 //		return "sucess";
 //	}
-
+	//***************************部门保密管理员设置*******************************************//
+	/**
+	 * 跳转到部门保密管理员列表页  <部门保密管理员设置>
+	 * 页面跳转
+	 * @return
+	 */
+	@RequestMapping("creditmanagerlistpage")
+	public String toCreditManagerListPage(){
+		return "/WEB-INF/view/safe/creditdept/creditmangerlist.jsp";
+	}
+	/**
+	 * 异步取得部门保密人员列表  <部门保密管理员设置>
+	 * 用于部门保密管理员列表页加载管理员Table数据
+	 * @return
+	 */
+	@RequestMapping("getmanagers")
+	@ResponseBody
+	public List<CreditManagerOrgsTbl> getCreditManagerOrgsTbls(){
+		
+		return creditManagerService.getCreditManagerOrgsTbls();
+	}
+	/**
+	 * 删除指定保密人员  <部门保密管理员设置>
+	 * @param creditManagerOrgsTbl
+	 * @return
+	 */
+	@RequestMapping("deletemanager")
+	@ResponseBody
+	public String deleteManager(CreditManagerOrgsTbl creditManagerOrgsTbl){
+		//填充<部门保密管理员设置> 人员列表页删除业务代码
+		return null;
+	}
+	/**
+	 * 跳转到新增部门保密管理员页面  <部门保密管理员设置>
+	 * @return
+	 */
+	@RequestMapping("tocreditdetail")
+	public String toCreditDetailPage(/*int userId,ModelMap map*/){
+		
+		return "/WEB-INF/view/safe/creditdept/creditmanagerdetail.jsp";
+	}
+	/**
+	 * 保存 新增的部门保密管理员
+	 * @param creditManagerOrgsTbl 
+	 * @return 操作状态
+	 */
+	@RequestMapping("savenewcreditdetail")
+	@ResponseBody
+	public String saveCreditDetail(CreditManagerOrgsTbl creditManagerOrgsTbl){
+		//填充保存细节代码
+		return creditManagerService.saveCreditDetail(creditManagerOrgsTbl);
+	}
 }

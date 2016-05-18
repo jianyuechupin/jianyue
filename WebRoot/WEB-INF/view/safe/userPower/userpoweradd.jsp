@@ -18,7 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<script src="js/pickList.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="css/pickList.css" />
 	<link rel="stylesheet" type="text/css" href="css/powerDetailStyle.css" />
-
+	<!-- <script type="text/javascript" src="js/icheck.min.js"></script>
+	<link href="css/checkboxcss/green.css" rel="stylesheet" type="text/css"> -->
   </head>
   
   <body>
@@ -65,9 +66,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			getManus();
 			//展示第一个Tab页
 			$('#myTab li:eq(0) a').tab('show');	
-			$("").change();
+			
 		});
-		
+		/**设置选择框样式*/
+	/* 	function setStyle(){
+			$('input').iCheck({ 
+				 labelHover : false, 
+				 cursor : true, 
+				 checkboxClass : 'icheckbox_square-green', 
+				 radioClass : 'iradio_square-green', 
+				 increaseArea : '20%' 
+			}); 
+		} */
 		/**取得一级菜单及其子菜单功能*/
 		function getManus(){
 			var val="";
@@ -119,7 +129,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
 				//alert(htm);
 				$("#myTabContent").append(htm);
-				
 				addDept(val);
 				doChecked();
 			

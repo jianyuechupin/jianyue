@@ -24,7 +24,6 @@ import com.hyst.dao.safe.UserGroupViewDao;
 import com.hyst.dao.safe.UserPowerDetailTblDao;
 import com.hyst.dao.safe.UserPowerManageViewDao;
 import com.hyst.service.safe.SafeAdminService;
-import com.hyst.service.safe.TableInfoUtil;
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerDetails;
