@@ -7,6 +7,6 @@ package com.hyst.util;
  */
 public class CreatMain {
 	public static void main(String[] args) {
-		OutPut.creatFile("adminTbl",null,"AdminTbl");
+		/*OutPut.creatFile("adminTbl",null,"AdminTbl");*/
 	}
 }

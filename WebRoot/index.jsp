@@ -12,16 +12,49 @@
 <meta http-equiv="description" content="This is my page">
 
 <%@include file="/include/base.jsp"%>
-</head>
 
-<body>
+
+
+<link rel="stylesheet" href="css/style.css">
+<style>
+	
+	.toTop{
+		background-image:-webkit-linear-gradient(to top, #F8FFED,rgba(116, 145, 150, 0.63));
+		background-image:linear-gradient(to top,#F8FFED,rgba(116, 145, 150, 0.63));
+		
+	}
+	/* .toTop:before {
+		content: "";
+		left: 0;
+  		right: 0;
+  		top:0;
+		width: 1440px;
+  		height: 900px;
+		background-image: url("img/1 (14).jpg");
+		background-repeat: repeat;
+		z-index: -1;
+		position: absolute;
+		-webkit-filter: blur(5px);
+	} */
+</style>
+
+
+<script type="text/javascript" src="js/hyst.js"/>
+<script type="text/javascript">
+	function tanchuang (){
+		hyst.msg.alert("哈哈");
+	}
+</script>
+</head>
+<body class="toTop">
+	
 	<!-- 引入导航头 -->
 	<%@include file="/include/top.jsp"%>
 	<!-- 引入左侧导航 -->
 	<%@include file="/include/left.jsp"%>
-	<div class="content">
-		This is my JSP page. <br>
-
+	
+	
+	<div class="content ">
 		<div align="center">
 			<h1>
 				<span id="time" style="color: red;"></span>
@@ -32,27 +65,13 @@
 		<br>
 		<button id="get">Ajax请求GET</button>
 		<br>
-		<table id="list" width="100%">
-			<tr id="lisy">
-				<td>编号</td>
-				<td>姓名</td>
-				<td>密码</td>
-			</tr>
-		</table>
-		<table width="80%">
-			<tr>
-				<td><button id="pos">Ajax请求POST</button></td>
-				<td>
-					<button id="ge">Ajax请求GET</button>
-				</td>
-				<td id="name">123</td>
-			</tr>
-		</table>
+		
+		<button onclick="tanchuang()">
+			弹窗
+		</button>
 	</div>
+		
 
-
-	<!-- scripts -->
-	<script type="text/javascript" src="js/jquery.js"></script>
-
+	
 </body>
 </html>

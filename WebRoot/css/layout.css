@@ -7,7 +7,7 @@
 }
 
 .li-hover > li > a:hover {
-	background-color: #999999;
+	background-color: #628DD6;
 }
 
 .paddingnone {
@@ -21,8 +21,9 @@
 }
 
 #sidebar-nav {
-	position: absolute;
+	position: fixed;
 	top: 50px;
+	bottom:0px;
 	width: 180px;
 	float: left;
 	margin: 0em;
@@ -48,7 +49,7 @@
 }
 
 #dashboard-menu > li > a:hover {
-	background-color: #999999;
+	background-color: #628DD6;
 }
 
 #dashboard-menu ul.submenu {

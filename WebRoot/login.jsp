@@ -25,6 +25,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<!-- form表单样式 -->
 		<link rel="stylesheet" type="text/css" href="css/form.css"/>
+		
+		<!-- 动画效果 -->
+		<!-- <link rel="stylesheet" type="text/css" href="css/style.css"/> -->
 
 		<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -36,8 +39,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		alert("sorry your browser do not support this website!\n please use chrome!")
 	  </script>
     <![endif]-->
+    
 	</head>
-
 	<body>
 
 		<div class="container">
@@ -61,14 +64,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          	</label>
 				</div>
 				<button class="btn btn-lg btn-success btn-block" type="submit">登录</button>
+				
 			</form>
-
+			<div class="connect">
+                <p>广东航宇卫星科技有限公司授权.</p>
+            </div>
 		</div>
 		<!-- /container -->
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		
 		
 		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		
 		<script src="js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 		
 		<!--验证-->
@@ -128,6 +135,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	}
 		    });
 		});
+		
+		window.onload = function()
+		{
+			$(".connect p").eq(0).animate({"left":"38%"}, 600);
+		}
 		</script>
 	</body>
 
