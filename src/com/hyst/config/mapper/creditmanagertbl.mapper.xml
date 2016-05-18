@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.safe.CreditManagerTblDao" >
+
+ 	 <resultMap type="CreditManagerTbl" id="creditManagerTbl" >
+		<id column="id" property="id"/>
+		<result column="orgId" property="orgId"/>
+		<result column="userInfoId" property="userInfoId"/>
+		<result column="roleType" property="roleType"/>
+		<result column="creatTime" property="creatTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="isValid" property="isValid"/>
+	</resultMap>
+	<!-- batchInsert批量插入数据 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into creditManagerTbl (orgId,userInfoId,roleType)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >
+        	(#{item.orgId},#{item.userInfoId},#{item.roleType})
+    	</foreach>
+	</insert>
+	<!-- 根据ID删除 -->
+	<delete id="delete" parameterType="com.hyst.vo.CreditManagerTbl">
+		delete from creditManagerTbl  where id=#{id} 
+	</delete>
+	<!-- 单个增加 -->
+	<insert id="insert" parameterType="com.hyst.vo.CreditManagerTbl">
+		insert into creditManagerTbl (orgId,userInfoId,roleType,creatTime,updateTime,isValid) values (#{orgId},#{userInfoId},#{roleType},#{creatTime},#{updateTime},#{isValid})
+	</insert>
+	<!-- 动态根据ID更新 -->
+	<update id="update" parameterType="com.hyst.vo.CreditManagerTbl">
+		update creditManagerTbl 
+		<set>
+		<if test="orgId != null">
+			orgId=#{orgId},
+		</if>
+		<if test="userInfoId != 0">
+			userInfoId=#{userInfoId},
+		</if>
+		<if test="roleType != 0">
+			roleType=#{roleType},
+		</if>
+		<if test="creatTime != null">
+			creatTime=#{creatTime},
+		</if>
+		<if test="updateTime != null">
+			updateTime=#{updateTime},
+		</if>
+		<if test="isValid != 0">
+			isValid=#{isValid},
+		</if>
+		</set>
+ 		 where id=#{id} 
+	</update>
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.CreditManagerTbl">
+		select * from creditManagerTbl  where id=#{id} 
+	</select>
+	<!-- 动态查询 -->
+	<select id="byOrder" resultType="com.hyst.vo.CreditManagerTbl">
+		select * from creditManagerTbl 
+		<where>
+			<if test=" orgId != null ">
+			  and orgId=#{orgId}
+			</if>
+			<if test=" userInfoId != 0 ">
+			  and userInfoId=#{userInfoId}
+			</if>
+			<if test=" roleType != 0 ">
+			  and roleType=#{roleType}
+			</if>
+			<if test=" creatTime != null ">
+			  and creatTime=#{creatTime}
+			</if>
+			<if test=" updateTime != null ">
+			  and updateTime=#{updateTime}
+			</if>
+			<if test=" isValid != 0 ">
+			  and isValid=#{isValid}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询所有 -->
+	<select id="list" resultType="com.hyst.vo.CreditManagerTbl">
+		select * from creditManagerTbl  
+	</select>
+ 
+</mapper>
