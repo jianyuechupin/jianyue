@@ -24,7 +24,7 @@
 							<li><a href="#">关于</a></li>
 						</ul></li>
 					<li class="pull-right">
-					<a href="user/logout.do" onclick="if(!logout())return false;">
+					<a href="#" onclick="logout()">
 						<span class="glyphicon glyphicon-off" aria-hidden="true"></span> 
 							退出
 					</a>
@@ -36,11 +36,17 @@
 	</div>
 </nav>
 <script type="text/javascript">
+	
 	function logout() {
-		if (confirm("您确定要退出吗？")) {
+		/* if (confirm("您确定要退出吗？")) {
 			return true;
 		} else {
 			return false;
-		}
+		} */
+		Showbo.Msg.confirm('您确定要退出吗？',function(btn){
+			if(btn=="yes"){
+				window.location.href="user/logout.do";
+			}
+		});
 	}
 </script>
