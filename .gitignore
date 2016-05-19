@@ -3,3 +3,4 @@
 *.project
 /junitTest
 /WebRoot/WEB-INF/classes
+/.settings

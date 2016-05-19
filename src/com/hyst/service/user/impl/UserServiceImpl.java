@@ -113,11 +113,22 @@ public class UserServiceImpl implements UserService {
 				&& !"logadmin".equals(account);
 	}
 
+	/**
+	 * 退出登录
+	 */
 	@Override
 	public String logout() {
 		System.out.println(session.getAttribute("user"));
 		session.removeAttribute("user");
 		return "redirect:/login.jsp";
+	}
+
+	/**
+	 * 通过部门获取人员
+	 */
+	@Override
+	public List<UserInfo> getusersbydept(String deptId) {
+		return userDao.getusersbydept(deptId);
 	}
 
 }

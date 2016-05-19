@@ -45,4 +45,12 @@ public interface UserService {
 	 * @return 
 	 */
 	public List<UserInfo> selectByTerms(UserInfo u);
+	/**
+	 * 通过部门获取人员
+	 * @param deptId
+	 * @return
+	 * @author --- rpj ---	
+	 * @time 2016年5月18日
+	 */
+	public List<UserInfo> getusersbydept(String deptId);
 }	

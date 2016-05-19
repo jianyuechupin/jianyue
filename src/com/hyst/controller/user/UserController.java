@@ -63,17 +63,15 @@ public class UserController {
 		return "list.do";
 	}
 
-	@RequestMapping("ajax")
+	/**
+	 * 查询出某部门下的所有用户 <根据部门填充人员数据>
+	 * @param deptid 部门id
+	 * @return
+	 */
+	@RequestMapping("getusersbydept")
 	@ResponseBody
-	public List<UserInfo> ajax(String name) {
-		System.out.println(name + ".........");
-		return userService.list(1, -2);
+	public List<UserInfo> getusersbydept(String deptId){
+		return userService.getusersbydept(deptId);
 	}
 
-	@RequestMapping("getf")
-	@ResponseBody
-	public String get(String name) {
-		System.out.println(name + ".........");
-		return name;
-	}
 }

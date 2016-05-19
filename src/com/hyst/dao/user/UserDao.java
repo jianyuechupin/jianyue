@@ -35,4 +35,12 @@ public interface UserDao extends BaseDao<UserInfo> {
 	 * @time 2016年5月3日
 	 */
 	public List<AdminTbl> adminloginAuthentication(Map<String,Object> u);
+	/**
+	 * 通过部门id获取人员list
+	 * @param deptId
+	 * @return
+	 * @author --- rpj ---	
+	 * @time 2016年5月18日
+	 */
+	public List<UserInfo> getusersbydept(String deptId);
 }

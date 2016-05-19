@@ -26,6 +26,11 @@
 		select * from adminTbl where adminid=#{account} and pass=#{password}
 	</select>
 
+	<select id="getusersbydept" parameterType="java.lang.String" resultType="com.hyst.vo.user.UserInfo">
+		select u.* from userinfo u
+			left join orgnization o on o.id=u.deptId
+				where o.id='#{deptid}'
+	</select>
 
 	
 	
