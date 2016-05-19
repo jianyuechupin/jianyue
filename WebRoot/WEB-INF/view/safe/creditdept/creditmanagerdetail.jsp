@@ -21,26 +21,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" media="all" href="css/niceforms-default.css" />
 
 	<script type="text/javascript">
-		$(function(){
-			/**取得部门数据*/
-			$.post("safe/getOrgs.do",function(depts){
-				//部门数据
-				var opts="";
-				for(var i=0;i<depts.length;i++){
-					opts+="<option value=\""+depts[i].id+"\">"+depts[i].orgName+" </option>";
-				}
-				$("#dept").append(opts);
-				$("#pickList").pickList({
-					data: depts
-				});
-			});
-			
-			$("#submit").click(function(){
-				submitData();
-			});
-			
-
+	$(function(){
+		var daptDate=null;
+		/**取得部门数据*/
+		$.post("safe/getOrgs.do",function(depts){
+			daptDate=depts;
+			setDeptsForSelect(daptDate);
 		});
+		/**保存按钮被点击后触发，提交保存数据*/	
+		$("#submit").click(function(){
+			submitData();
+		});
+		/**选择部门触发   ---改变用户选择框的值 <下拉框的> */
+		$("#dept").change(function(){
+			deptChange($(this).val());
+		});
+		/**选择用户后触发*/
+		$("#userInfo").change(function(){
+			alert("人员改变了");
+			userChange($(this).val(),daptDate);
+		});
+		
+	});
+		/**为部门的select添加option项*/
+		function setDeptsForSelect(daptDate){
+			var opts="";
+			for(var i=0;i<daptDate.length;i++){
+				opts+="<option value=\""+daptDate[i].id+"\">"+daptDate[i].orgName+" </option>";
+			}
+			$("#dept").append(opts);
+			$("#pickList").pickList({
+				data: daptDate
+			});
+		}
+		
+		/**选择用户时改变已选择的部门的内容*/
+		function userChange(userid,daptDate){
+			if(userid==0){//如果没选用户，把所有的已移动到被选择的选择移回去；
+				$("#pickList").pickList({
+					data: daptDate
+				});
+				$("#pickListResult option").remove();
+				
+			}
+			$.post("获取某用户下的所有数据的Do",{userId:userid},function(data){
+				for(var i=0;i<data.length;i++){
+					var p = $("#pickData option[value='"+data[i].orgId+"']");
+					p.clone().appendTo($("#pickListResult"));
+					p.remove();	
+				}
+			});
+		}
+		
+		/**选择部门后触发此方法，改变人员*/
+		function deptChange(deptid){
+			$.post("getusersbyid",{deptId:deptid},function(data){
+				var useroption="<option value=\"0\">选择人员</option>";
+				for(var i=0;i<data.lengrh;i++){
+					useroption+="<option value=\""+data[i].id+"\">"+data[i].userName+"</option>";
+					useroption+="<option value=\""+(data[i].id+1)+"\">"+data[i].userName+"</option>";
+				}
+				$("#userInfo option").remove();
+				$("#userInfo").append(useroption);
+			});
+		}
+		/**保存数据*/
 		function submitData(){
 			//var userid=$("#userInfo").val();
 			var userid=1;
@@ -59,7 +104,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
 				url: 'safe/savenewcreditdetail.do', //提交地址
 				type: 'POST',//方式
-				//dataType: 'text',//数据类型
 				data: datas,//提交的数据
 				async: true,//是否同步提交
 				error: function(xMLHttpRequest, textStatus, errorThrown) {

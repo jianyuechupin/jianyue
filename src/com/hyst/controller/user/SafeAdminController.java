@@ -78,7 +78,7 @@ public class SafeAdminController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("creatUserGroup")
+	@RequestMapping("creatUserGroup/list")
 	public String creatUserGroup(UserGroupView userGroupView,ModelMap map){
 		if (userGroupView!=null&&userGroupView.getId()!=null) {
 			userGroupView=safeAdminService.getUserGroupViewById(userGroupView);
