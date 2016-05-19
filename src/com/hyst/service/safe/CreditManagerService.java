@@ -3,6 +3,7 @@ package com.hyst.service.safe;
 import java.util.List;
 
 import com.hyst.vo.CreditManagerOrgsTbl;
+import com.hyst.vo.CreditManagerTbl;
 
 /**
  * @author DongYi
@@ -22,6 +23,12 @@ public interface CreditManagerService {
 	 * @return
 	 */
 	public String saveCreditDetail(CreditManagerOrgsTbl creditManagerOrgsTbl);
+	/**
+	 * 根据保密管理员的ID查询该管理员管理的部门
+	 * @param userId 保密管理员的用户ID
+	 * @return
+	 */
+	public List<CreditManagerTbl> getOrgsByUserId(int userId);
 	
 	
 	

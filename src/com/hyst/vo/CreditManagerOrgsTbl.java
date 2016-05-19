@@ -11,7 +11,7 @@ public class CreditManagerOrgsTbl{
 	private int userInfoId;
 	/**属性描述： */
 	private String userName;
-	/**属性描述：角色类型 0兼职保密员，1保密处人员 */
+	/**属性描述：角色类型 1兼职保密员，2保密处人员 */
 	private int roleType;
 	/**属性描述：角色名称*/
 	private String roleName;
@@ -52,11 +52,13 @@ public class CreditManagerOrgsTbl{
 	}
 	public void setRoleType(int roleType){
 		this.roleType = roleType;
-		String roleName="保密处人员";
-		if (roleType==0) {
-			roleName="兼职保密员";
+		
+		if (roleType==1) {
+			setRoleName("兼职保密员");
+		}else if (roleType==2) {
+			setRoleName("保密处人员");
 		}
-		setRoleName(roleName);
+		
 	}
 	
 	public String getRoleName() {

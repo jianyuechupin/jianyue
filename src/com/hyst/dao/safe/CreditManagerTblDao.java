@@ -20,4 +20,10 @@ public interface CreditManagerTblDao extends BaseDao<CreditManagerTbl>{
 	 * @return
 	 */
 	public int batchInsert(List<CreditManagerTbl> creditManagerTbls);
+	/**
+	 * 批量删除数据
+	 * @param creditManagerTbls 要删除的数据
+	 * @return 受影响记录数
+	 */
+	public int batchDelete(List<CreditManagerTbl> creditManagerTbls);
 }

@@ -27,9 +27,8 @@
 	</select>
 
 	<select id="getusersbydept" parameterType="java.lang.String" resultType="com.hyst.vo.user.UserInfo">
-		select u.* from userinfo u
-			left join orgnization o on o.id=u.deptId
-				where o.id='#{deptid}'
+		select u.* from userinfo u	where deptId in 
+			(select id from orgnization o where o.id=#{deptId})
 	</select>
 
 	

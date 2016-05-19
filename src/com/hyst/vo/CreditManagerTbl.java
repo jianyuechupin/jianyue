@@ -1,6 +1,8 @@
 package com.hyst.vo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * 部门保密管理员 部门细则表
  */
@@ -11,7 +13,7 @@ public class CreditManagerTbl{
 	private String orgId;
 	/**属性描述： */
 	private int userInfoId;
-	/**属性描述： */
+	/**属性描述：1兼职保密人员，2保密处人员 */
 	private int roleType;
 	/**属性描述： */
 	private Timestamp  creatTime;
@@ -30,6 +32,25 @@ public class CreditManagerTbl{
 		result = prime * result + roleType;
 		result = prime * result + userInfoId;
 		return result;
+	}
+	public static void main(String[] args) {
+		CreditManagerTbl c=new CreditManagerTbl();
+		c.setId(2);
+		c.setIsValid(1);
+		c.setOrgId("2");
+		c.setUserInfoId(3);
+		CreditManagerTbl c1=new CreditManagerTbl();
+		c1.setId(3);
+		c1.setIsValid(1);
+		c1.setOrgId("2");
+		c1.setUserInfoId(3);
+		System.out.println(c.equals(c1));
+		List<CreditManagerTbl> list=new ArrayList<>();
+		list.add(c);
+		List<CreditManagerTbl> list2=new ArrayList<>();
+		list2.add(c1);
+		list.removeAll(list2);
+		System.out.println(list);
 	}
 	@Override
 	public boolean equals(Object obj) {

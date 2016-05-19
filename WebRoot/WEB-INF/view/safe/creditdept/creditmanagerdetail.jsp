@@ -27,7 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.post("safe/getOrgs.do",function(depts){
 			daptDate=depts;
 			setDeptsForSelect(daptDate);
+			/**装载左右select数据*/
+			typeChange(daptDate);
 		});
+
 		/**保存按钮被点击后触发，提交保存数据*/	
 		$("#submit").click(function(){
 			submitData();
@@ -38,8 +41,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 		/**选择用户后触发*/
 		$("#userInfo").change(function(){
-			alert("人员改变了");
-			userChange($(this).val(),daptDate);
+			
+			userChange(daptDate);
+		});
+		/**-保密员类型改变时触发*/
+		$("#roleType").change(function(){
+			typeChange(daptDate);
 		});
 		
 	});
@@ -52,34 +59,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#dept").append(opts);
 			$("#pickList").pickList({
 				data: daptDate
-			});
+			}); 
 		}
 		
-		/**选择用户时改变已选择的部门的内容*/
-		function userChange(userid,daptDate){
-			if(userid==0){//如果没选用户，把所有的已移动到被选择的选择移回去；
+		/**保密员类型被改变的时候*/
+		function typeChange(daptDate){
+			if($("#roleType").val()==2){//如果是保密处人员，左右选择框清空
+				$("#pickData option").remove();
+				$("#pickListResult option").remove();
+				return;
+			}else{
+				$("#pickList div[class='row']").remove();
 				$("#pickList").pickList({
 					data: daptDate
 				});
 				$("#pickListResult option").remove();
-				
+				var userid=$("#userInfo").val();
+				if(userid!=0){
+					
+					$.post("safe/getorgsbyuserid.do",{userId:userid},function(data){
+						if(data==null){
+							alert("数据为空");
+							return;
+						}
+						for(var i=0;i<data.length;i++){
+							var p = $("#pickData option[value='"+data[i].orgId+"']");
+							p.clone().appendTo($("#pickListResult"));
+							p.remove();	
+						}
+					});
+				}
 			}
-			$.post("获取某用户下的所有数据的Do",{userId:userid},function(data){
+			
+		}
+		
+		/**选择用户时改变已选择的部门的内容*/
+		function userChange(daptDate){
+			typeChange(daptDate);
+			
+
+			/* $.post("safe/getorgsbyuserid.do",{userId:userid},function(data){
 				for(var i=0;i<data.length;i++){
 					var p = $("#pickData option[value='"+data[i].orgId+"']");
 					p.clone().appendTo($("#pickListResult"));
 					p.remove();	
 				}
-			});
+			}); */
 		}
 		
 		/**选择部门后触发此方法，改变人员*/
 		function deptChange(deptid){
-			$.post("getusersbyid",{deptId:deptid},function(data){
+			$.post("user/getusersbydept.do",{deptId:deptid},function(data){
 				var useroption="<option value=\"0\">选择人员</option>";
-				for(var i=0;i<data.lengrh;i++){
+				for(var i=0;i<data.length;i++){
 					useroption+="<option value=\""+data[i].id+"\">"+data[i].userName+"</option>";
-					useroption+="<option value=\""+(data[i].id+1)+"\">"+data[i].userName+"</option>";
 				}
 				$("#userInfo option").remove();
 				$("#userInfo").append(useroption);
@@ -87,9 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		/**保存数据*/
 		function submitData(){
-			//var userid=$("#userInfo").val();
-			var userid=1;
-			//var username=$("#userInfo option:selected").text();
+			var userid=$("#userInfo").val();
 			var role=$("#roleType").val();
 			var creditmanager="";
 			var datas="userInfoId="+userid+"&userName="+$("#userInfo option:selected").text()+
@@ -97,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#pickListResult option").each(function(i){
 				datas+=$(this).text()+";";
 				creditmanager+="&creditManagerTbls["+i+"].orgId="+$(this).val()+"&creditManagerTbls["+i+"].userInfoId="+
-				userid+"&creditManagerTbls["+i+"].roleType="+role;
+				userid+"&creditManagerTbls["+i+"].roleType="+role+"&creditManagerTbls["+i+"].isValid="+1;
 			});
 			datas+=creditmanager;
 			//alert(datas);
@@ -108,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				async: true,//是否同步提交
 				error: function(xMLHttpRequest, textStatus, errorThrown) {
 					
-					alert("服务端验证失败");
+					alert("保存失败");
 				},
 				success: function(data) {
 					
@@ -141,8 +172,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 			<label for="roleType">管理角色</label>
 			<select id="roleType">
-				<option value="0">兼职保密员</option>
-				<option value="1">保密处人员</option>
+				<option value="1">兼职保密员</option>
+				<option value="2">保密处人员</option>
 			</select>
 			<!-- 部门左右移动块 -->
 			

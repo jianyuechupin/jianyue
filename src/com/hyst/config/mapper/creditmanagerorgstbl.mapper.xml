@@ -11,7 +11,7 @@
 		<result column="roleType" property="roleType"/>
 		<result column="orgsName" property="orgsName"/>
 	</resultMap>
-
+	
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.CreditManagerOrgsTbl">
 		delete from creditManagerOrgsTbl  where id=#{id} 
@@ -39,9 +39,9 @@
 		</set>
  		 where id=#{id} 
 	</update>
-	<!-- 查询单个 -->
-	<select id="getOne" resultType="com.hyst.vo.CreditManagerOrgsTbl">
-		select * from creditManagerOrgsTbl  where id=#{id} 
+	<!-- 根据用户ID和保密员类型查询保密员 -->
+	<select id="getOne" parameterType="com.hyst.vo.CreditManagerOrgsTbl" resultType="com.hyst.vo.CreditManagerOrgsTbl">
+		select * from creditManagerOrgsTbl  where userInfoId=#{userInfoId} and roleType=#{roleType}
 	</select>
 	<!-- 动态查询 -->
 	<select id="byOrder" resultType="com.hyst.vo.CreditManagerOrgsTbl">

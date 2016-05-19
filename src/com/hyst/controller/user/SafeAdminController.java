@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hyst.service.safe.CreditManagerService;
 import com.hyst.service.safe.SafeAdminService;
 import com.hyst.vo.CreditManagerOrgsTbl;
+import com.hyst.vo.CreditManagerTbl;
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerDetails;
 import com.hyst.vo.PowerGroupDetails;
 import com.hyst.vo.PowerGroupTbl;
-import com.hyst.vo.SafeList;
 import com.hyst.vo.TableInfo;
 import com.hyst.vo.UserGroup;
 import com.hyst.vo.UserGroupPowerDetail;
@@ -78,7 +78,7 @@ public class SafeAdminController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("creatUserGroup/list")
+	@RequestMapping("creatUserGroup")
 	public String creatUserGroup(UserGroupView userGroupView,ModelMap map){
 		if (userGroupView!=null&&userGroupView.getId()!=null) {
 			userGroupView=safeAdminService.getUserGroupViewById(userGroupView);
@@ -443,5 +443,15 @@ public class SafeAdminController {
 	public String saveCreditDetail(CreditManagerOrgsTbl creditManagerOrgsTbl){
 		//填充保存细节代码
 		return creditManagerService.saveCreditDetail(creditManagerOrgsTbl);
+	}
+	/**
+	 * 根据保密管理员的用户ID查询有管理权限的部门
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("getorgsbyuserid")
+	@ResponseBody
+	public List<CreditManagerTbl> getOrgsByUserId(int userId){
+		return creditManagerService.getOrgsByUserId(userId);
 	}
 }

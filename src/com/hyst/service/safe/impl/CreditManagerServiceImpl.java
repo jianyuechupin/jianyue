@@ -1,5 +1,6 @@
 package com.hyst.service.safe.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,26 +29,50 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 		map.put("page", null);
 		return creditManagerOrgsTblDao.list(map);
 	}
-	
+	//跳转到保密管理员详情页面的时候选择人员后加载已选的部门数据
+	public List<CreditManagerTbl> getOrgsByUserId(int userId) {
+		if (userId < 1) {
+			return null;
+		}
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		map.put("userId", userId);
+		return creditManagerTblDao.list(map);
+	}
 	//保存管理员详情
 	public String saveCreditDetail(CreditManagerOrgsTbl creditManagerOrgsTbl) {
 		if(creditManagerOrgsTbl==null||creditManagerOrgsTbl.getUserInfoId()==0){
 			return "请先选择人员进行保存";
 		}
-		int num=creditManagerOrgsTblDao.insert(creditManagerOrgsTbl);
-		List<CreditManagerTbl> creditManagerTbls=creditManagerOrgsTbl.getCreditManagerTbls();
-		if (creditManagerTbls!=null) {//
-			int num2=creditManagerTblDao.batchInsert(creditManagerTbls);
-			if (num2==creditManagerTbls.size()&&num>0) {
-				return "保存成功";
-			}
-		}else {
-			if(num>0){
-				return "保存成功";
-			}
+		CreditManagerOrgsTbl credit=creditManagerOrgsTblDao.getOne(creditManagerOrgsTbl);
+		if (credit==null) {
+			//保存保密管理员数据
+			creditManagerOrgsTblDao.insert(creditManagerOrgsTbl);
 		}
-		return "保存失败";
+		
+		//处理要保密的部门数据
+		
+		int userId=creditManagerOrgsTbl.getUserInfoId();
+		//取得已经存在的细则数据
+		List<CreditManagerTbl> list=getOrgsByUserId(userId);
+		List<CreditManagerTbl> creditManagerTbls=creditManagerOrgsTbl.getCreditManagerTbls();
+		if (list!=null&&creditManagerTbls!=null) {
+			//从要保存的数据中移除已经存在的数据
+			List<CreditManagerTbl> list2=new ArrayList<>(creditManagerTbls);
+			creditManagerTbls.removeAll(list);
+			//找出修改后不存在的数据进行删除
+			list.removeAll(list2);
+		}
+		
+		if (list!=null&&list.size()!=0) {//如果不为空，进行批量删除已存在记录
+			creditManagerTblDao.batchDelete(list);
+		}
+		
+		if (creditManagerTbls!=null&&creditManagerTbls.size()!=0) {//如果要保存的数据不为空，进行数据保存
+			creditManagerTblDao.batchInsert(creditManagerTbls);
+		}
+		return "保存成功";
 	}
+
 	/////////////////////////---Dao等属性设置---/////////////////////////////////
 	
 	@Autowired
@@ -63,6 +88,8 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 			CreditManagerOrgsTblDao creditManagerOrgsTblDao) {
 		this.creditManagerOrgsTblDao = creditManagerOrgsTblDao;
 	}
+
+
 
 	
 }

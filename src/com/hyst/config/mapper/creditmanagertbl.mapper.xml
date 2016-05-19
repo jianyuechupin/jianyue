@@ -21,6 +21,16 @@
         	(#{item.orgId},#{item.userInfoId},#{item.roleType})
     	</foreach>
 	</insert>
+	
+	<!-- 批量将数据变为删除状态 -->
+	<delete id="batchDelete" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+            update creditManagerTbl
+               <set> isValid= 0 ,updateTime= getdate()</set>
+                where userInfoId=#{item.userInfoId} and orgId=#{item.orgId}
+       </foreach>
+	</delete>
+	
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.CreditManagerTbl">
 		delete from creditManagerTbl  where id=#{id} 
@@ -83,8 +93,8 @@
 		</where> 
 	</select>
 	<!-- 查询所有 -->
-	<select id="list" resultType="com.hyst.vo.CreditManagerTbl">
-		select * from creditManagerTbl  
+	<select id="list" parameterType="java.util.Map" resultType="com.hyst.vo.CreditManagerTbl">
+		select * from creditManagerTbl  where isValid= 1 and userInfoId=#{userId}
 	</select>
  
 </mapper>
