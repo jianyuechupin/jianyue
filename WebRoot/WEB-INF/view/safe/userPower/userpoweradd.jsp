@@ -62,22 +62,83 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript">
 		$(function() {
+			//alert($('#myTab li:eq(0) a').attr("href"));
 			//创建页面内容
 			getManus();
 			//展示第一个Tab页
 			$('#myTab li:eq(0) a').tab('show');	
-			
+			//为用户重新选择权限组
+			$("#selectGroup").change(function(){
+				//清空所有选项
+				unCheckedAll();
+				//按照权限组为页面选择框赋选中值
+				setCheckedValue();
+			});
 		});
-		/**设置选择框样式*/
-	/* 	function setStyle(){
-			$('input').iCheck({ 
-				 labelHover : false, 
-				 cursor : true, 
-				 checkboxClass : 'icheckbox_square-green', 
-				 radioClass : 'iradio_square-green', 
-				 increaseArea : '20%' 
-			}); 
-		} */
+		/**清空所有选项*/
+		function unCheckedAll(){
+			//将所有的复选框状态变为未选择
+				$("body").find("input:checkbox:checked").each(function(){
+					$(this).attr("checked",false);
+				});
+				//移除所有已选择的部门
+				$("body").find("div[class='row']").each(function(){
+					$(this).remove();
+				});
+				//重新加载部门数据
+				addDept(val);
+		}
+		/**取得选择的内容*/
+		function getCheckedValue(){
+			var powerGroupId=$("#selectGroup").val();
+			var ur="safe/getUserPowerDetails.do";
+			var para="id="+$("#uid").val();
+			var datas=null;
+			if(powerGroupId!=0){
+				ur="safe/getChecked.do";
+				para="powerGroupId="+powerGroupId;
+			}
+			
+			$.ajax({
+				url: ur, //提交地址
+				type: 'POST',//方式
+				data: para,//提交的数据
+				async: false,//是否同步提交
+				error: function(xMLHttpRequest, textStatus, errorThrown) {
+					alert("服务器异常");
+				},
+				success: function(data) {
+					datas= data;
+				}
+			});
+			return datas;
+		}
+		/**设置权限组已选择的数据 --*/
+		function setCheckedValue(){
+			var data =getCheckedValue();
+			 for(var i=0;i<data.length;i++){
+				var tableOper=data[i].tableOperId;
+				var deptSet=data[i].deptSet; 
+				//如果部门集合不为空或者部门集合长度不等于0
+				 if(deptSet!=null&&deptSet.length!=0){
+					for(var j=0;j<deptSet.length;j++){
+						if(deptSet[j]!=null){
+							var value=deptSet[j];
+							var p=$("input:hidden[value='"+tableOper+"']").next("div [class='row']").find("div:first").find("#pickData option[value='"+value+"']");
+							var h=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:last").children("#pickListResult");
+							p.clone().appendTo(h);
+							p.remove();	
+						}
+					} 
+				}else{
+					//没有部门权限要求的，设置选择情况
+					var checkid="#table"+tableOper;	
+					$(checkid).prop("checked", true);
+				}
+			}
+		}
+		
+		
 		/**取得一级菜单及其子菜单功能*/
 		function getManus(){
 			var val="";
@@ -85,60 +146,77 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("body").find("#myTab li a[id='manuTree']").each(function(i,ele){
 				//异步请求二级菜单
 				ajaxs($(ele));
-			});	
+			});
+			
+			addDept(val);
+			setCheckedValue();
 		}
 		
 		/*ajax 异步获取子菜单列表*/
 		function ajaxs(obj){
-			//var n=obj.find("input[name='operId']").val();
 			var id=obj.attr("href").toString().replace("#","");
- 			/**获取部门列表*/
-			$.post("safe/getOrgs.do",function(data){
-				val=data; 
-			}); 
+ 			
 			/**$("input:checkbox[value='1']").attr('checked','true');  */
 			/*取得子菜单以及操作功能*/
 			var pid=id.replace("tal","");
-			$.post("safe/sonMenu.do",{"pid":pid} ,function(data){
-				var htm="<div class=\"tab-pane fade\" id=\""+id+"\"><ul>";
-				
-				for(var i=0;i<data.length;i++){
-					htm+="<li class=\"sidebar_nav col-sm-12\"><input type='checkbox' class='chk_1' name='tabeInfo' id='123'><label style='width: 26%;' for='123'>"+
-					data[i].tableName+"</label><ul>";
-					
-					var $list=data[i].tableOperViews;
-					if(data[i].hasOrg==0){/* 0不需要做部门限制，1需要部门限制 */
-						for(var j=0;j<$list.length;j++){
-							htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
-							" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
-							"</label></li>";
-						}
-					}else{
-						for(var j=0;j<$list.length;j++){
-						//htm+="</br>-----------需要做部门级别的选择------------"
-							var c="<div class='panel-heading'><label class='fontstyle'>"+
-							$list[j].operTypeName+"</label></div>"
-							+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
-							//alert(c);
-							htm+=c;
-						}
-						//htm+="</div>";
-					}
-					htm+="</ul>";
+			$.ajax({
+				url: "safe/sonMenu.do", //提交地址
+				type: 'POST',//方式
+				data: "pid="+pid,//提交的数据
+				async: false,//是否同步提交
+				error: function(xMLHttpRequest, textStatus, errorThrown) {
+					alert("服务器异常");
+				},
+				success: function(data) {
+					appendHtml(data,id,pid);
 				}
-				htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
-				//alert(htm);
-				$("#myTabContent").append(htm);
-				addDept(val);
-				doChecked();
-			
-			});
+			});	
 		}	
+		
+		/**根据json数据拼接页面*/
+		function appendHtml(data,id,pid){
+			var htm="<div class=\"tab-pane fade\" id=\""+id+"\"><ul>";
+			for(var i=0;i<data.length;i++){
+				htm+="<li class=\"sidebar_nav col-sm-12\"><input type='checkbox' class='chk_1' name='tabeInfo' id='123'><label style='width: 26%;' for='123'>"+
+				data[i].tableName+"</label><ul>";
+				
+				var $list=data[i].tableOperViews;
+				if(data[i].hasOrg==0){/* 0不需要做部门限制，1需要部门限制 */
+					for(var j=0;j<$list.length;j++){
+						htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
+						" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
+						"</label></li>";
+					}
+				}else{
+					for(var j=0;j<$list.length;j++){
+					//-----------需要做部门级别的选择------------"
+						var c="<div class='panel-heading'><label class='fontstyle'>"+
+						$list[j].operTypeName+"</label></div>"
+						+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
+						htm+=c;
+					}
+				}
+				htm+="</ul>";
+			}
+			htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
+			$("#myTabContent").append(htm);
+			
+		}
 		/**为部门列表添加数据函数  */
-		
-		
 		function addDept(val){
-
+			if(val==null||val.length==0){
+				$.ajax({
+					url: "safe/getOrgs.do", //提交地址
+					type: 'POST',//方式
+					async: false,//是否同步提交
+					error: function(xMLHttpRequest, textStatus, errorThrown) {
+						alert("获取部门列表失败，页面加载失败");
+					},
+					success: function(data) {
+						val=data; 
+					}
+				});
+			}
 			$("body").find("div [id='pickList']").each(function(i,ele){
 			   	var pick = $(ele).pickList({
 					data: val
@@ -182,49 +260,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		} 
 		
 
-		/**************************根据权限组ID将对应已选择的按钮选中***********************/
-		function doChecked(){
-			/**权限组ID，0表示个性化权限*/
-			var groupId=$("#selectGroup").val();
-			//若非个性化权限组
-			if(groupId!=0){
-				$.post("safe/getChecked.do",{powerGroupId:groupId},function (data){
-					//获取已选数据，将对应的选择框选中
-					checkedIt(data);
-				});
-			}else{
-				var uid=$("#uid").val();
-				//去用户权限表取数据
-				$.post("safe/getUserPowerDetails.do",{id:uid},function (data){
-					//获得了已选数据
-					checkedIt(data);
-				});
-			}
-		}
-		function checkedIt(data){
-			for(var i=0;i<data.length;i++){
-				var tableOper=data[i].tableOperId;
-				var deptSet=data[i].deptSet;
-				//如果部门集合不为空或者部门集合长度不等于0
-				if(deptSet!=null&&deptSet.length!=0){
-					for(j=0;j<deptSet.length;j++){
-						moveSelect(tableOper,deptSet[j]);
-					}
-				}else{
-					//没有部门权限要求的，设置选择情况
-					var checkid="#table"+tableOper;	
-					$(checkid).attr('checked', 'true');
-				}
-			}
-			
-		}
-		/**把已选的部门添加到选择*/
-		function moveSelect(tableOper,value){
-			var p=$("input:hidden[value='"+tableOper+"']").next("div [class='row']").find("div:first").find("#pickData option[value='"+value+"']");
-			var h=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:last").children("#pickListResult");
-			p.clone().appendTo(h);
-			p.remove();	
-		}
 	</script>
   </body>
 </html>

@@ -33,7 +33,10 @@
 	
 	<!-- 根据ID删除 -->
 	<delete id="delete" parameterType="com.hyst.vo.CreditManagerTbl">
-		delete from creditManagerTbl  where id=#{id} 
+		<!-- delete from creditManagerTbl  where id=#{id} --> 
+		update creditManagerTbl
+            <set> isValid= 0 ,updateTime= getdate()</set>
+            	where isValid= 1 and userInfoId=#{userInfoId} and roleType=#{roleType}
 	</delete>
 	<!-- 单个增加 -->
 	<insert id="insert" parameterType="com.hyst.vo.CreditManagerTbl">

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.hyst.dao.safe.CreditManagerOrgsTblDao;
 import com.hyst.dao.safe.CreditManagerTblDao;
+import com.hyst.dao.safe.CreditManagerViewDao;
 import com.hyst.service.safe.CreditManagerService;
 import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
+import com.hyst.vo.CreditManagerView;
 
 /**
  * @author DongYi
@@ -47,6 +49,9 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 		if (credit==null) {
 			//保存保密管理员数据
 			creditManagerOrgsTblDao.insert(creditManagerOrgsTbl);
+		}else if(credit.getRoleType()==1){
+			//如果该人员是兼职保密员且已经存在更新管理的部门名称信息
+			creditManagerOrgsTblDao.update(creditManagerOrgsTbl);
 		}
 		
 		//处理要保密的部门数据
@@ -72,15 +77,37 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 		}
 		return "保存成功";
 	}
-
+	//根据部门保密管理员ID查询视图
+	public CreditManagerView getView(int id) {
+		
+		return creditManagerViewDao.getOne(id);
+	}
+	//删除保密管理员
+	public String deleteCreditManage(CreditManagerOrgsTbl creditManager) {
+		if (creditManager==null||creditManager.getRoleType()==0||creditManager.getUserInfoId()==0) {
+			return "删除失败，请检查要删除的人员信息是否已正确选择";
+		}
+		//删除保密管理员
+		creditManagerOrgsTblDao.delete(creditManager);
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userInfoId", creditManager.getUserInfoId());
+		map.put("roleType", creditManager.getRoleType());
+		creditManagerTblDao.delete(map);
+		return "删除成功";
+	}
 	/////////////////////////---Dao等属性设置---/////////////////////////////////
 	
 	@Autowired
 	private CreditManagerOrgsTblDao creditManagerOrgsTblDao;
 	@Autowired
 	private CreditManagerTblDao creditManagerTblDao;
+	@Autowired
+	private CreditManagerViewDao creditManagerViewDao;
 	/////////////////////////---非业务方法处理---/////////////////////////////////
-	
+	public void setCreditManagerViewDao(
+			CreditManagerViewDao creditManagerViewDao) {
+		this.creditManagerViewDao = creditManagerViewDao;
+	}
 	public void setCreditManagerTblDao(CreditManagerTblDao creditManagerTblDao) {
 		this.creditManagerTblDao = creditManagerTblDao;
 	}
@@ -88,6 +115,7 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 			CreditManagerOrgsTblDao creditManagerOrgsTblDao) {
 		this.creditManagerOrgsTblDao = creditManagerOrgsTblDao;
 	}
+
 
 
 

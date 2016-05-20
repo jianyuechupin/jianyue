@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">   
-    <title>权限组列表</title>
+    <title>保密管理员列表页</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	/**绑定双击事件*/
 		 	$('#table').bootstrapTable({
 				onDblClickRow:function(row, $element){
-					window.location='safe/addpowergroup.do?id='+row.id;
+					window.location='safe/creditmanagerupdate.do?id='+row.id;
 				}
 	        });
 		 	/**取得权限组列表*/
@@ -39,20 +39,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					return;
 				}
 				var id=$("#table").bootstrapTable('getSelections')[0].id;
-				window.location='safe/addpowergroup.do?id='+id;
+				window.location='safe/creditmanagerupdate.do?id='+id;
 			}); 
 			/**删除按钮被点击*/
  			$("#delete").click(function(){
 				var selects=$("#table").bootstrapTable('getSelections');
+				var id=selects[0].id;
 				if(selects.length==0){
-					alert("请选择要删除的权限组");
+					alert("请选择要删除的保密管理员");
 					return;
 				}else if(selects.length > 1){
-					alert("请正确选择要删除的权限组，且每次只能选择一个");
+					alert("请正确选择要删除的保密管理员，且每次只能选择一个");
 					return;
 				}
-				var id=$("#table").bootstrapTable('getSelections')[0].id;
-				window.location='safe/deletepowergroup.do?id='+id;				
+				var datas="id="+id+"&userInfoId="+selects[0].userInfoId+"&roleType="+selects[0].roleType;
+				$.ajax({
+					url:'safe/creditmanagerdelete.do',
+					type:'POST',
+					data:datas,
+					async: true,
+					error: function(xMLHttpRequest, textStatus, errorThrown) {
+						alert("服务器发生错误，请检查要删除的数据是否正确后重试");
+					},
+					success: function(data) {
+						alert(data);
+						if("删除成功"==data){
+							/**刷新保密管理员列表*/
+						 	//$("#table").bootstrapTable('removeByUniqueId', id);
+				 		 	$.post("safe/getmanagers.do",function(data){
+				 		 		$("#table").bootstrapTable('removeAll');
+								$("#table").bootstrapTable('load', data);
+							}); 
+						}
+					}
+				});
+				//var id=$("#table").bootstrapTable('getSelections')[0].id;
+				//window.location='safe/deletepowergroup.do?id='+id;				
 			}); 
 		 });
 	</script>
@@ -87,8 +109,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<thead>
 						<tr id="head">
 							<th data-field="state" data-checkbox="true"></th>
-							<th data-field="id" data-visible="false" data-formatter="idFormatter">#</th>
+							<th data-field="id" data-visible="false" data-formatter="idFormatter"></th>
+							<th data-field="userInfoId" data-visible="false" /> <!-- 人员ID -->
 							<th data-field="userName">人员名称</th>
+							
+							<th data-field="roleType" data-visible="false" /><!-- 保密员类型 -->
 							<th data-field="roleName">管理角色</th>
 							<th data-field="orgsName">管理部门</th>
 						</tr>

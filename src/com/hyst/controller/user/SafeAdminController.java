@@ -454,4 +454,28 @@ public class SafeAdminController {
 	public List<CreditManagerTbl> getOrgsByUserId(int userId){
 		return creditManagerService.getOrgsByUserId(userId);
 	}
+	/**
+	 * 跳转到保密管理员修改页面  <页面跳转>
+	 * @param id 保密管理项ID
+	 * @return 保密管理员修改页面
+	 */
+	@RequestMapping("creditmanagerupdate")
+	public String creditManagerUpdate(int id,ModelMap map){
+		//根据保密管理员ID查询对应的视图
+		map.addAttribute("modle", creditManagerService.getView(id));
+		return "/WEB-INF/view/safe/creditdept/creditmanageupdate.jsp";
+	}
+	/**
+	 * 删除保密管理员  <页面跳转>
+	 * @param creditManager 保密管理对象
+	 * @return
+	 */
+	@RequestMapping("creditmanagerdelete")
+	@ResponseBody
+	public String creditManagerDelete(CreditManagerOrgsTbl creditManager){
+		//删除指定的保密管理员 
+		return  creditManagerService.deleteCreditManage(creditManager);
+		
+	}
+	
 }

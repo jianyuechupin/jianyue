@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
+import com.hyst.vo.CreditManagerView;
 
 /**
  * @author DongYi
@@ -29,6 +30,18 @@ public interface CreditManagerService {
 	 * @return
 	 */
 	public List<CreditManagerTbl> getOrgsByUserId(int userId);
+	/**
+	 * 根据ID查询保密管理员视图
+	 * @param id 保密管理员视图ID
+	 * @return
+	 */
+	public CreditManagerView getView(int id);
+	/**
+	 * 根据传入的保密管理员删除保密管理员信息 <保密管理员删除>
+	 * @param creditManager
+	 * @return 操作状态 
+	 */
+	public String deleteCreditManage(CreditManagerOrgsTbl creditManager);
 	
 	
 	

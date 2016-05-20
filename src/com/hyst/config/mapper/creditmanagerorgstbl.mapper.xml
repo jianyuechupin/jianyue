@@ -20,24 +20,13 @@
 	<insert id="insert" parameterType="com.hyst.vo.CreditManagerOrgsTbl">
 		insert into creditManagerOrgsTbl (userInfoId,userName,roleType,orgsName) values (#{userInfoId},#{userName},#{roleType},#{orgsName})
 	</insert>
-	<!-- 动态根据ID更新 -->
+	<!-- 更新兼职保密管理员的部门 -->
 	<update id="update" parameterType="com.hyst.vo.CreditManagerOrgsTbl">
 		update creditManagerOrgsTbl 
 		<set>
-		<if test="userInfoId != 0">
-			userInfoId=#{userInfoId},
-		</if>
-		<if test="userName != null">
-			userName=#{userName},
-		</if>
-		<if test="roleType != 0">
-			roleType=#{roleType},
-		</if>
-		<if test="orgsName != null">
 			orgsName=#{orgsName},
-		</if>
 		</set>
- 		 where id=#{id} 
+ 		 where userInfoId=#{userInfoId} and roleType=#{roleType}
 	</update>
 	<!-- 根据用户ID和保密员类型查询保密员 -->
 	<select id="getOne" parameterType="com.hyst.vo.CreditManagerOrgsTbl" resultType="com.hyst.vo.CreditManagerOrgsTbl">

@@ -42,8 +42,11 @@ public class DefinePowerDetilTbl {
 		return deptList;
 	}
 	public void setDeptList(String deptList) {
-		this.deptList = deptList.trim();
-		deptList=deptList.substring(0,deptList.length()-1);
+		
+		if (deptList.endsWith("\\|")) {
+			deptList=deptList.trim().substring(0,deptList.trim().length()-1);
+		}
+		this.deptList = deptList;
 		String[] deptz=deptList.split("\\|");
 		setDeptSet(new HashSet<String>(Arrays.asList(deptz)));
 	}
