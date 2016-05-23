@@ -21,7 +21,7 @@
 				  <span >安全管理</span> <i class="caret"></i>
 			 </a>
 			<ul class="submenu">
-				<li>123</li>
+				<li><a href="javascript:;">测试</a></li>
 			</ul> 
 		</li>
 	</ul>
@@ -40,12 +40,12 @@
  	$("#sidebar-nav .dropdown-toggle").click(function() {
  		
  		var lis="";
- 		$.post("ajax.do",{"id":this.id},function (data){
+ 		/* $.post("ajax.do",{"id":this.id},function (data){
 			lis=data;
 			//map.put(this.id,data);
-		});
+		}); */
 		//lis=eval(lis);
-		alert(lis);
+		//alert(lis);
 		//二级菜单缓慢收起来
 		$('.submenu').slideUp("slow");
 			if ($(this).next().css("display") == "none") {

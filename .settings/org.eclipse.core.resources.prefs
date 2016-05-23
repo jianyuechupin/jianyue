@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//WebRoot/css/showBo.css=UTF-8
+encoding//WebRoot/include/alert.jsp=UTF-8
 encoding//src/com/hyst/config/db.properties=UTF-8
 encoding//src/com/hyst/config/log4j.properties=UTF-8
 encoding//src/log4j.properties--=UTF-8

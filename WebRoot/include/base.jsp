@@ -13,7 +13,6 @@
 <!-- <link href="/hyst/css/bootstrap/bootstrap-table.min.css" rel="stylesheet"> -->
 <!-- <script src="/hyst/js/bootstrap/bootstrap-table.js" type="text/javascript"></script> -->
 
-<!-- http://localhost:8080/hyst/js/jquery.json.js -->
 <link href="/hyst/css/bootstrap/navbar-fixed-top.css" rel="stylesheet">
 
 <!-- <link rel="stylesheet" type="text/css" href="/hyst/css/lib/font-awesome.css" />
@@ -24,11 +23,9 @@
 
 <script src="/hyst/js/bootstrap/bootstrap.js" type="text/javascript"></script>
 
+<link type="text/css" rel="stylesheet" href="css/showBo.css" charset="utf-8">
+<script type="text/javascript" src="js/showBo.js" charset="utf-8" ></script>
 
-
-<script type="text/javascript">
-	<%-- alert("<%=basePath%>"); --%>
-</script>
  	
  	
  	
