@@ -14,20 +14,22 @@ body {
 	background-image:linear-gradient(to top,#F8FFED,rgba(116, 145, 150, 0.63));
 }
 
-/* 添加背景模糊背景图片效果
+
 .toTop:before {
 		content: "";
-		left: 0;
-  		right: 0;
+		left: 160px;
+  		right: 0px;
   		top:0;
 		width: 1440px;
-  		height: 900px;
-		background-image: url("img/1 (14).jpg");
+  		height: 1400px;
+		background-image: url("/hyst/img/8.jpg");
 		background-repeat: repeat;
 		z-index: -1;
 		position: absolute;
-		-webkit-filter: blur(5px);
-} */
+		-webkit-filter: blur(20px);
+}
+/* 添加背景模糊背景图片效果 
+*/
 
 .page-container {
     margin: 120px auto 0 auto;

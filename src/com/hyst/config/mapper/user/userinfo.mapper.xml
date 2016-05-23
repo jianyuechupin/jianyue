@@ -19,11 +19,11 @@
 
 	
 	<select id="userloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.UserInfo">
-		select * from userInfo where account=#{account} and password=#{password} and isDelete=0
+		select * from userInfo where account=#{account} and isDelete=0
 	</select>
 	
 	<select id="adminloginAuthentication" parameterType="java.util.Map"  resultType="com.hyst.vo.user.AdminTbl">
-		select * from adminTbl where adminid=#{account} and pass=#{password}
+		select * from adminTbl where adminid=#{account} 
 	</select>
 
 	<select id="getusersbydept" parameterType="java.lang.String" resultType="com.hyst.vo.user.UserInfo">
