@@ -19,7 +19,7 @@
   </filter>
   <filter-mapping>
     <filter-name>filterLog</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
   <context-param>
     <param-name>log4jConfigLocation</param-name>

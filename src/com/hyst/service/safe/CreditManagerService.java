@@ -5,6 +5,7 @@ import java.util.List;
 import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
 import com.hyst.vo.CreditManagerView;
+import com.hyst.vo.WebRoleSettingTbl;
 
 /**
  * @author DongYi
@@ -21,7 +22,7 @@ public interface CreditManagerService {
 	/**
 	 * 保存新增的部门保密管理员 <查询部门保密管理员>
 	 * @param creditManagerOrgsTbl
-	 * @return
+	 * @return 操作状态
 	 */
 	public String saveCreditDetail(CreditManagerOrgsTbl creditManagerOrgsTbl);
 	/**
@@ -47,5 +48,10 @@ public interface CreditManagerService {
 	
 	
 	
-	//*********************************************************************
+	//*************************保密门户角色设置***************************************
+	/**
+	 * 获取保密门户角色
+	 * @return
+	 */
+	public List<WebRoleSettingTbl> getWebRoles();
 }

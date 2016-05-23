@@ -13,7 +13,7 @@ public class UserPowerManageView{
 	private String orgName;
 	/**属性描述： 登录名*/
 	private String account;
-	/**属性描述： 登录类型 0密码登录，1域登录*/
+	/**属性描述： 登录类型 1密码登录，0域登录*/
 	private int loginType;
 	/**属性描述：登录方式字符串*/
 	private String loginTypeString;
@@ -68,9 +68,9 @@ public class UserPowerManageView{
 	public void setLoginType(int loginType){
 		this.loginType = loginType;
 		if (loginType==0) {
-			setLoginTypeString("密码登录");
-		}else {
 			setLoginTypeString("域登录");
+		}else {
+			setLoginTypeString("密码登录");
 		}
 	}
 }

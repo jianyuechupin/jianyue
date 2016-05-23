@@ -61,12 +61,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	<script type="text/javascript">
+		var val="";
 		$(function() {
+			getDept();
 			//alert($('#myTab li:eq(0) a').attr("href"));
 			//创建页面内容
 			getManus();
-			//展示第一个Tab页
-			$('#myTab li:eq(0) a').tab('show');	
+			
 			//为用户重新选择权限组
 			$("#selectGroup").change(function(){
 				//清空所有选项
@@ -75,6 +76,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				setCheckedValue();
 			});
 		});
+		/**取得部门*/
+		function getDept(){
+			$.ajax({
+				url: "safe/getOrgs.do", //提交地址
+				type: 'POST',//方式
+				async: false,//是否同步提交
+				error: function(xMLHttpRequest, textStatus, errorThrown) {
+					alert("获取部门列表失败，页面加载失败");
+				},
+				success: function(data) {
+					val=data; 
+				}
+			});
+			//return val;
+		}
+		
 		/**清空所有选项*/
 		function unCheckedAll(){
 			//将所有的复选框状态变为未选择
@@ -141,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		/**取得一级菜单及其子菜单功能*/
 		function getManus(){
-			var val="";
+			
 			//遍历li标签下的a被激活
 			$("body").find("#myTab li a[id='manuTree']").each(function(i,ele){
 				//异步请求二级菜单
@@ -150,6 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			addDept(val);
 			setCheckedValue();
+			$('#myTab li:eq(0) a').tab('show');	
 		}
 		
 		/*ajax 异步获取子菜单列表*/
@@ -204,20 +222,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		/**为部门列表添加数据函数  */
 		function addDept(val){
-			if(val==null||val.length==0){
-				$.ajax({
-					url: "safe/getOrgs.do", //提交地址
-					type: 'POST',//方式
-					async: false,//是否同步提交
-					error: function(xMLHttpRequest, textStatus, errorThrown) {
-						alert("获取部门列表失败，页面加载失败");
-					},
-					success: function(data) {
-						val=data; 
-					}
-				});
-			}
 			$("body").find("div [id='pickList']").each(function(i,ele){
+			   		//alert(val);
 			   	var pick = $(ele).pickList({
 					data: val
 				});

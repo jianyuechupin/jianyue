@@ -26,6 +26,7 @@ import com.hyst.vo.UserGroupView;
 import com.hyst.vo.UserPowerDetailTbl;
 import com.hyst.vo.UserPowerDetailTbls;
 import com.hyst.vo.UserPowerManageView;
+import com.hyst.vo.WebRoleSettingTbl;
 import com.hyst.vo.user.UserInfo;
 
 /**
@@ -308,6 +309,7 @@ public class SafeAdminController {
 		map.addAttribute("userlist", safeAdminService.selectUsers(userPowerManageView));
 		return "/WEB-INF/view/safe/userPower/users.jsp";
 	}
+	//@RequestMapping("")
 //	/**
 //	 * 取得用户查询后的查询数据
 //	 * @param userPowerManageView
@@ -476,6 +478,39 @@ public class SafeAdminController {
 		//删除指定的保密管理员 
 		return  creditManagerService.deleteCreditManage(creditManager);
 		
+	}
+	//***************************保密门户角色设置*******************************************//
+	/**
+	 * 跳转到保密门户角色设置 页面 <保密门户角色设置>
+	 * @return 页面跳转到保密门户角色设置列表页
+	 */
+	@RequestMapping("webRoleSettingPage")
+	public String webRolePage(){
+		return "/WEB-INF/view/safe/webrolesetting/webrolesetting.jsp"; 
+	}
+	/**
+	 * ajax 获取保密门户角色列表 <保密门户角色设置>
+	 * @return list<保密门户角色>
+	 */
+	@RequestMapping("webrolelist")
+	@ResponseBody
+	public List<WebRoleSettingTbl> webRoleList(){
+		return null;
+	}
+	/**
+	 * 页面跳转到保密门户角色修改页面；<保密门户角色设置>
+	 * @return
+	 */
+	@RequestMapping("webroleupdatepage")
+	public String webRoleUpdatePage(){
+		return "/WEB-INF/view/safe/webrolesetting/webroleupd.jsp"; 
+	}
+	@RequestMapping("usersid")
+	@ResponseBody  //    usersIds
+	public int testA(int[] uids){
+		System.out.println(uids.length);
+		
+		return 9;
 	}
 	
 }

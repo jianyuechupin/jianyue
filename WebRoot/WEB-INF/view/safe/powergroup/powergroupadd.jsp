@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">    
-    <title>页面标题</title>
+    <title>权限组细则</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -30,7 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
 			<div>
-				
 				<input type="hidden" value="${powerGrou.id }" id="powergroupid">
 			 	<h5 class="col-sm-2">权限组名称：</h5>
 				<input id="powergroupname" class="form-control required col-sm-4" style="width: 30%;"  value="${powerGrou.powerGroup }" placeholder="权限组名称" type="text"/>
@@ -55,93 +54,134 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	<script type="text/javascript">
+		var val="";
 		$(function() {
-			
+			getDepts();
 			//创建页面内容
 			getManus();
+			//为页面所有的左右选择框添加数据
+			addDept(val);
+			//选中改组已被选择的数据
+			setCheckedValue();
 			//展示第一个Tab页
 			$('#myTab li:eq(0) a').tab('show');	
 	
 		});
-		var val="";
-		/**取得一级菜单及其子菜单功能*/
-		function getManus(){
-			var flg=false; 
-			//遍历li标签下的a被激活
-			$("body").find("#myTab li a[id='manuTree']").each(function(i,ele){
-				var num=$("body").find("#myTab li a[id='manuTree']").length;
-			//异步请求二级菜单
-				ajaxs($(ele));
-				flg=i==($("body").find("#myTab li a[id='manuTree']").length);
-				
-			});
-		
-			/**将本组下应选中的选择框选中*/	
-			//doChecked();
-		}
-		
-		/*ajax 异步获取子菜单列表*/
-		function ajaxs(obj){
-			//var n=obj.find("input[name='operId']").val();
-			
-			var id=obj.attr("href").toString().replace("#","");
+		/**取得部门列表*/
+		function getDepts(){
 			/**获取部门列表*/
 			$.post("safe/getOrgs.do",function(data){
 				val=data; 
 			}); 
-			/**$("input:checkbox[value='1']").attr('checked','true');  */
-			/*取得子菜单以及操作功能*/
-			var pid=id.replace("tal","");
-			$.post("safe/sonMenu.do",{"pid":pid} ,function(data){
-				//var htm="<div class=\"tab-pane fade\" id=\""+id+"\">";
-				var htm="<div class=\"tab-pane fade\" id=\""+id+"\"><ul>";
-				for(var i=0;i<data.length;i++){
-					var hasOrg=data[i].hasOrg;/* 0不需要做部门限制，1需要部门限制 */
-					htm+="<li class=\"sidebar_nav col-sm-12\">";
-					//htm+=data[i].tableName+"<br/>";
-					var $list=data[i].tableOperViews;
-					if(data[i].hasOrg==0){
-						htm+="<input type='checkbox' class='chk_1' name='tabeInfo' id='tree"+data[i].id+"'><label style='width: 26%;' for='tree"+data[i].id+"'>"+
-						data[i].tableName+"</label><ul>";						
-						for(var j=0;j<$list.length;j++){
-							//htm+="<input type=\"checkbox\" name='id' id=table"+$list[j].id+" value="+$list[j].id+">"+$list[j].operTypeName;
-							htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
-							" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
-							"</label></li>";				
-						}
-					}else{
-						htm+="<label style='width: 26%;' id='tree"+data[i].id+"'>"+data[i].tableName+"</label><ul>";
-						for(var j=0;j<$list.length;j++){
-							var c="<div class='panel-heading'><label class='fontstyle'>"+
-							$list[j].operTypeName+"</label></div>"
-							+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
-							htm+=c;
-						//htm+="</br>-----------需要做部门级别的选择------------"
-							//var c="<div class='panel-heading'><h5 class='panel-title'>"+
-							//$list[j].operTypeName+"</h5></div>"
-							//+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
-							
-							//htm+=c;
-						}
-						//htm+="</div>";
-					}
-					//htm+="<br/>";
-					htm+="</ul>";					
-				}
-				//htm+="<button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
-				//alert(htm);
-				//$("#myTabContent").append(htm);
-				htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
-				$("#myTabContent").append(htm);				
-				zj(val);
-				doChecked();
-			
+		}
+		
+		/**取得一级菜单及其子菜单功能*/
+		function getManus(){
+			//遍历li标签下的a被激活
+			$("body").find("#myTab li a[id='manuTree']").each(function(i,ele){
+			//异步请求二级菜单
+				ajaxs($(ele));
 			});
 			
+		}
+		/**设置权限组已选择的数据 --*/
+		function setCheckedValue(){
+			var data =getCheckedValue();
+			 for(var i=0;i<data.length;i++){
+				var tableOper=data[i].tableOperId;
+				var deptSet=data[i].deptSet; 
+				//如果部门集合不为空或者部门集合长度不等于0
+				 if(deptSet!=null&&deptSet.length!=0){ 
+					 
+					for(var j=0;j<deptSet.length;j++){
+						if(deptSet[j]!=null){
+							var value=deptSet[j];
+							var p=$("input:hidden[value='"+tableOper+"']").next("div [class='row']").find("div:first").find("#pickData option[value='"+value+"']");
+							var h=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:last").children("#pickListResult");
+							p.clone().appendTo(h);
+							p.remove();	 
+							
+						}
+					} 
+				}else{
+					//没有部门权限要求的，设置选择情况
+					var checkid="#table"+tableOper;	
+					$(checkid).prop("checked", true);
+				}
+			}
+		}
+		/**取得选择的内容*/
+		function getCheckedValue(){
+			var powerGroupId=$("#powergroupid").val();
+			var datas=null;
+			var ur="safe/getChecked.do";
+			var para="powerGroupId="+powerGroupId;
+			
+			$.ajax({
+				url: ur, //提交地址
+				type: 'POST',//方式
+				data: para,//提交的数据
+				async: false,//是否同步提交
+				error: function(xMLHttpRequest, textStatus, errorThrown) {
+					alert("服务器异常");
+				},
+				success: function(data) {
+					datas= data;
+				}
+			});
+			return datas;
+		}
+		/*ajax 异步获取子菜单列表*/
+		function ajaxs(obj){
+			
+			var id=obj.attr("href").toString().replace("#","");
+			/*取得子菜单以及操作功能*/
+			var pid=id.replace("tal","");
+			$.ajax({
+				url: "safe/sonMenu.do", //提交地址
+				type: 'POST',//方式
+				data: "pid="+pid,//提交的数据
+				async: false,//是否同步提交
+				error: function(xMLHttpRequest, textStatus, errorThrown) {
+					alert("服务器异常");
+				},
+				success: function(data) {
+					appendHtml(data,id,pid);
+				}
+			});	
 			
 		}	
+		/**页面细则追加*/
+		function appendHtml(data,id,pid){
+			var htm="<div class=\"tab-pane fade\" id=\""+id+"\"><ul>";
+			for(var i=0;i<data.length;i++){
+				var hasOrg=data[i].hasOrg;/* 0不需要做部门限制，1需要部门限制 */
+				htm+="<li class=\"sidebar_nav col-sm-12\">";
+				var $list=data[i].tableOperViews;
+				if(data[i].hasOrg==0){
+					htm+="<input type='checkbox' class='chk_1' name='tabeInfo' id='tree"+data[i].id+"'><label style='width: 26%;' for='tree"+data[i].id+"'>"+
+					data[i].tableName+"</label><ul>";						
+					for(var j=0;j<$list.length;j++){
+						htm+="<li class='col-sm-3'><input type=\"checkbox\" name='tableOperID' id=table"+$list[j].id+
+						" value="+$list[j].id+"><label for='table"+$list[j].id+"'>"+$list[j].operTypeName+
+						"</label></li>";				
+					}
+				}else{
+					htm+="<label style='width: 26%;' id='tree"+data[i].id+"'>"+data[i].tableName+"</label><ul>";
+					for(var j=0;j<$list.length;j++){
+						var c="<div class='panel-heading'><label class='fontstyle'>"+
+						$list[j].operTypeName+"</label></div>"
+						+"<div id=\"pickList\"><input type=\"hidden\" value="+$list[j].id+"></div>";
+						htm+=c;
+					}
+				}
+				htm+="</ul>";					
+			}
+			htm+="</ul><button onclick='postt(this,"+pid+")' id=\"submit\" class=\"btn btn-primary\" type=\"button\">保  存</button></div>";
+			$("#myTabContent").append(htm);		
+		};
 		/**为部门列表添加数据函数  */
-		function zj(val){
+		function addDept(val){
 			$("body").find("div [id='pickList']").each(function(i,ele){
 			   	var pick = $(ele).pickList({
 					data: val
@@ -158,9 +198,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	
 		 	var ids="pid="+pid+"&powerGroup.id="+groupid+"&powerGroup.powerGroup="+$("#powergroupname").val()+"&powerGroup.remark="+$("#powergroupremark").val();
 		 	//取得已选复选框的个数
-		 	var j=$(obj).prevAll("input:checkbox[name=id]:checked").length;
+		 	var j=$(obj).parent().find("input:checkbox[name=tableOperID]:checked").length;
 		 	//遍历所有复选框
-			$(obj).prevAll("input:checkbox[name=id]:checked").each(function(i){  
+			$(obj).parent().find("input:checkbox[name=tableOperID]:checked").each(function(i){  
 	           ids+="&details["+i+"].tableOperId="+$(this).val()+"&details["+i+"].powerGroupId="+groupid;
 	        	
 	        });
@@ -181,7 +221,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    
 			    }
 			 }); 
-			 /*****************************提交数据阶段***********************************************************/
 	       	$.post("safe/addpower.do",ids,function(data){
 	       		alert(data);
 	        });
@@ -203,37 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return data;
 			});
 		}
-		/**************************根据权限组ID将对应已选择的按钮选中***********************/
-		function doChecked(){
-			var groupId=$("#powergroupid").val(); 
-			$.post("safe/getChecked.do",{powerGroupId:groupId},function (data){
-				//获取已选数据，将对应的选择框选中
-				checkedIt(data);
-			});
-		}
-		function checkedIt(data){
-			for(var i=0;i<data.length;i++){
-				var tableOper=data[i].tableOperId;
-				var deptSet=data[i].deptSet;
-				//如果部门集合不为空或者部门集合长度不等于0
-				if(deptSet!=null&&deptSet.length!=0){
-					for(j=0;j<deptSet.length;j++){
-						moveSelect(tableOper,deptSet[j]);
-					}
-				}else{
-					//没有部门权限要求的，设置选择情况
-					var checkid="#table"+tableOper;	
-					$(checkid).attr('checked', 'true');
-				}
-			}
-			
-		}
-		function moveSelect(tableOper,value){
-			var p=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:first").find("#pickData option[value='"+value+"']");
-			var h=$("input:hidden[value='"+tableOper+"']").next("div:first").find("div:last").children("#pickListResult");
-			p.clone().appendTo(h);
-			p.remove();	
-		}
+		
 	</script>
   </body>
 </html>

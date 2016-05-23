@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.hyst.dao.safe.CreditManagerOrgsTblDao;
 import com.hyst.dao.safe.CreditManagerTblDao;
 import com.hyst.dao.safe.CreditManagerViewDao;
+import com.hyst.dao.safe.WebRoleSettingTblDao;
 import com.hyst.service.safe.CreditManagerService;
 import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
 import com.hyst.vo.CreditManagerView;
+import com.hyst.vo.WebRoleSettingTbl;
 
 /**
  * @author DongYi
@@ -95,8 +97,15 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 		creditManagerTblDao.delete(map);
 		return "删除成功";
 	}
+	//////////////////////////---保密门户角色设置---//////////////////////////////
+	//获取保密角色列表
+	public List<WebRoleSettingTbl> getWebRoles() {
+		return webRoleSettingTblDao.list();
+	}
+
 	/////////////////////////---Dao等属性设置---/////////////////////////////////
-	
+	@Autowired
+	private WebRoleSettingTblDao webRoleSettingTblDao;
 	@Autowired
 	private CreditManagerOrgsTblDao creditManagerOrgsTblDao;
 	@Autowired
@@ -104,6 +113,11 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 	@Autowired
 	private CreditManagerViewDao creditManagerViewDao;
 	/////////////////////////---非业务方法处理---/////////////////////////////////
+	
+	public void setWebRoleSettingTblDao(
+			WebRoleSettingTblDao webRoleSettingTblDao) {
+		this.webRoleSettingTblDao = webRoleSettingTblDao;
+	}
 	public void setCreditManagerViewDao(
 			CreditManagerViewDao creditManagerViewDao) {
 		this.creditManagerViewDao = creditManagerViewDao;

@@ -40,8 +40,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 右侧区域 -->
 	 <div class="container"> 
 		<div class="jumbotron" style="margin-left: 100px;">
-		<form class="niceform" action="safe/query.do" method="post">
-		<fieldset>
+		<form action="safe/query.do" method="post">
+		
           <dl>
             <dt><label for="orgId">单位：</label></dt>
             <dd>
@@ -54,23 +54,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dt><label for="loginType">登录方式：</label></dt>
 			<dd>
 				<input type="radio" id="all" name="loginType" id="" value="-1" /><label for="all" class="check_label">全部方式</label>
-				<input type="radio" id="zone" name="loginType" id="" value="0" /><label for="zone" class="check_label">密码登陆</label>
-				<input type="radio" id="password" name="loginType" id="" value="1" /><label for="password" class="check_label">域登录</label>
+				<input type="radio" id="zone" name="loginType" id="" value="1" /><label for="zone" class="check_label">密码登陆</label>
+				<input type="radio" id="password" name="loginType" id="" value="0" /><label for="password" class="check_label">域登录</label>
 			</dd>
 		</dl>		
 		
         <dl>
             <dt><label for="userName">姓名:</label></dt>
-            <dd><input type="text" name="userName" id="" size="54" /></dd>
+            <dd><input type="text" name="userName"  size="27" /></dd>
         </dl>			
         <dl>
             <dt><label for="account">系统账号:</label></dt>
-            <dd><input type="text" name="account" id="" size="54" /></dd>
+            <dd><input type="text" name="account"  size="27" /></dd>
         </dl>			
 		<dl class="submit">
 			<input type="submit" name="submit" id="submit" value="Submit" />
 		</dl>
-		</fieldset>
+		
 		</form>	
 	</div></div>				
   </body>

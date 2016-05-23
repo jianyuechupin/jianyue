@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	 <%@include file="../../include/base.jsp" %> 
  	<script src="js/bootstrap-table-contextmenu.min.js"></script>
 	<script type="text/javascript">
+	var users=${userlist};
 		 $(function(){
 		 	/**绑定双击事件*/
 		 	$('#table').bootstrapTable({
@@ -24,8 +25,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					alert("跳转到用户权限细则页面");
 					//window.location='addpowergroup.do?id='+row.id;
 				}
-	        }); 
-		 	alert(${userlist});
+	        });
+		 	
+		 	//alert("${userlist}");
 		 	//var data=${userlist};
 		 	//setData(data);
 		 	//var data=${userlist };
@@ -51,9 +53,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}); */
 	        
 		 	/**取得用户列表*/
- 		 	$.post("safe/userPowerManageViews.do",function(data){
-				$("#table").bootstrapTable('load', data);
-			});  
+		 	alert("${userlist}");
+		 	//var users=${userlist};
+		 	/* var users="[UserPowerManageView [uid=1, userName=Knight, orgId=1, orgName=航宇科技, account=rpj, loginType=0, loginTypeString=密码登录],"+
+		 		" UserPowerManageView [uid=3, userName=TestMan, orgId=10001, orgName=需求组;, account=lr, loginType=0, loginTypeString=密码登录],"+
+		 		 " UserPowerManageView [uid=7, userName=Okey, orgId=2, orgName=研发中心, account=zwj, loginType=0, loginTypeString=密码登录], "+
+		 		  "UserPowerManageView [uid=10, userName=小花, orgId=20002, orgName=研发中心, account=xq, loginType=0, loginTypeString=密码登录],"+
+		 		  " UserPowerManageView [uid=12, userName=小强, orgId=4, orgName=总体部, account=xx, loginType=0, loginTypeString=密码登录]"+
+		 		  " ]"; */
+		 		//  users.replace("]", "}");
+ 		 	//$.post("safe/userPowerManageViews.do",function(data){
+ 		 		
+			$("#table").bootstrapTable('load',users );
+			//}); 
 			/**修改按钮被点击*/
  			/* $("#update").click(function(){
 				var selects=$("#table").bootstrapTable('getSelections');
@@ -110,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th data-field="loginTypeString">登录方式</th>
 						</tr>
 					</thead>
-					<tbody>
+					<%-- <tbody>
 						<c:forEach items="${userlist }" var="user">
 							<tr data-index="0">
 								<td class="bs-checkbox">
@@ -122,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<td >user.loginTypeString</td>
 							</tr>
 						</c:forEach>
-					</tbody>	
+					</tbody> --%>	
 				</table>
 			</div>
 		<!-- 列表完成 -->	

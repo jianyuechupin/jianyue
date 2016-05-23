@@ -17,7 +17,7 @@ public class LogFilter implements Filter{
 	private static Logger log;
 	@Override
 	public void destroy() {
-		
+
 	}
 	/**
 	 * 打印请求日志
