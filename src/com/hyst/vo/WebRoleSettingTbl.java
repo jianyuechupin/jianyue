@@ -1,4 +1,10 @@
 package com.hyst.vo;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 public class WebRoleSettingTbl{
 	/**属性描述： ID*/
 	private int id;
@@ -8,6 +14,16 @@ public class WebRoleSettingTbl{
 	private String role;
 	/**属性描述：用户ID，多个之间以竖线分割 | */
 	private String userId;
+
+	/**属性描述: 表示人员的字符串*/
+	private String users;	
+	
+	public String getUsers() {
+		return users;
+	}
+	public void setUsers(String users) {
+		this.users = users;
+	}
 	public int getId(){
 		return this.id;
 	}
@@ -33,6 +49,7 @@ public class WebRoleSettingTbl{
 	}
 	public void setUserId(String userId){
 		this.userId = userId;
+		
 	}
 	public String getRole() {
 		return role;

@@ -6,6 +6,7 @@ import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
 import com.hyst.vo.CreditManagerView;
 import com.hyst.vo.WebRoleSettingTbl;
+import com.hyst.vo.user.UserView;
 
 /**
  * @author DongYi
@@ -51,7 +52,25 @@ public interface CreditManagerService {
 	//*************************保密门户角色设置***************************************
 	/**
 	 * 获取保密门户角色
-	 * @return
+	 * @return 保密门户角色列表
 	 */
 	public List<WebRoleSettingTbl> getWebRoles();
+	/**
+	 * 根据ID查询保密门户角色信息
+	 * @param id 
+	 * @return 保密门户角色
+	 */
+	public WebRoleSettingTbl getWebRoleById(int id);
+	/**
+	 * 根据用户ID数组查询用户视图
+	 * @param userIds 表示用户ID的字符串，以|分割
+	 * @return
+	 */
+	public List<UserView> getUsersByIds(String userIds);
+	/**
+	 * 修改保密门户角色
+	 * @param webRoleSettingTbl 被修改的对象
+	 * @return
+	 */
+	public String updateWebRole(WebRoleSettingTbl webRoleSettingTbl);
 }

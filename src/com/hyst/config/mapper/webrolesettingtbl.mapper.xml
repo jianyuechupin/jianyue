@@ -8,6 +8,7 @@
 		<id column="id" property="id"/>
 		<result column="roleType" property="roleType"/>
 		<result column="userId" property="userId"/>
+		<result column="users" property="users"/>
 	</resultMap>
 
 	<!-- 根据ID删除 -->
@@ -16,23 +17,18 @@
 	</delete>
 	<!-- 单个增加 -->
 	<insert id="insert" parameterType="com.hyst.vo.WebRoleSettingTbl">
-		insert into webRoleSettingTbl (roleType,userId) values (#{roleType},#{userId})
+		insert into webRoleSettingTbl (roleType,userId,users) values (#{roleType},#{userId},#{users})
 	</insert>
 	<!-- 动态根据ID更新 -->
 	<update id="update" parameterType="com.hyst.vo.WebRoleSettingTbl">
 		update webRoleSettingTbl 
 		<set>
-		<if test="roleType != 0">
-			roleType=#{roleType},
-		</if>
-		<if test="userId != null">
-			userId=#{userId},
-		</if>
+			userId=#{userId},users=#{users},
 		</set>
  		 where id=#{id} 
 	</update>
 	<!-- 查询单个 -->
-	<select id="getOne" resultType="com.hyst.vo.WebRoleSettingTbl">
+	<select id="getOne" parameterType="int" resultType="com.hyst.vo.WebRoleSettingTbl">
 		select * from webRoleSettingTbl  where id=#{id} 
 	</select>
 	<!-- 动态查询 -->
@@ -44,6 +40,9 @@
 			</if>
 			<if test=" userId != null ">
 			  and userId=#{userId}
+			</if>
+			<if test=" users != null ">
+			  and users=#{users}
 			</if>
 		</where> 
 	</select>

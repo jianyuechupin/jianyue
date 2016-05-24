@@ -7,6 +7,7 @@ import org.apache.logging.log4j.core.helpers.SystemClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,6 +29,7 @@ import com.hyst.vo.UserPowerDetailTbls;
 import com.hyst.vo.UserPowerManageView;
 import com.hyst.vo.WebRoleSettingTbl;
 import com.hyst.vo.user.UserInfo;
+import com.hyst.vo.user.UserView;
 
 /**
  * @author DongYi
@@ -495,22 +497,28 @@ public class SafeAdminController {
 	@RequestMapping("webrolelist")
 	@ResponseBody
 	public List<WebRoleSettingTbl> webRoleList(){
-		return null;
+		return creditManagerService.getWebRoles();
+		//return null;
 	}
 	/**
 	 * 页面跳转到保密门户角色修改页面；<保密门户角色设置>
 	 * @return
 	 */
-	@RequestMapping("webroleupdatepage")
-	public String webRoleUpdatePage(){
+	@RequestMapping(value="/{id}/webroleupdatepage")
+	public String webRoleUpdatePage(@PathVariable int id,ModelMap map){
+		map.addAttribute("model",creditManagerService.getWebRoleById(id));
 		return "/WEB-INF/view/safe/webrolesetting/webroleupd.jsp"; 
 	}
+	//根据用户查询用户列表
 	@RequestMapping("usersid")
 	@ResponseBody  //    usersIds
-	public int testA(int[] uids){
-		System.out.println(uids.length);
+	public List<UserView> testA(String userIds){
 		
-		return 9;
+		return creditManagerService.getUsersByIds(userIds);
 	}
-	
+	@RequestMapping("savewebrole")
+	@ResponseBody
+	public String saveWebRole(WebRoleSettingTbl webRoleSettingTbl){
+		return creditManagerService.updateWebRole(webRoleSettingTbl);
+	}
 }

@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -25,6 +26,8 @@ public class LogFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse rsp,
 			FilterChain chain) throws IOException, ServletException {
+//		HttpServletResponse hrsp=(HttpServletResponse) rsp;
+//		hrsp.sendRedirect("/login.jsp");
 		//获得所有请求参数
 		Enumeration<String> names=req.getParameterNames();
 		//获得请求路径

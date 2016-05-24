@@ -2,8 +2,10 @@ package com.hyst.service.safe.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,13 @@ import com.hyst.dao.safe.CreditManagerOrgsTblDao;
 import com.hyst.dao.safe.CreditManagerTblDao;
 import com.hyst.dao.safe.CreditManagerViewDao;
 import com.hyst.dao.safe.WebRoleSettingTblDao;
+import com.hyst.dao.user.UserViewDao;
 import com.hyst.service.safe.CreditManagerService;
 import com.hyst.vo.CreditManagerOrgsTbl;
 import com.hyst.vo.CreditManagerTbl;
 import com.hyst.vo.CreditManagerView;
 import com.hyst.vo.WebRoleSettingTbl;
+import com.hyst.vo.user.UserView;
 
 /**
  * @author DongYi
@@ -102,8 +106,46 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 	public List<WebRoleSettingTbl> getWebRoles() {
 		return webRoleSettingTblDao.list();
 	}
+	//根据ID查询保密门户角色
+	public WebRoleSettingTbl getWebRoleById(int id) {
+		System.out.println(id);
+		return webRoleSettingTblDao.getOne(id);
+	}
+	//修改保密门户角色
+	public String updateWebRole(WebRoleSettingTbl webRoleSettingTbl) {
+		if (webRoleSettingTbl==null) {
+			return "保存失败，请选择要保存的数据";
+		}
+		int i=webRoleSettingTblDao.update(webRoleSettingTbl);
+		if (i>0) {
+			return "保存成功";
+		}
+		return "保存失败";
+	}
+	//保密门户角色ID查询包含的用户
+	public List<UserView> getUsersByIds(String userId) {
+		List<Integer> uids=new ArrayList<Integer>();
+		if (userId==null||userId=="") {
+			return null;
+		}
+		if (userId!=null&&userId.endsWith("\\|")) {
+			userId.substring(0, userId.length()-1);
+		}
+		String[] ids=userId.split("\\|");
+		for (int i = 0; i < ids.length; i++) {
+			int j=Integer.parseInt(ids[i]);
+			uids.add(j);
+		}
+		if (uids==null||uids.size()==0) {
+			return null;
+		}
+		return userViewDao.list(uids);
+	}
+
 
 	/////////////////////////---Dao等属性设置---/////////////////////////////////
+	@Autowired
+	private UserViewDao userViewDao;
 	@Autowired
 	private WebRoleSettingTblDao webRoleSettingTblDao;
 	@Autowired
@@ -113,7 +155,9 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 	@Autowired
 	private CreditManagerViewDao creditManagerViewDao;
 	/////////////////////////---非业务方法处理---/////////////////////////////////
-	
+	public void setUserViewDao(UserViewDao userViewDao) {
+		this.userViewDao = userViewDao;
+	}
 	public void setWebRoleSettingTblDao(
 			WebRoleSettingTblDao webRoleSettingTblDao) {
 		this.webRoleSettingTblDao = webRoleSettingTblDao;
@@ -129,8 +173,8 @@ public class CreditManagerServiceImpl implements CreditManagerService{
 			CreditManagerOrgsTblDao creditManagerOrgsTblDao) {
 		this.creditManagerOrgsTblDao = creditManagerOrgsTblDao;
 	}
-
-
+	
+	
 
 
 	

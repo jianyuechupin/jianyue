@@ -21,19 +21,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" media="all" href="css/niceforms-default.css" />
 
 	<script type="text/javascript">
+	
 	$(function(){
 		/**取得部门数据*/
 		setDepts();
+		/**部门数据改变的时候改变人员列表*/
 		$("#dept").change(function(){
-			alert("------");
+			cheangeUsers($(this).val());
 		});
+		setUsers();
 		/**保存按钮被点击后触发，提交保存数据*/	
 		$("#submit").click(function(){
 			submitData();
 		});
-	
-		
+		//查询按钮被点击
+		$("#check").click(function(){
+			 query();
+		});
 	});
+		/**名字模糊查询*/
+		function query(){
+			var name=$("#selectuser").val();
+			$("#pickData option").each(function(){
+				var optName=$(this).text();
+				if(optName.toLowerCase().indexOf(name.toLowerCase())>-1){
+					$(this).attr("selected", true);
+				}
+			});
+		}
+		/**改变人员列表*/
+		function cheangeUsers(deptid){
+			$("#pickData option").remove();
+			$.ajax({
+				url:"user/getusersbydept.do",
+				type:"POST",
+				data:{"deptId":deptid},
+				async: true,
+				error:function(xMLHttpRequest, textStatus, errorThrown){
+					alert("获取人员列表失败");
+				},
+				success: function(data) {
+					htm="";
+					var daptName="["+$("#dept option:selected").text()+"]";
+					for(var i=0;i<data.length;i++){
+						htm+="<option value='"+data[i].id+"'>"+daptName+data[i].userName+"</option>";
+					}
+					
+					$("#pickData").append(htm);
+					moveRepeatUsers();
+				}
+			});
+		}
+		/**去除已选重复的人员*/
+		function moveRepeatUsers(){
+			
+			$("#pickListResult option").each(function(){
+				var uid=$(this).val();
+				var op="#pickData option[value='"+uid+"']";
+				$(op).remove();
+			});
+		}
 		/**为部门选择框设置部门数据*/
 		function setDepts(){
 			/**取得部门数据*/
@@ -51,47 +98,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
 		}
-		/**数组测试*/
 		/**获取选择的人员*/
 		function setUsers(){
-			var usersIds=new Array();
-			usersIds=$("#users").val().split("|");
-			if($("#users").val()==""||$("#users").val()==null){
-				return ;
-			}
-			var userIds=new Array();
-			for(var i=0;i<usersIds.length;i++){
-				userIds.push(Number(usersIds[i]));
-			}
+			var userids=$("#userids").val();
 			$.ajax({//根据用户ID查询出用户视图
 				url: 'safe/usersid.do', //提交地址
 				type: 'POST',//方式
-				traditional: true,
-				data: {"uids":userIds} ,//+usersId2,//提交的数据
+				traditional: true, 
+				data: {"userIds":userids} ,//+usersId2,//提交的数据
 				async: true,//是否同步提交
 				error: function(xMLHttpRequest, textStatus, errorThrown) {
 					
 					alert("保存失败");
 				},
 				success: function(data) {
-					
-					alert(data);
+					var htm="";
+					for(var i=0;i<data.length;i++){
+						htm+="<option value='"+data[i].id+"'>["+data[i].orgName+"]"+data[i].userName+"</option>";
+					}
+					$("#pickListResult").append(htm);
 				}
 			});
 		}
 		/**提交数据*/
 		function submitData(){
 			//setUsers();
-			var dat="ID="+$("#id").val()+"&userId=";
-			$("#pickListResult option").each(function(){
-				dat+=$(this).val()+"|";
+			var dat="id="+$("#id").val();
+			var userIds="&userId=";
+			var users="&users=";
+			$("#pickListResult option").each(function(i){
+				userIds+=+$(this).val()+"|";
+				users+=$(this).text()+";"
 			});
-			
-			alert(dat+"---"+$("#pickListResult option").length);
-			/* $.ajax({
-				url: 'safe/savenewcreditdetail.do', //提交地址
+			dat+=userIds+users;
+			$.ajax({
+				url: 'safe/savewebrole.do', //提交地址
 				type: 'POST',//方式
-				data: datas,//提交的数据
+				data: dat,//提交的数据
 				async: true,//是否同步提交
 				error: function(xMLHttpRequest, textStatus, errorThrown) {
 					
@@ -101,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 					alert(data);
 				}
-			}); */
+			}); 
 		}
 		
 	</script>
@@ -117,10 +160,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <div class="container"> 
 	 <!-- 视图名称 bean -->
 		<div class="jumbotron" style="margin-left: 100px;">
-			<input type="hidden" value="${modle.id }" id="id">
+			<input type="hidden" id="userids" value="${model.userId }">
+			<input type="hidden" value="${model.id }" id="id">
 			<label for="roleType">用户角色</label>
 			<select id="roleType" disabled="disabled">
-				<option value="${webRole.roleType }">${webRole.role } </option>
+				<option value="${model.roleType }">${model.role } </option>
 			</select>
 			
 			<label for="dept">选择部门</label>
@@ -134,7 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</select> --%>
 			<!-- 部门左右移动块 -->
 			<label for="selectuser" >人员筛选：</label><input id="selectuser" type="text" > <button id="check">查询</button>
-			<input type="hidden" value="${modle.typeName }" id="users">
+			<%-- <input type="hidden" value="${model.typeName }" id="users"> --%>
 			<div id="pickList"></div>
 			
 			<button  id="submit">保存</button>	

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTDMapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.hyst.dao.user.UserViewDao" >
+
+
+
+	<!-- 查询单个 -->
+	<select id="getOne" resultType="com.hyst.vo.user.UserView">
+		select * from userView  where id=#{id} 
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultType="com.hyst.vo.user.UserView" parameterType="java.util.List">
+		select * from userView  where id in 
+		<foreach item="id" index="index" collection="list" open="(" separator="," close=")">  
+		 #{id}  
+		</foreach> 
+	</select>
+ 
+</mapper>

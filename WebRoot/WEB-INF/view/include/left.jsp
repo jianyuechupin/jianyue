@@ -26,7 +26,7 @@
 				<li><a href="safe/userGroupManage.do">用户组管理</a></li>
 				<li><a href="safe/userquery.do">用户查询</a></li>
 				<li><a href="safe/creditmanagerlistpage.do">部门保密管理员设置</a></li>
-				<li><a href="user-list.html">保密门户角色设置</a></li>
+				<li><a href="safe/webRoleSettingPage.do">保密门户角色设置</a></li>
 			</ul> 
 		</li>
 	</ul>
