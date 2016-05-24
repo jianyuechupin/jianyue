@@ -7,7 +7,7 @@
 			<div class="pointer">
 				<div class="arrow"></div>
 				<div class="arrow_border"></div>
-			</div> <a href="javascript:;"> <i class="glyphicon glyphicon-home"></i>
+			</div> <a href="index.jsp"> <i class="glyphicon glyphicon-home"></i>
 				<span>首页</span>
 		</a>
 		</li>

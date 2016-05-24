@@ -23,11 +23,24 @@
 
 <script type="text/javascript">
 	function tanchuang (){
-		hyst.msg.alert("哈哈");
+		hyst.msg.alert("弹窗");
 	}
 </script>
+
+<style>
+.left{
+	font-size:xx-large;
+	position:relative;
+	left: -5%;
+}
+.right{
+	font-size:xx-large;
+	position:relative;
+	right: -5%;
+}
+</style>
 </head>
-<body>
+<body class="toTop">
 	
 	<!-- 引入导航头 -->
 	<%@include file="/include/top.jsp"%>
@@ -36,62 +49,66 @@
 	
 	<br/><br/><br/><br/><br/><br/>
 	<div class="content ">
-		<div id="clock" class="light">
-			<div class="display">
-				<div class="weekdays"></div>
-				<div class="ampm"></div>
-				<div class="alarm"></div>
-				<div class="digits"></div>
-			</div>
-		</div>
-
-		<div class="button-holder">
-			<a id="switch-theme" class="button">切换主题</a>
-			<a class="alarm-button"></a>
-		</div>
-
-		<!-- The dialog is hidden with css -->
-		<div class="overlay">
-			<div id="alarm-dialog">
-				<h2>设置定时提醒</h2>
-				<label class="hours">
-					时
-					<input type="number" value="0" min="0" />
-				</label>
-				<label class="minutes">
-					分
-					<input type="number" value="0" min="0" />
-				</label>
-				<label class="seconds">
-					秒
-					<input type="number" value="0" min="0" />
-				</label>
-				<div class="button-holder">
-					<a id="alarm-set" class="button blue">开始</a>
-					<a id="alarm-clear" class="button red">重置</a>
-				</div>
-				<a class="close"></a>
-			</div>
-		</div>
-
-		<div class="overlay">
-			<div id="time-is-up">
-				<h2>时间到~~</h2>
-				<div class="button-holder">
-					<a class="button blue">关闭</a>
+		<div>
+        	<p><h1 class="left">强化保密意识</h1></p>
+        	<p><h1 class="right">增强保密观念</h1></p>
+        </div>
+		
+		<br /><br />
+		<div>
+			<div id="clock" class="light">
+				<div class="display">
+					<div class="weekdays"></div>
+					<div class="ampm"></div>
+					<div class="alarm"></div>
+					<div class="digits"></div>
 				</div>
 			</div>
 
+			<div class="button-holder">
+				<a id="switch-theme" class="button">切换主题</a> <a class="alarm-button"></a>
+			</div>
+
+			<!-- The dialog is hidden with css -->
+			<div class="overlay">
+				<div id="alarm-dialog">
+					<h2>设置定时提醒</h2>
+					<label class="hours"> 时 <input type="number" value="0"
+						min="0" />
+					</label> <label class="minutes"> 分 <input type="number" value="0"
+						min="0" />
+					</label> <label class="seconds"> 秒 <input type="number" value="0"
+						min="0" />
+					</label>
+					<div class="button-holder">
+						<a id="alarm-set" class="button blue">开始</a> <a id="alarm-clear"
+							class="button red">重置</a>
+					</div>
+					<a class="close"></a>
+				</div>
+			</div>
+
+			<div class="overlay">
+				<div id="time-is-up">
+					<h2>时间到~~</h2>
+					<div class="button-holder">
+						<a class="button blue">关闭</a>
+					</div>
+				</div>
+
+			</div>
+
+			<audio id="alarm-ring" preload> <source
+				src="js/assets/audio/ticktac.mp3" type="audio/mpeg" /> <source
+				src="js/assets/audio/ticktac.ogg" type="audio/ogg" /> </audio>
 		</div>
 
-		<audio id="alarm-ring" preload>
-			<source src="js/assets/audio/ticktac.mp3" type="audio/mpeg" />
-			<source src="js/assets/audio/ticktac.ogg" type="audio/ogg" />
-		</audio>
 
-        <button onclick="tanchuang()">
+		<!-- <button onclick="tanchuang()">
 			弹窗
-		</button>
+		</button> -->
+        
+        
         
 		<!-- JavaScript Includes -->
 		<script src="js/assets/js/moment.min.js"></script>

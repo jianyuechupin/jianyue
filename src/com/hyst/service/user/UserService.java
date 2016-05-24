@@ -53,4 +53,13 @@ public interface UserService {
 	 * @time 2016年5月18日
 	 */
 	public List<UserInfo> getusersbydept(String deptId);
+	
+	/**
+	 * 获取随机盐
+	 * @param session
+	 * @return
+	 * @author --- rpj ---	
+	 * @time 2016年5月23日
+	 */
+	public  String getSalt(HttpSession session);
 }	
