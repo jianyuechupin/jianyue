@@ -62,4 +62,10 @@ public interface UserService {
 	 * @time 2016年5月23日
 	 */
 	public  String getSalt(HttpSession session);
+	/**
+	 * 设置用户登录方式
+	 * @param userInfo 用户对象，用于接收用户ID，密码，登录方式等参数
+	 * @return 操作状态
+	 */
+	public String setLoginType(UserInfo userInfo);
 }	

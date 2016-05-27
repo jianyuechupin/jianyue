@@ -17,6 +17,7 @@ import java.util.List;
 
 
 
+
 import com.hyst.vo.DefinePowerDetilTbl;
 import com.hyst.vo.Orgnization;
 import com.hyst.vo.PowerDetails;
@@ -167,4 +168,11 @@ public interface SafeAdminService {
 	 * @return
 	 */
 	public List<UserPowerDetailTbl> getUserPowerDetails(UserInfo userInfo);
+
+	/**
+	 * 删除用户组
+	 * @param userGroup 
+	 * @return 删除的结果
+	 */
+	public String deleteUserGroup(UserGroup userGroup);
 }

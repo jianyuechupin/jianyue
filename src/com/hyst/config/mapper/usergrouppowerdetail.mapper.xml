@@ -25,7 +25,9 @@
 				SELECT id from tableInfo where parentId= #{parentId})
  		)
 	</delete>
-	
+	<delete id="deleteByGroupId" parameterType="java.lang.String">
+		DELETE from userGroupPowerDetailTbl WHERE userGroupId=#{userGroupId}
+	</delete>
 	<!-- 根据用户组Id查询 -->
 	<select id="selectByGroupId" parameterType="java.lang.String" resultType="com.hyst.vo.UserGroupPowerDetail">
 		select * from userGroupPowerDetailTbl  where userGroupId=#{userGroupId} 

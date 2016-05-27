@@ -34,4 +34,9 @@ public interface UserPowerDetailTblDao extends BaseDao<UserPowerDetailTbl>{
 	 * @return
 	 */
 	public int batchDelete(Map<String ,Integer> map);
+	/**
+	 * 根据用户组ID删除用户组权限细则
+	 * @param id 用户组ID
+	 */
+	public void deleteByGroupId(String id);
 }

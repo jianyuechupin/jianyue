@@ -15,69 +15,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
  	 <%@include file="../../include/base.jsp" %> 
- 	 <script src="js/bootstrap-table-contextmenu.min.js"></script>
-	<script type="text/javascript">
-		 $(function(){
-		 	/**绑定双击事件*/
-		 	$('#table').bootstrapTable({
-				onDblClickRow:function(row, $element){
-					window.location='safe/creditmanagerupdate.do?id='+row.id;
-				}
-	        });
-		 	/**取得权限组列表*/
- 		 	$.post("safe/getmanagers.do",function(data){
-				$("#table").bootstrapTable('load', data);
-			});  
-			/**修改按钮被点击*/
- 			$("#update").click(function(){
-				var selects=$("#table").bootstrapTable('getSelections');
-				if(selects.length==0){
-					alert("请选择要修改的权限组");
-					return;
-				}else if(selects.length > 1){
-					alert("请正确选择要修改的权限组，每次只能选择一个");
-					return;
-				}
-				var id=$("#table").bootstrapTable('getSelections')[0].id;
-				window.location='safe/creditmanagerupdate.do?id='+id;
-			}); 
-			/**删除按钮被点击*/
- 			$("#delete").click(function(){
-				var selects=$("#table").bootstrapTable('getSelections');
-				var id=selects[0].id;
-				if(selects.length==0){
-					alert("请选择要删除的保密管理员");
-					return;
-				}else if(selects.length > 1){
-					alert("请正确选择要删除的保密管理员，且每次只能选择一个");
-					return;
-				}
-				var datas="id="+id+"&userInfoId="+selects[0].userInfoId+"&roleType="+selects[0].roleType;
-				$.ajax({
-					url:'safe/creditmanagerdelete.do',
-					type:'POST',
-					data:datas,
-					async: true,
-					error: function(xMLHttpRequest, textStatus, errorThrown) {
-						alert("服务器发生错误，请检查要删除的数据是否正确后重试");
-					},
-					success: function(data) {
-						alert(data);
-						if("删除成功"==data){
-							/**刷新保密管理员列表*/
-						 	//$("#table").bootstrapTable('removeByUniqueId', id);
-				 		 	$.post("safe/getmanagers.do",function(data){
-				 		 		$("#table").bootstrapTable('removeAll');
-								$("#table").bootstrapTable('load', data);
-							}); 
-						}
-					}
-				});
-				//var id=$("#table").bootstrapTable('getSelections')[0].id;
-				//window.location='safe/deletepowergroup.do?id='+id;				
-			}); 
-		 });
-	</script>
+ 	<link href="css/safe/userpower/userList.css" rel="stylesheet">
+ 	<script src="js/bootstrap-table-contextmenu.min.js"></script>
+	<script src="js/safe/creditdept/creditMangerList.js"></script>
 
 
   </head>
@@ -90,25 +30,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 右侧区域 -->
 	<div class="container">
 		<div class="jumbotron" style="margin-left: 100px;">
-			<!-- 增删改查按钮DIV -->
-			<div>
-				<table align="right" width="30%">
-					<tr>
-					<td><a href="safe/tocreditdetail.do">新增</a></td>
-					<td><button id="update">修改</button></td>
-					<td><button id="delete">删除</button></td>
-					</tr>
-				</table>
-			</div>
 		<!-- 权限组列表 -->
 			<div id="tableDiv" class="container">
-				<table id="table" data-show-columns="false" data-search="true"
+				
+				<table id="table"  data-search="true" data-show-columns="false" 
 					data-show-refresh="true" data-show-toggle="true"
-				 	data-click-to-select="true" data-pagination="false" 
-				 	data-single-select="true" data-striped="true"> 
+				 	data-pagination="true"  data-toolbar="#toolbar"
+				 	 data-striped="true">
+				 	 
+				 	 <div class="fixed-table-toolbar">
+						<div class="columns columns-right btn-group pull-right">
+						<button id="add" class="btn btn-default filter-show-clear" title="添加" type="button">
+						<a><i class="glyphicon glyphicon-plus">&nbsp添加</i></a>
+						</button>
+						</div>
+					</div>  
 					<thead>
 						<tr id="head">
-							<th data-field="state" data-checkbox="true"></th>
+							
 							<th data-field="id" data-visible="false" data-formatter="idFormatter"></th>
 							<th data-field="userInfoId" data-visible="false" /> <!-- 人员ID -->
 							<th data-field="userName">人员名称</th>
@@ -116,6 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th data-field="roleType" data-visible="false" /><!-- 保密员类型 -->
 							<th data-field="roleName">管理角色</th>
 							<th data-field="orgsName">管理部门</th>
+							<th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
 						</tr>
 					</thead>
 				</table>

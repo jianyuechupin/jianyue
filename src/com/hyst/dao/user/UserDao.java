@@ -43,4 +43,11 @@ public interface UserDao extends BaseDao<UserInfo> {
 	 * @time 2016年5月18日
 	 */
 	public List<UserInfo> getusersbydept(String deptId);
+
+	/**
+	 * 修改用户登录方式
+	 * @param userInfo
+	 * @return
+	 */
+	public int setLoginType(UserInfo userInfo);
 }

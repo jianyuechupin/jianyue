@@ -35,6 +35,15 @@ public class UserInfo{
 	private String account;
 	/**属性描述： */
 	private String password;
+	/**属性描述：登录方式*/
+	private int loginType;
+	
+	public int getLoginType() {
+		return loginType;
+	}
+	public void setLoginType(int loginType) {
+		this.loginType = loginType;
+	}
 	public int getId(){
 		return this.id;
 	}

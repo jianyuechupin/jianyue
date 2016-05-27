@@ -90,5 +90,11 @@ public class UserController {
 	public String getSalt(HttpSession session) {
 		return userService.getSalt(session);
 	}
-
+	
+	//修改用户密码
+	@RequestMapping("setlogintype")
+	@ResponseBody
+	public String setLoginType(UserInfo userInfo){
+		return userService.setLoginType(userInfo);
+	}
 }

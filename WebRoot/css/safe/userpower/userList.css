@@ -1,0 +1,28 @@
+.myinput {
+	display: inline;
+	width: 30%;
+	height: 25px;
+}
+
+label {
+	font: 12px "Microsoft Yahei", Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif;
+	color: #51555C;
+	padding: 0 20px 0 0;
+	font-weight: bold;
+}
+
+dd {
+	display: inline;
+}
+
+dt {
+	display: inline;
+}
+
+.inline {
+	display: inline;
+}
+.ml10 {
+	margin-left: 15px;
+}
+ 	

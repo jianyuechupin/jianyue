@@ -195,4 +195,26 @@ public class UserServiceImpl implements UserService {
 		return salt;
 	}
 
+	//设置用户登录方式
+	public String setLoginType(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		if (userInfo==null||userInfo.getId()==0) {
+			return "修改失败，请正确选择要修改的用户";
+		}
+		if (userInfo.getLoginType()==0) {//判断域登录
+			//userInfo.setPassword("");
+			
+			
+		}else if (userInfo.getPassword()!=null&&userInfo.getPassword().length()>=8) {
+			//修改登录方式
+		}else{
+			return "请正确填写密码，密码由字母与数字组合并包含特殊字符（除字母、数字、空格外的字符）并且8位以上！";
+		}
+		int num=userDao.setLoginType(userInfo);
+		if (num>0) {
+			return "修改成功！";
+		}
+		return "修改失败！";
+	}
+
 }

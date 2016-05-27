@@ -12,7 +12,10 @@
 		<result column="updateTime" property="updateTime"/>
 	</resultMap>
 
-	
+	<!-- 根据ID删除用户组 -->
+ 	<delete id="delete" parameterType="com.hyst.vo.UserGroup">
+ 		delete from userGroup where id=#{id}
+ 	</delete>
 	
 	<!-- 查询所有 -->
 	<select id="list" parameterType="java.util.Map" resultType="com.hyst.vo.UserGroup">

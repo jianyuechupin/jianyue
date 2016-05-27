@@ -188,6 +188,20 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 		}
 		return false;
 	}
+	//删除用户组
+	public String deleteUserGroup(UserGroup userGroup) {
+		// TODO Auto-generated method stub
+		if (userGroup==null||userGroup.getId()==null||userGroup.getId()=="") {
+			return "删除失败，请正确选择要删除的对象！";
+		}
+		//删除用户组
+		userGroupDao.delete(userGroup);
+		//删除用户组权限细则
+		System.out.println(userGroup.getId());
+		userPowerDetailTblDao.deleteByGroupId(userGroup.getId());
+		return "删除成功";
+	}
+
 	//****************************权限组操作************************************//
 	/**
 	 * 检查权限组名称是否可用，true 可用 false不可用
@@ -202,7 +216,8 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	}
 	//根据权限组ID查询权限组
 	public PowerGroupTbl getPowerGroupById(String id){
-		 return powerGroupTblDao.getOne(id);
+		 
+		 return  powerGroupTblDao.getOne(id);
 	}
 	
 
@@ -353,7 +368,7 @@ public class SafeAdminServiceImpl implements SafeAdminService{
 	public void setUserGroupViewDao(UserGroupViewDao userGroupViewDao) {
 		this.userGroupViewDao = userGroupViewDao;
 	}
-
+	
 
 
 

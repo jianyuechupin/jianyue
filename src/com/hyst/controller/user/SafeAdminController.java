@@ -108,13 +108,12 @@ public class SafeAdminController {
 	/**
 	 * 删除用户组 <用户组>
 	 * @param userGroup 用于接收用户组ID 
-	 * @param map 
-	 * @return
+	 * @return String 返回删除状态
 	 */
 	@RequestMapping("deleteusergroup")
 	@ResponseBody
-	public String deleteUserGroup(UserGroup userGroup,ModelMap map){
-		return null;
+	public String deleteUserGroup(UserGroup userGroup){
+		return safeAdminService.deleteUserGroup(userGroup);
 	}
 	
 //****************<权限组>********************************************************	
@@ -190,7 +189,12 @@ public class SafeAdminController {
 		if (id==null||id.length()==0) {
 			id=+System.currentTimeMillis()+"";
 		}
-		map.addAttribute("powerGrou",safeAdminService.getPowerGroupById(id));
+		PowerGroupTbl powerGroupTbl=safeAdminService.getPowerGroupById(id);
+		if (powerGroupTbl==null) {
+			powerGroupTbl=new PowerGroupTbl();
+			powerGroupTbl.setId(id);
+		}
+		map.addAttribute("powerGrou",powerGroupTbl);
 		map.addAttribute("list", safeAdminService.creatTbaleInfo(0));
 		return "/WEB-INF/view/safe/powergroup/powergroupadd.jsp";
 	}

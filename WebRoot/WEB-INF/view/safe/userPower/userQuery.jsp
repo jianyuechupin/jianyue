@@ -27,7 +27,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			$("#orgIds").append(htm);	
 		}); 
-		
+		$(function(){
+			$("input[name='loginType'][value=-1]").prop("checked",true);
+		});
 	</script>
 
   </head>
@@ -53,9 +55,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<dl>
 			<dt><label for="loginType">登录方式：</label></dt>
 			<dd>
-				<input type="radio" id="all" name="loginType" id="" value="-1" /><label for="all" class="check_label">全部方式</label>
-				<input type="radio" id="zone" name="loginType" id="" value="1" /><label for="zone" class="check_label">密码登陆</label>
-				<input type="radio" id="password" name="loginType" id="" value="0" /><label for="password" class="check_label">域登录</label>
+				<input type="radio" id="all" name="loginType"  value="-1" /><label for="all" class="check_label">全部方式</label>
+				<input type="radio" id="zone" name="loginType"  value="1" /><label for="zone" class="check_label">密码登陆</label>
+				<input type="radio" id="password" name="loginType" value="0" /><label for="password" class="check_label">域登录</label>
 			</dd>
 		</dl>		
 		

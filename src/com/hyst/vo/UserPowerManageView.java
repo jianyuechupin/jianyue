@@ -17,7 +17,16 @@ public class UserPowerManageView{
 	private int loginType;
 	/**属性描述：登录方式字符串*/
 	private String loginTypeString;
+	/**登录密码*/
+	private String passWord;
 	
+	
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+	public String getPassWord() {
+		return passWord;
+	}
 	@Override
 	public String toString() {
 		return "UserPowerManageView [uid=" + uid + ", userName=" + userName
